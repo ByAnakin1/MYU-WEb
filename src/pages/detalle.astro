@@ -1,3 +1,6 @@
+---
+import Footer from "../components/footer.astro" 
+---
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -33,24 +36,24 @@
             margin-right: 8px;
         }
         /* Lista no ordenada personalizada */
-.custom-list {
-    list-style-type: disc; /* Usa puntos */
-    padding-left: 20px; /* Espacio a la izquierda para los puntos */
-}
+        .custom-list {
+            list-style-type: disc; /* Usa puntos */
+            padding-left: 20px; /* Espacio a la izquierda para los puntos */
+        }
 
-.custom-list li {
-    margin-bottom: 8px; /* Espacio entre elementos de la lista */
-}
+        .custom-list li {
+            margin-bottom: 8px; /* Espacio entre elementos de la lista */
+        }
 
-/* Opcional: Estilizar el color de los puntos */
-.custom-list {
-    color: #e8e7e1; /* Color del texto y puntos */
-}
+        /* Opcional: Estilizar el color de los puntos */
+        .custom-list {
+            color: #e8e7e1; /* Color del texto y puntos */
+        }
 
-.custom-list li::marker {
-    color: #e8e7e1; /* Color de los puntos */
-}
-#map {
+        .custom-list li::marker {
+            color: #e8e7e1; /* Color de los puntos */
+        }
+        #map {
             width: 100%;
             height: 300px;
         }
@@ -149,51 +152,6 @@
         </div>
     </section>
      <!-- Footer -->
-     <footer class="bg-[#121212] py-10">
-        <div class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <div>
-                <h3 class="text-[#ffffff] font-bold text-xl">Sobre nosotros</h3>
-                <p class="mt-4 text-[#e8e7e1] text-sm">
-                    Nacimos en el concreto de las ciudades. Nos entregamos a la aventura, sin temer a los riesgos. Marcamos una forma de sentir y de actuar. Apoyamos a aquellos que dicen lo que piensan y hacen lo que supuestamente es imposible.
-                </p>
-            </div>
-
-            <!-- Contact Info -->
-            <div>
-                <h3 class="text-[#ffffff] font-bold text-xl">Contacto</h3>
-                <p class="mt-4 text-[#e8e7e1] text-sm">
-                    Dirección: Jirón General Cordova 841<br>
-                    Teléfono: 977153337<br>
-                    Email: aocomercial@briatiogr.com
-                </p>
-            </div>
-
-            <!-- Legal Info -->
-            <div>
-                <h3 class="text-[#ffffff] font-bold text-xl">Datos legales</h3>
-                <ul class="mt-4 text-[#e8e7e1] text-sm space-y-2 custom-list">
-                    <li>Políticas de devolución y cambios</li>
-                    <li>Privacidad y seguridad</li>
-                    <li>Política de envíos</li>
-                    <li>Términos y condiciones</li>
-                    <li>Libro de reclamaciones</li>
-                    <li>Contacto</li>
-                </ul>
-            </div>
-            
-            <!-- Google Maps -->
-            <div>
-                <h3 class="text-[#ffffff] font-bold">Cómo llegar a la tienda?</h3>
-                <div id="map" class="mt-4 w-full h-48 bg-gray-300 rounded-lg"></div>
-            </div>
-        </div>
-        <div class="container mx-auto mt-8 flex justify-center space-x-4 text-[#4A3E4C]">
-            <a href="#"><img src="img/instagram-icon.png" alt="Instagram" class="w-6 h-6"></a>
-            <a href="#"><img src="img/face-icon.png" alt="Facebook" class="w-6 h-6"></a>
-            <a href="#"><img src="img/wasap-icon.png" alt="WhatsApp" class="w-6 h-6"></a>
-            <a href="#"><img src="img/tiktok-icon.png" alt="TikTok" class="w-6 h-6"></a>
-        </div>
-    </footer>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+     <Footer />
 </body>
 </html>
