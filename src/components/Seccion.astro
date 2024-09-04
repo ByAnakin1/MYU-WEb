@@ -1,0 +1,68 @@
+---
+
+---
+
+<head>
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    </head>
+    <style>
+        .swiper-wrapper {
+          width: 420px;
+          padding-top: 56px;
+          height: max-content !important;
+          -webkit-transition-timing-function: linear !important;
+          transition-timing-function: linear !important;
+          position: relative;
+          }
+          body{
+            background-color: #ffffff;
+          }
+          img {
+          height: 100%;
+          width: 100%; /* Cambia 760px a 100% */
+          object-fit: cover; /* Esto asegura que la imagen se recorte para llenar el espacio */
+      } 
+    </style>
+    <body>
+        <div class="w-full relative">
+            <div class="swiper progress-slide-carousel swiper-container relative">
+            <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class=" rounded-2xl h-90 flex justify-center items-center">
+                <span class="text-3xl font-semibold"><img src="https://static.vecteezy.com/system/resources/previews/000/701/690/non_2x/abstract-polygonal-banner-background-vector.jpg" alt=""></span>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="rounded-2xl h-90 flex justify-center items-center">
+                <span class="text-3xl font-semibold"><img src="https://static.vecteezy.com/system/resources/previews/000/701/690/non_2x/abstract-polygonal-banner-background-vector.jpg" alt=""></span>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="rounded-2xl h-90 flex justify-center items-center">
+                <span class="text-3xl font-semibold"><img src="https://static.vecteezy.com/system/resources/previews/000/701/690/non_2x/abstract-polygonal-banner-background-vector.jpg" alt=""></span>
+              </div>
+            </div>
+            </div>
+            <div class="swiper-pagination !bottom-2 !top-auto !w-10 right-0 mx-auto bg-gray-100"></div>
+            </div>
+            </div>
+            <script type="module">
+                import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs'
+                var swiper = new Swiper(".progress-slide-carousel", {
+                loop: true,
+                fraction: true,
+                autoplay: {
+                  delay: 2000,
+                  disableOnInteraction: false,
+                },
+                pagination: {
+                  el: ".progress-slide-carousel .swiper-pagination",
+                  type: "progressbar",
+                },
+                });
+                </script>
+      </body>
+    </html>
