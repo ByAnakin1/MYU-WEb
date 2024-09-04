@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myu Fashion Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .custom-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            width: 80%;
+            margin-top: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición para la transformación y sombra */
+        }
+        .custom-button:hover {
+            transform: translate(5px, -5px); /* Desplaza el botón 5px a la derecha y 5px hacia arriba */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade sombra para efecto de elevación */
+        }
+        .cart-button {
+            background-color: #FFD1E0;
+            color: #4A3E4C;
+        }
+        .whatsapp-button {
+            background-color: #FFD1E0;
+            color: #4A3E4C;
+        }
+        .button-icon {
+            margin-right: 8px;
+        }
+        /* Lista no ordenada personalizada */
+.custom-list {
+    list-style-type: disc; /* Usa puntos */
+    padding-left: 20px; /* Espacio a la izquierda para los puntos */
+}
+
+.custom-list li {
+    margin-bottom: 8px; /* Espacio entre elementos de la lista */
+}
+
+/* Opcional: Estilizar el color de los puntos */
+.custom-list {
+    color: #e8e7e1; /* Color del texto y puntos */
+}
+
+.custom-list li::marker {
+    color: #e8e7e1; /* Color de los puntos */
+}
+#map {
+            width: 100%;
+            height: 300px;
+        }
+
+    </style>
+    
+</head>
+<body class="bg-[#FFECF4] font-sans text-[#444444]">
+
+    <!-- Header -->
+    <header class="bg-[#FFC9D9] py-2">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <div class="text-[#FF71A9] text-3xl font-bold">MYU</div>
+            <nav class="space-x-8 text-lg">
+                <a href="#" class="text-[#4A3E4C] hover:text-red-600">INICIO</a>
+                <a href="#" class="text-[#FF71A9] font-bold">-% FOR SALE</a>
+                <a href="#" class="text-[#4A3E4C] hover:text-red-600">TIENDA</a>
+                <a href="#" class="text-[#4A3E4C] hover:text-red-600">FAQ</a>
+                <a href="#" class="text-[#4A3E4C] hover:text-red-600">CONTACTO</a>
+            </nav>
+            <div class="text-sm text-right text-[#4A3E4C]">
+                Envíos a todo el Perú <span>🚚</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Section -->
+    <section class="container mx-auto p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Image Gallery -->
+        <div class="flex items-start space-x-4 lg:space-x-8">
+            <!-- Thumbnails -->
+            <div class="flex flex-col space-y-4 items-center">
+                <div class="bg-white p-2 rounded-lg shadow-lg cursor-pointer">
+                    <img src="img/falda37.jpg" alt="Falda #28" class="w-24 h-24 rounded-lg" onclick="changeImage('imagenes/falda37.jpg')">
+                </div>
+                <div class="bg-white p-2 rounded-lg shadow-lg cursor-pointer">
+                    <img src="img/falda37l.jpg" alt="Vista 1" class="w-24 h-24 rounded-lg" onclick="changeImage('imagenes/falda37l.jpg')">
+                </div>
+                <div class="bg-gray-200 h-24 w-24 rounded-lg"></div>
+                <div class="bg-gray-200 h-24 w-24 rounded-lg"></div>
+            </div>
+
+            <!-- Main Image -->
+            <div class="flex-grow bg-white p-2 rounded-lg shadow-lg">
+                <img id="mainImage" src="img/falda37.jpg" alt="Falda Principal" class="w-full h-auto rounded-lg">
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="bg-[#FFE6EE] p-8 rounded-lg shadow-lg">
+            <h2 class="text-[#4A3E4C] text-3xl font-bold">FALDA #28</h2>
+            <div class="mt-4">
+                <p class="font-semibold">MATERIAL:</p>
+                <p class="text-gray-600">Algodón suave con un toque de elastano para mayor comodidad y ajuste.</p>
+            </div>
+            <div class="mt-4">
+                <p class="font-semibold">DISEÑO:</p>
+                <p class="text-gray-600">Clásico y elegante con un corte A-line que se ajusta a la cintura y fluye hacia abajo, proporcionando un look atemporal.</p>
+            </div>
+            <div class="mt-4">
+                <span class="font-semibold">COLOR:</span>
+                <span>Blanco</span>
+            </div>
+            <div class="mt-4">
+                <span class="font-semibold">TALLA:</span>
+                <div class="flex items-center mt-2 space-x-4">
+                    <label class="inline-flex items-center">
+                        <input type="radio" class="form-radio text-pink-600" name="size" value="S">
+                        <span class="ml-2">S</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" class="form-radio text-pink-600" name="size" value="M">
+                        <span class="ml-2">M</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" class="form-radio text-pink-600" name="size" value="L">
+                        <span class="ml-2">L</span>
+                    </label>
+                </div>
+            </div>
+            <div class="mt-4">
+                <span class="font-semibold">SKU:</span>
+                <span>0050</span>
+            </div>
+            <div class="mt-4 text-3xl text-[#FF71A9] font-bold">S/. 45.00</div>
+            <div class="mt-4 flex flex-col">
+                <button class="custom-button cart-button">
+                    <span class="button-icon"></span>
+                    AGREGAR AL CARRITO <img src="img/carrito-kawai.png"  class="w-13 h-11 ml-4">
+                </button>
+                <button class="custom-button whatsapp-button">
+                    <span class="button-icon"></span>
+                    CONTINUAR COMPRA A  <img src="img/wasa-kawai.png"  class="w-13 h-11 ml-4">
+                </button>
+            </div>
+        </div>
+    </section>
+     <!-- Footer -->
+     <footer class="bg-[#121212] py-10">
+        <div class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-[#ffffff] font-bold text-xl">Sobre nosotros</h3>
+                <p class="mt-4 text-[#e8e7e1] text-sm">
+                    Nacimos en el concreto de las ciudades. Nos entregamos a la aventura, sin temer a los riesgos. Marcamos una forma de sentir y de actuar. Apoyamos a aquellos que dicen lo que piensan y hacen lo que supuestamente es imposible.
+                </p>
+            </div>
+
+            <!-- Contact Info -->
+            <div>
+                <h3 class="text-[#ffffff] font-bold text-xl">Contacto</h3>
+                <p class="mt-4 text-[#e8e7e1] text-sm">
+                    Dirección: Jirón General Cordova 841<br>
+                    Teléfono: 977153337<br>
+                    Email: aocomercial@briatiogr.com
+                </p>
+            </div>
+
+            <!-- Legal Info -->
+            <div>
+                <h3 class="text-[#ffffff] font-bold text-xl">Datos legales</h3>
+                <ul class="mt-4 text-[#e8e7e1] text-sm space-y-2 custom-list">
+                    <li>Políticas de devolución y cambios</li>
+                    <li>Privacidad y seguridad</li>
+                    <li>Política de envíos</li>
+                    <li>Términos y condiciones</li>
+                    <li>Libro de reclamaciones</li>
+                    <li>Contacto</li>
+                </ul>
+            </div>
+            
+            <!-- Google Maps -->
+            <div>
+                <h3 class="text-[#ffffff] font-bold">Cómo llegar a la tienda?</h3>
+                <div id="map" class="mt-4 w-full h-48 bg-gray-300 rounded-lg"></div>
+            </div>
+        </div>
+        <div class="container mx-auto mt-8 flex justify-center space-x-4 text-[#4A3E4C]">
+            <a href="#"><img src="img/instagram-icon.png" alt="Instagram" class="w-6 h-6"></a>
+            <a href="#"><img src="img/face-icon.png" alt="Facebook" class="w-6 h-6"></a>
+            <a href="#"><img src="img/wasap-icon.png" alt="WhatsApp" class="w-6 h-6"></a>
+            <a href="#"><img src="img/tiktok-icon.png" alt="TikTok" class="w-6 h-6"></a>
+        </div>
+    </footer>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+</body>
+</html>
