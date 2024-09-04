@@ -1,5 +1,6 @@
 ---
-import Footer from "../components/footer.astro" 
+import Footer from "../components/footer.astro"
+import Header from "../components/header.astro" 
 ---
 <!DOCTYPE html>
 <html lang="es">
@@ -57,31 +58,14 @@ import Footer from "../components/footer.astro"
             width: 100%;
             height: 300px;
         }
-
     </style>
     
 </head>
 <body class="bg-[#FFECF4] font-sans text-[#444444]">
-
-    <!-- Header -->
-    <header class="bg-[#FFC9D9] py-2">
-        <div class="container mx-auto flex justify-between items-center px-4">
-            <div class="text-[#FF71A9] text-3xl font-bold">MYU</div>
-            <nav class="space-x-8 text-lg">
-                <a href="#" class="text-[#4A3E4C] hover:text-red-600">INICIO</a>
-                <a href="#" class="text-[#FF71A9] font-bold">-% FOR SALE</a>
-                <a href="#" class="text-[#4A3E4C] hover:text-red-600">TIENDA</a>
-                <a href="#" class="text-[#4A3E4C] hover:text-red-600">FAQ</a>
-                <a href="#" class="text-[#4A3E4C] hover:text-red-600">CONTACTO</a>
-            </nav>
-            <div class="text-sm text-right text-[#4A3E4C]">
-                Envíos a todo el Perú <span>🚚</span>
-            </div>
-        </div>
-    </header>
-
+    <Header />
+    <div class="h-2"></div>
     <!-- Product Section -->
-    <section class="container mx-auto p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <section class="container mx-auto p-10 mt-20 grid grid-cols-1 lg:grid-cols-2 gap-7">
         <!-- Image Gallery -->
         <div class="flex items-start space-x-4 lg:space-x-8">
             <!-- Thumbnails -->
