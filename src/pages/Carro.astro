@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-pink-100">
+    <div class="container mx-auto max-w-3xl p-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg space-y-6">
+            <!-- Producto en el carrito -->
+            <div class="flex justify-between items-center border-b pb-4">
+                <div class="flex items-center space-x-6">
+                    <img src="https://via.placeholder.com/100x150" alt="Producto" class="w-24 h-32 object-cover rounded-lg">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800">Jean American New Negro - 26</h3>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-8">
+                    <div class="text-right">
+                        <span class="text-lg font-semibold text-gray-800 block">Precio</span>
+                        <span class="text-lg font-semibold text-gray-800">S/ 99.00</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="px-3 py-1 text-lg bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition">
+                            -
+                        </button>
+                        <span class="text-lg text-gray-800">1</span>
+                        <button class="px-3 py-1 text-lg bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition">
+                            +
+                        </button>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-lg font-semibold text-gray-800 block">Total</span>
+                        <span class="text-lg font-semibold text-gray-800">S/ 99.00</span>
+                    </div>
+                    <button class="text-red-500 hover:text-red-700 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Totales del carrito -->
+            <div class="space-y-6">
+                <div class="flex justify-between items-center border-b pb-4">
+                    <div class="flex justify-between w-full text-lg text-gray-700">
+                        <span>Subtotal</span>
+                        <span>S/ 99.00</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center border-b pb-4">
+                    <div class="flex justify-between w-full text-lg text-gray-700">
+                        <span>Envío</span>
+                        <span>S/ 10.00</span>
+                    </div>
+                </div>
+
+                <p class="mt-2 text-sm text-gray-600">Enviar a <span class="font-medium text-gray-800">Lima Metropolitana</span>.</p>
+
+                <div class="mt-2">
+                    <a href="#" class="inline-block bg-pink-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-pink-300 transition">
+                        Cambiar dirección
+                    </a>
+                </div>
+
+                <div class="flex justify-between mt-6 text-xl font-semibold text-gray-800 border-t pt-4">
+                    <span>Total</span>
+                    <span>S/ 109.00</span>
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="flex justify-between pt-6 border-t">
+                <a href="#" class="bg-pink-500 text-white px-4 py-2 rounded-lg shadow hover:bg-pink-600 transition">
+                    CONTINUE SHOPPING
+                </a>
+                <a href="#" class="bg-pink-500 text-white px-4 py-2 rounded-lg shadow hover:bg-pink-600 transition">
+                    FINALIZAR COMPRA
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
