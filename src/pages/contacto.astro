@@ -1,0 +1,35 @@
+---
+import Header from '../components/header.astro';
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda - Información</title>
+    <!-- Incluye Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-pink-100 font-sans">
+    <Header />
+    <section class="p-10 flex justify-between bg-white rounded-lg shadow-lg mx-4 my-8">
+        <div class="w-1/2 text-left">
+            <h2 class="text-2xl font-bold text-pink-600 mb-4">QUIÉNES SOMOS</h2>
+            <p class="text-gray-700 mb-4">MYU es una marca peruana inspirada en la moda asiática. En nuestra tienda podrás encontrar el complemento perfecto para tu outfit, tenemos productos de tendencia coreana, japonesa y asiática en general.</p>
+            <p class="text-gray-700">Nuestra marca apoya el consumo local, por lo que nuestras prendas son en su gran mayoría de producción nacional, también contamos con productos y modelos importados. MYU busca ser una tienda de moda sostenible con proyección social.</p>
+        </div>
+        <div class="w-1/2">
+            <img src="tienda.jpeg" alt="Vestimenta de la tienda" class="w-full rounded-lg">
+        </div>
+    </section>
+    <section class="text-center my-8">
+        <h2 class="text-2xl font-bold text-pink-600 mb-6">Nuestro TikTok en Vivo</h2>
+        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@myu.fashionshop/video/7400469883097681158" data-video-id="7400469883097681158" style="max-width: 605px; min-width: 325px; width: 100%; height: auto; margin: 0 auto; display: block;">
+            <section> 
+                <a target="_blank" title="@myu.fashionshop" href="https://www.tiktok.com/@myu.fashionshop/video/7400469883097681158">@myu.fashionshop</a>
+            </section>
+        </blockquote>
+        <script async src="https://www.tiktok.com/embed.js"></script>
+    </section>
+</body>
+</html>

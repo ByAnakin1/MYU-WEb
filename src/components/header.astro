@@ -9,18 +9,19 @@ import Logo from "./Logo.astro"
   class="py-3 px-10 flex items-center fixed top-7 w-full justify-between z-40 text-white bg-[#f6bbd0]"
 >
   <div class="flex flex-grow basis-0">
-    <a href="./"><Logo /></a>
+    <a href="/src/pages/index.astro"><Logo /></a>
   </div>
 
   <nav class="hidden xl:block sm:hidden">
     <ul
       class="flex text-sm [&>li>a]:transition-colors [&>li>a]:duration-500 [&>li>a]:text-current [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2"
     >
-      <li><a href="#model-s">INICIO</a></li>
-      <li><a href="#model-3">TIENDA</a></li>
-      <li><a href="#model-x">FQA</a></li>
-      <li><a href="#model-y">CONTATO</a></li>
-      <li><a href="#powerwall">QUIÉNES SOMOS</a></li>
+      <li><a href="/">INICIO</a></li>
+      <li><a href="/detalle">PRODUCTOS</a></li>
+      <li><a href="/faq">FQA</a></li>
+      <li><a href="/contacto">CONTATO</a></li>
+      <li><a href="/detalle">QUIÉNES SOMOS</a></li>
+
     </ul>
   </nav>
   <nav class="flex flex-grow justify-end basis-0">
