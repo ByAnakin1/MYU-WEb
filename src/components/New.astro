@@ -47,65 +47,54 @@ import Card from "./Card.astro"
 
 <body>
   <!-- Swiper -->
-  <h2 class="text-2xl font-bold text-center mb-4 bg-[#f6bbd0] py-3 text-white">NOVEDADES</h2>
+  <h2 class="text-2xl font-bold text-center mb-4 bg-[#f6bbd0] py-3 text-white mt-8">NOVEDADES</h2> <!-- Ajusta mt-8 para mover el título hacia arriba -->
+  <section class="py-6 mt-4"> <!-- Ajusta mt-4 para mover el slider hacia arriba -->
     <div class="swiper-container mt-4">
-        <div class="swiper mySwiper">
-      <div class="swiper-wrapper">
-        <!-- Slider 1 -->
-        <div class="swiper-slide">
-          <Card />
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <!-- Sliders... -->
+          <div class="swiper-slide">
+            <Card />
+          </div>
+          <div class="swiper-slide">
+            <Card />
+          </div>
+          <div class="swiper-slide">
+            <Card />
+          </div>
+          <div class="swiper-slide">
+            <Card />
+          </div>
+          <div class="swiper-slide">
+            <Card />
+          </div>
+          <div class="swiper-slide">
+            <Card />
+          </div>
+          <div class="swiper-slide">
+            <Card />
+          </div>
+          <div class="swiper-slide">
+            <Card />
+          </div>
+          <div class="swiper-slide">
+            <Card />
+          </div>
+          <div class="swiper-slide">
+            <Card />
+          </div>
+          <div class="swiper-slide">
+            <Card />
+          </div>
+          
+          <!-- Otros sliders -->
         </div>
-
-        <!-- Slider 2 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 3 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 4 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 5 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 6 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 7 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 8 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 9 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 10 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Puedes seguir agregando más sliders aquí -->
+        <br>
+        <div class="swiper-pagination"></div>
+        <br>
       </div>
-      <div class="swiper-pagination "></div>
     </div>
-  </div>
+  </section>
 
   <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
