@@ -1,3 +1,73 @@
 ---
 import Header from '../components/header.astro';
 ---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<Header />
+<body class="bg-pink-200 p-5">
+    <header class="bg-pink-300 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <img src="logo.png" alt="MYU Logo" class="h-10">
+            <nav class="hidden md:flex space-x-4">
+                <a href="index.html" class="hover:underline">Inicio</a>
+                <a href="for_sale.html" class="hover:underline">For Sale</a>
+                <a href="tienda.html" class="hover:underline">Tienda</a>
+                <a href="faq.html" class="hover:underline">FAQ</a>
+                <a href="#" class="hover:underline">Contacto</a>
+            </nav>
+            <div class="md:hidden">
+                <button id="menu-toggle" class="focus:outline-none">
+                    <img src="menu-icon.png" class="h-6" alt="Menu">
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden bg-white text-gray-800 p-4 fixed inset-0 z-50 overflow-y-auto">
+            <button id="close-menu" class="text-pink-500 text-2xl">&times;</button>
+            <ul class="mt-4">
+                <li class="mb-2">
+                    <a href="#" class="block text-xl font-semibold">Inicio</a>
+                </li>
+                <li class="mb-2">
+                    <a href="for_sale.html" class="block text-xl font-semibold">For Sale</a>
+                </li>
+                <li class="mb-2">
+                    <a href="tienda.html" class="block text-xl font-semibold">Tienda</a>
+                </li>
+                <li class="mb-2">
+                    <a href="#" class="block text-xl font-semibold">FAQ</a>
+                </li>
+                <li class="mb-2">
+                    <a href="#" class="block text-xl font-semibold">Contacto</a>
+                </li>
+            </ul>
+            <div class="mt-8 flex space-x-4 justify-center">
+                <a href="#"><img src="facebook-icon.png" alt="Facebook" class="h-6"></a>
+                <a href="#"><img src="twitter-icon.png" alt="Twitter" class="h-6"></a>
+                <a href="#"><img src="instagram-icon.png" alt="Instagram" class="h-6"></a>
+                <a href="#"><img src="linkedin-icon.png" alt="LinkedIn" class="h-6"></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-lg mx-auto bg-pink-100 rounded-lg p-6">
+        <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
+            <h3 class="text-lg font-semibold flex justify-between items-center">¿Cuentan con tienda física? <span class="transition-transform transform arrow">&#9654;</span></h3>
+            <p class="mt-2 hidden text-gray-700">¡Hola! Nos encontramos en Lima, Perú, en el Centro Comercial Arenales. Puedes encontrar la dirección exacta y consultar el mapa más abajo para facilitarte la llegada. ¡Te esperamos con mucho entusiasmo!</p>
+        </div>
+        <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
+            <h3 class="text-lg font-semibold flex justify-between items-center">¿Qué empresa utilizan para los envíos? <span class="transition-transform transform arrow">&#9654;</span></h3>
+            <p class="mt-2 hidden text-gray-700"><!-- Aquí va la respuesta sobre la empresa de envíos --></p>
+        </div>
+        <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
+            <h3 class="text-lg font-semibold flex justify-between items-center">¿Es posible pagar contra entrega? <span class="transition-transform transform arrow">&#9654;</span></h3>
+            <p class="mt-2 hidden text-gray-700"><!-- Aquí va la respuesta sobre el pago contra entrega --></p>
+        </div>
+    </div>
+</body>
+</html>
