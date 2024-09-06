@@ -9,22 +9,29 @@ import Header from "../components/header.astro"
     <title>Tienda - Zona Outlet</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Asegura que el header esté siempre fijo y visible */
         header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
+            background-color: black; /* Color negro para el fondo */
+        }
+
+        /* Ajustes para asegurar que el contenido no se superponga con el header */
+        body {
+            padding-top: 80px; /* Deja espacio para el header (ajusta según el tamaño del header) */
         }
     </style>
 </head>
 <body class="bg-gray-100">
-    <!-- Header con mensaje fijo arriba -->
+    <!-- Header -->
     <Header />
 
     <!-- Contenido Principal -->
-    <section class="container mx-auto mt-20"> <!-- Ajuste de margen superior -->
-        <div class="flex pt-20"> <!-- pt-20 asegura espacio entre header y contenido -->
+    <section class="container mx-auto mt-10">
+        <div class="flex">
             <!-- Filtros -->
             <aside class="w-1/5 p-4 bg-white shadow-md">
                 <h2 class="font-bold text-xl mb-4">Filtros</h2>
