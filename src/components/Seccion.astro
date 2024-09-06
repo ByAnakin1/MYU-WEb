@@ -1,113 +1,68 @@
-<!DOCTYPE html>
-<html lang="es">
+---
+
+---
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Swiper Slider</title>
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
+    </head>
     <style>
-        /* Elimina márgenes y padding predeterminados */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Asegura que el body y html ocupen toda la pantalla */
-        html, body {
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #ffffff;
-        }
-
-        /* Ajustes generales para el contenedor de Swiper */
-        .swiper-container {
-            width: 100%;
-            max-width: 800px;
-            height: 400px; /* Ajusta la altura del slider */
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
         .swiper-wrapper {
-            width: 100%;
-            height: 100%;
-        }
-
-        .swiper-slide {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-        }
-
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 16px;
-        }
-
-        .swiper-pagination {
-            bottom: 10px;
-            width: 100%;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Estilos responsivos */
-        @media (max-width: 768px) {
-            .swiper-container {
-                height: 300px; /* Altura más pequeña en pantallas pequeñas */
-            }
-        }
-
-        @media (max-width: 480px) {
-            .swiper-container {
-                height: 200px; /* Aún más pequeña para pantallas móviles */
-            }
-        }
+          width: 420px;
+          padding-top: 56px;
+          height: max-content !important;
+          -webkit-transition-timing-function: linear !important;
+          transition-timing-function: linear !important;
+          position: relative;
+          }
+          body{
+            background-color: #ffffff;
+          }
+          img {
+          height: 100%;
+          width: 100%; /* Cambia 760px a 100% */
+          object-fit: cover; /* Esto asegura que la imagen se recorte para llenar el espacio */
+      } 
     </style>
-</head>
-<body>
-
-    <div class="swiper-container">
-        <div class="swiper-wrapper">
+    <body>
+        <div class="w-full relative">
+            <div class="swiper progress-slide-carousel swiper-container relative">
+            <div class="swiper-wrapper">
             <div class="swiper-slide">
-                <img src="img/kawaiprueba.png" alt="Slide 1">
+              <div class=" rounded-2xl h-90 flex justify-center items-center">
+                <span class="text-3xl font-semibold"><img src="img/kawaiprueba.png" alt=""></span>
+              </div>
             </div>
             <div class="swiper-slide">
-                <img src="img/kawaiprueba.png" alt="Slide 2">
+              <div class="rounded-2xl h-90 flex justify-center items-center">
+                <span class="text-3xl font-semibold"><img src="img/kawaiprueba.png" alt=""></span>
+              </div>
             </div>
             <div class="swiper-slide">
-                <img src="img/kawaiprueba.png" alt="Slide 3">
+              <div class="rounded-2xl h-90 flex justify-center items-center">
+                <span class="text-3xl font-semibold"><img src="img/kawaiprueba.png" alt=""></span>
+              </div>
             </div>
-        </div>
-        <div class="swiper-pagination"></div>
-    </div>
-
-    <script type="module">
-        import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs';
-
-        var swiper = new Swiper(".swiper-container", {
-            loop: true,
-            autoplay: {
-                delay: 3000,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                type: "progressbar",
-            },
-        });
-    </script>
-
-</body>
-</html>
+            </div>
+            <div class="swiper-pagination !bottom-2 !top-auto !w-10 right-0 mx-auto bg-gray-100"></div>
+            </div>
+            </div>
+            <script type="module">
+                import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs'
+                var swiper = new Swiper(".progress-slide-carousel", {
+                loop: true,
+                fraction: true,
+                autoplay: {
+                  delay: 5500,
+                  disableOnInteraction: false,
+                },
+                pagination: {
+                  el: ".progress-slide-carousel .swiper-pagination",
+                  type: "progressbar",
+                },
+                });
+                </script>
+      </body>
+    </html>

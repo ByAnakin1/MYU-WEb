@@ -2,13 +2,12 @@
 import Logo from "./Logo.astro"
 ---
 <footer>
-  <!-- Eliminamos el padding superior e inferior en el banner -->
-  <p class="text-center text-white bg-black w-full fixed top-0 z-50">Envios a todo el país 📍🎁🇵🇪</p>
+  <p class="text-center text-white bg-black pt-1 pb-1 w-full fixed z-10">Envios a todo el país 📍🎁🇵🇪</p>
 </footer>
 
 <header
   id="landing-header"
-  class="py-3 px-10 flex items-center fixed top-6 w-full justify-between z-40 text-white bg-[#f6bbd0]"
+  class="py-3 px-10 flex items-center fixed top-7 w-full justify-between z-40 text-white bg-[#f6bbd0]"
 >
   <div class="flex flex-grow basis-0">
     <a href="/src/pages/index.astro"><Logo /></a>
@@ -18,7 +17,7 @@ import Logo from "./Logo.astro"
     <ul
       class="flex text-sm [&>li>a]:transition-colors [&>li>a]:duration-500 [&>li>a]:text-current [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2"
     >
-      <li><a class="hover:bg-pink-200 rounded-xl" href="/">INICIO</a></li>
+      <li><a class="hover:bg-pink-200 rounded-xl"href="/">INICIO</a></li>
       <li><a class="hover:bg-pink-200 rounded-xl" href="/detalle">PRODUCTOS</a></li>
       
       <!-- Menú desplegable de TIENDA -->
@@ -42,7 +41,7 @@ import Logo from "./Logo.astro"
       
       <li><a class="hover:bg-pink-200 rounded-xl" href="/faq">FQA</a></li>
       <li><a class="hover:bg-pink-200 rounded-xl" href="/contacto">CONTACTO</a></li>
-      <li><a class="hover:bg-pink-200 rounded-xl" href="/detalle">SOBRE NOSOTROS</a></li>
+      <li><a class="hover:bg-pink-200 rounded-xl"  href="/detalle">SOBRE NOSOTROS</a></li>
     </ul>
   </nav>
 
