@@ -1,0 +1,101 @@
+---
+import Header from "../components/header.astro"
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda - Zona Outlet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Header con mensaje fijo arriba -->
+    <Header />
+
+    <!-- Contenido Principal -->
+    <section class="container mx-auto mt-20"> <!-- Ajuste de margen superior -->
+        <div class="flex pt-20"> <!-- pt-20 asegura espacio entre header y contenido -->
+            <!-- Filtros -->
+            <aside class="w-1/5 p-4 bg-white shadow-md">
+                <h2 class="font-bold text-xl mb-4">Filtros</h2>
+                <ul class="space-y-2">
+                    <li><a href="#" class="block hover:underline">Mujer</a></li>
+                    <li><a href="#" class="block hover:underline">Hombre</a></li>
+                    <li><a href="#" class="block hover:underline">Niños</a></li>
+                    <li class="font-bold">Descuento</li>
+                    <li class="font-bold">Color</li>
+                    <li class="font-bold">Marca</li>
+                    <li class="font-bold">Precio</li>
+                </ul>
+            </aside>
+
+            <!-- Productos -->
+            <div class="w-4/5">
+                <!-- Zona Outlet -->
+                <div class="bg-red-500 text-white p-4 mb-4 flex justify-between items-center">
+                    <h2 class="text-3xl font-bold">Zona Outlet</h2>
+                    <div>
+                        <a href="#" class="text-xl">Mujer</a> | 
+                        <a href="#" class="text-xl">Hombre</a> | 
+                        <a href="#" class="text-xl">Niños</a>
+                    </div>
+                </div>
+
+                <!-- Productos Listado -->
+                <div class="grid grid-cols-4 gap-4">
+                    <!-- Producto -->
+                    <div class="bg-white p-4 shadow-md">
+                        <img src="https://via.placeholder.com/150" alt="Producto Mujer" class="w-full">
+                        <div class="mt-2">
+                            <h3 class="text-gray-800 font-semibold">Producto Mujer</h3>
+                            <p class="text-red-600 font-bold">-60%</p>
+                        </div>
+                    </div>
+
+                    <!-- Producto -->
+                    <div class="bg-white p-4 shadow-md">
+                        <img src="https://via.placeholder.com/150" alt="Producto Hombre" class="w-full">
+                        <div class="mt-2">
+                            <h3 class="text-gray-800 font-semibold">Producto Hombre</h3>
+                            <p class="text-red-600 font-bold">-50%</p>
+                        </div>
+                    </div>
+
+                    <!-- Producto -->
+                    <div class="bg-white p-4 shadow-md">
+                        <img src="https://via.placeholder.com/150" alt="Producto Niño" class="w-full">
+                        <div class="mt-2">
+                            <h3 class="text-gray-800 font-semibold">Producto Niño</h3>
+                            <p class="text-red-600 font-bold">-40%</p>
+                        </div>
+                    </div>
+
+                    <!-- Producto -->
+                    <div class="bg-white p-4 shadow-md">
+                        <img src="https://via.placeholder.com/150" alt="Producto Mujer 2" class="w-full">
+                        <div class="mt-2">
+                            <h3 class="text-gray-800 font-semibold">Producto Mujer</h3>
+                            <p class="text-red-600 font-bold">-30%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Botón de WhatsApp -->
+    <a href="https://wa.me/1234567890" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg">
+        WhatsApp
+    </a>
+</body>
+</html>
