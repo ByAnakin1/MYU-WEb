@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-pink-200 flex items-center justify-center min-h-screen">
+    <div class="container mx-auto max-w-6xl p-4">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6">
+            <a href="#" class="text-gray-600 hover:text-gray-800 text-sm sm:text-base">&lt; Continuar comprando</a>
+            <h2 class="text-xl sm:text-2xl font-semibold text-center sm:text-left">Mi carrito S/. 258.00 PEN</h2> <!-- Alinear al centro en móvil -->
+        </div>
+        
+        <!-- Contenedor principal -->
+        <div class="flex flex-col lg:flex-row lg:space-x-4">
+            <!-- Productos a la izquierda -->
+            <div class="lg:w-5/6">
+                <div class="bg-white p-4 shadow rounded-lg mb-4">
+                    <div class="flex flex-col sm:flex-row items-center"> <!-- Flex en columna para móvil -->
+                        <img src="imagen.png" alt="Blusa Ember Off White" class="w-20 h-20 sm:w-24 sm:h-24 rounded-md">
+                        <div class="ml-0 sm:ml-4 flex-1 text-center sm:text-left mt-4 sm:mt-0">
+                            <h3 class="text-base sm:text-lg font-semibold">Blusa Ember Off White</h3>
+                            <p class="text-gray-500">Small</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 mt-4 sm:mt-0"> <!-- Columna en móvil -->
+                            <span class="text-gray-600">S/. 129.00</span>
+                            <div class="flex items-center border border-gray-300 rounded">
+                                <button class="px-2 py-1">-</button>
+                                <input type="text" value="2" class="w-10 text-center border-none focus:ring-0">
+                                <button class="px-2 py-1">+</button>
+                            </div>
+                            <span class="text-gray-600">S/. 258.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumen a la derecha -->
+            <div class="lg:w-1/2 mt-6 lg:mt-0">
+                <div class="bg-white p-6 shadow rounded-lg">
+                    <div class="flex justify-between items-center">
+                        <p class="text-gray-600">2 artículos en tu carrito</p>
+                        <div class="text-right">
+                            <span class="text-gray-600">Subtotal</span>
+                            <span class="ml-1 font-semibold text-lg">S/. 258.00 PEN</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <textarea placeholder="Deja las instrucciones especiales a continuación:" class="w-full border border-gray-300 rounded p-3"></textarea>
+                    </div>
+                    <div class="flex justify-between items-center mt-4">
+                        <p class="text-lg font-medium">Total</p>
+                        <p class="text-2xl sm:text-3xl font-semibold text-gray-800">S/. 258.00</p> <!-- Texto más pequeño en móvil -->
+                    </div>
+                    <div class="mt-4 text-right">
+                        <button class="bg-gray-800 text-white px-4 sm:px-6 py-3 rounded hover:bg-gray-700">Página de pago</button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>
