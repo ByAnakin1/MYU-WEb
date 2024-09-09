@@ -30,11 +30,13 @@ import Card from "../components/Card.astro"
     </style>
 </head>
 <body>
-    <Header/>
+    <Header />
+
+    <!-- Banner con imagen de fondo -->
+    <div class="w-full h-96 bg-red-500 text-white p-8 mb-6 flex items-center justify-center" style="background-image: url(/public/img/banner_novedades.jpeg); background-size: cover; background-position: center;">
+    </div>
     <!-- Contenido Principal -->
-     <br>
-     <br>
-    <main class="container mx-auto mt-20 px-4">
+    <main class="container mx-auto px-4">
         <div class="flex">
             <!-- Filtros -->
             <aside class="w-1/5 p-4 bg-white shadow-md">
@@ -72,7 +74,28 @@ import Card from "../components/Card.astro"
 
             <!-- Productos -->
             <section class="w-4/5">
+                <!-- Sección en blanco para "Mujer, Hombre, Niños" -->
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                    <div class="bg-gray-200 h-40 flex items-center justify-center">Mujer (Rellena aquí)</div>
+                    <div class="bg-gray-200 h-40 flex items-center justify-center">Hombre (Rellena aquí)</div>
+                    <div class="bg-gray-200 h-40 flex items-center justify-center">Niños (Rellena aquí)</div>
+                </div>
 
+                <!-- Ordenar por -->
+                <div class="mb-4 flex justify-between items-center">
+                    <p>362 productos</p>
+                    <select class="border p-2">
+                        <option value="">Ordenar por</option>
+                        <option value="menor-precio">Menor Precio</option>
+                        <option value="mayor-precio">Mayor Precio</option>
+                        <option value="mas-vendidos">Más vendidos</option>
+                        <option value="mejor-valorados">Mejor valorados</option>
+                        <option value="a-z">A - Z</option>
+                        <option value="z-a">Z - A</option>
+                        <option value="lo-nuevo">Lo nuevo</option>
+                        <option value="mejor-descuento">Mejor descuento</option>
+                    </select>
+                </div>
 
                 <!-- Productos Listado -->
                 <div class="grid grid-cols-4 gap-4">
@@ -113,15 +136,98 @@ import Card from "../components/Card.astro"
                     <div>
                         <Card />
                     </div>
-
-                    <!-- Más productos -->
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <!-- Agrega más tarjetas de productos aquí -->
                 </div>
             </section>
         </div>
     </main>
 
     <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/1234567890" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg">
+    <a href="https://wa.me/987654321" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg">
         WhatsApp
     </a>
 </body>
