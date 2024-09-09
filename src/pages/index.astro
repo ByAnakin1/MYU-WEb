@@ -1,27 +1,37 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/header.astro';
-import Seccion from "../components/Seccion.astro"
+import Seccion from "../components/Seccion.astro";
 import Categorias from '../components/Categorias.astro';
 import Forsale from '../components/ForSale.astro';
 import Footer from '../components/footer.astro';
 import New from '../components/New.astro';
 import Productos from '../components/Productos.astro';
+import '../styles/global.css';
 ---
 
 <Layout title="MYU WEB">
-    <main>
         <style>
-            body{
-                margin: 0px;
+            body {
+                margin: 0;
                 background-color: #fffcf6;
+            }
+
+            /* Agregamos padding al body en pantallas móviles */
+            @media (max-width: 768px) {
+                main {
+                    padding-left: 10px;
+                    padding-right: 10px;
+                }
             }
         </style>
         <Header />
         <Seccion />
+        <main>
         <Categorias />
         <Forsale />
         <New />
-        <Productos />
+        <Productos />       
+        </main>
         <Footer />
-    </main>
+</Layout>
