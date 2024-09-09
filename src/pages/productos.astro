@@ -1,5 +1,6 @@
 ---
 import Header from "../components/header.astro"
+import Card from "../components/Card.astro"
 import Footer from "../components/footer.astro"
 ---
 <!DOCTYPE html>
@@ -7,160 +8,171 @@ import Footer from "../components/footer.astro"
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda de Zapatos</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
+    <title>Tienda - Zona Outlet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #fffcf6; /* Fondo solicitado */
+        }
+        header {
+            background-color: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .product-card img {
+            max-height: 300px;
+            object-fit: cover;
+        }
+        /* Estilos para el slider */
+        .slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 1rem;
+        }
 
-<body class="bg-pink-50 text-gray-800">
-    
+        .product-card {
+            scroll-snap-align: start;
+            min-width: 200px; /* Ajusta según el tamaño de tus tarjetas */
+            padding: 16px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilos para las flechas */
+        button {
+            background-color: #ff5b77;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        button:hover {
+            background-color: #ff3b57;
+        }
+
+        /* Espacio entre el footer y el main */
+        main {
+            margin-bottom: 100px;
+        }
+
+        /* Contenedor para las flechas */
+        .slider-container {
+            position: relative;
+        }
+
+        /* Posición de las flechas */
+        .slider-container button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .slider-container button.left {
+            left: 10px;
+        }
+
+        .slider-container button.right {
+            right: 10px;
+        }
+
+        /* Estilos para ocultar las flechas al llegar al final */
+        .slider-container button.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
     <Header />
-    <div class="h-20"></div>
+
+    <!-- Banner con imagen de fondo -->
+    <div class="w-full h-96 bg-red-500 text-white p-8 mb-6 flex items-center justify-center" style="background-image: url(/public/img/banner_novedades.jpeg); background-size: cover; background-position: center;">
+    </div>
 
     <!-- Contenido Principal -->
-    <div class="container mx-auto flex py-10">
-        <!-- Barra lateral -->
-        <aside class="w-1/4 p-4 mt-8">
-            <h2 class="text-lg font-semibold mb-4">Filtros</h2>
-            <div class="mb-4">
-                <h3 class="text-sm font-medium mb-2">Disponibilidad</h3>
-                <ul class="space-y-1 text-gray-600">
-                    <li><a href="#" class="hover:text-gray-900">En existencia</a></li>
-                    <li><a href="#" class="hover:text-gray-900">Agotado</a></li>
-                </ul>
-            </div>
+    <main class="container mx-auto px-4">
+        <div class="flex">
+            <!-- Filtros -->
+            <aside class="w-1/5 p-4 bg-white shadow-md">
+                <h2 class="font-bold text-xl mb-4">Filtros</h2>
+                <div class="mb-6">
+                    <h3 class="font-semibold">Descuento</h3>
+                    <ul class="space-y-2 mt-2">
+                        <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
+                        <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
+                        <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
+                        <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
+                        <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
+                    </ul>
+                </div>
 
-            <div class="mb-4">
-                <h3 class="text-sm font-medium mb-2">Tipo de producto</h3>
-                <ul class="space-y-1 text-gray-600">
-                    <li><a href="#" class="hover:text-gray-900">Zapatos</a></li>
-                </ul>
-            </div>
+                <div class="mb-6">
+                    <h3 class="font-semibold">Color</h3>
+                    <ul class="space-y-2 mt-2">
+                        <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
+                        <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
+                        <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
+                        <!-- Agrega más colores según sea necesario -->
+                    </ul>
+                </div>
 
-            <div class="mb-4">
-                <h3 class="text-sm font-medium mb-2">Talla</h3>
-                <ul class="space-y-1 text-gray-600">
-                    <li><a href="#" class="hover:text-gray-900">35</a></li>
-                    <li><a href="#" class="hover:text-gray-900">36</a></li>
-                    <li><a href="#" class="hover:text-gray-900">37</a></li>
-                    <li><a href="#" class="hover:text-gray-900">38</a></li>
-                    <li><a href="#" class="hover:text-gray-900">39</a></li>
-                </ul>
-            </div>
+                <div>
+                    <h3 class="font-semibold">Precio</h3>
+                    <ul class="space-y-2 mt-2">
+                        <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
+                        <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
+                        <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
+                    </ul>
+                </div>
+            </aside>
 
-            <div>
-                <h3 class="text-sm font-medium mb-2">Precio</h3>
-                <input type="range" min="0" max="50" class="w-3/4 mx-auto accent-pink-500">
-                <div class="flex justify-between text-xs text-gray-500 mt-2">
-                    <span>S/.0</span> <span> 50</span>
-                
+            <!-- Productos con slider -->
+            <section class="w-4/5">
+                <!-- Contenedor del slider -->
+                <div class="slider-container">
+                    <button class="left">⬅</button>
+                    <div class="slider">
+                        <div class="product-card">
+                            <Card />
+                        </div>
+                        <div class="product-card">
+                            <Card />
+                        </div>
+                        <div class="product-card">
+                            <Card />
+                        </div>
+                        <div class="product-card">
+                            <Card />
+                        </div>
+                        <div class="product-card">
+                            <Card />
+                        </div>
+                        <div class="product-card">
+                            <Card />
+                        </div>
+                        <!-- Agrega más tarjetas de productos aquí -->
+                    </div>
+                    <button class="right">➡</button>
                 </div>
-            </div>
-        </aside>
+            </section>
+        </div>
+    </main>
 
-        <!-- Galería de Productos -->
-        <main class="w-3/4">
-            <h1 class="text-2xl font-bold mb-6 text-center text-gray-700">ZAPATOS</h1>
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 justify-center">
-                <!-- Aquí se repite el bloque de producto -->
-                <div class="product-card text-center bg-white border border-gray-300 rounded-lg overflow-hidden">
-                    <img src="/img/zapatillakawain.jpg" alt="Botines 20" class="w-full h-56 object-cover">
-                    <div class="p-4">
-                        <p class="text-base font-medium text-gray-700">Botines 20</p>
-                        <p class="text-lg font-semibold text-gray-900">S/.45.00</p>
-                        <button class="mt-4 px-6 py-2 bg-pink-500 text-white rounded-full transition transform hover:scale-105">Comprar ahora</button>
-                    </div>
-                </div>
-                <div class="product-card text-center bg-white border border-gray-300 rounded-lg overflow-hidden">
-                    <img src="/img/zapatillakawain.jpg" alt="Botines 20" class="w-full h-56 object-cover">
-                    <div class="p-4">
-                        <p class="text-base font-medium text-gray-700">Botines 20</p>
-                        <p class="text-lg font-semibold text-gray-900">S/.45.00</p>
-                        <button class="mt-4 px-6 py-2 bg-pink-500 text-white rounded-full transition transform hover:scale-105">Comprar ahora</button>
-                    </div>
-                </div>
-                <div class="product-card text-center bg-white border border-gray-300 rounded-lg overflow-hidden">
-                    <img src="/img/zapatillakawain.jpg" alt="Botines 20" class="w-full h-56 object-cover">
-                    <div class="p-4">
-                        <p class="text-base font-medium text-gray-700">Botines 20</p>
-                        <p class="text-lg font-semibold text-gray-900">S/.45.00</p>
-                        <button class="mt-4 px-6 py-2 bg-pink-500 text-white rounded-full transition transform hover:scale-105">Comprar ahora</button>
-                    </div>
-                </div>
-                <div class="product-card text-center bg-white border border-gray-300 rounded-lg overflow-hidden">
-                    <img src="/img/zapatillakawain.jpg" alt="Botines 20" class="w-full h-56 object-cover">
-                    <div class="p-4">
-                        <p class="text-base font-medium text-gray-700">Botines 20</p>
-                        <p class="text-lg font-semibold text-gray-900">S/.45.00</p>
-                        <button class="mt-4 px-6 py-2 bg-pink-500 text-white rounded-full transition transform hover:scale-105">Comprar ahora</button>
-                    </div>
-                </div>
-                <div class="product-card text-center bg-white border border-gray-300 rounded-lg overflow-hidden">
-                    <img src="/img/zapatillakawain.jpg" alt="Botines 20" class="w-full h-56 object-cover">
-                    <div class="p-4">
-                        <p class="text-base font-medium text-gray-700">Botines 20</p>
-                        <p class="text-lg font-semibold text-gray-900">S/.45.00</p>
-                        <button class="mt-4 px-6 py-2 bg-pink-500 text-white rounded-full transition transform hover:scale-105">Comprar ahora</button>
-                    </div>
-                </div>
-                <div class="product-card text-center bg-white border border-gray-300 rounded-lg overflow-hidden">
-                    <img src="/img/zapatillakawain.jpg" alt="Botines 20" class="w-full h-56 object-cover">
-                    <div class="p-4">
-                        <p class="text-base font-medium text-gray-700">Botines 20</p>
-                        <p class="text-lg font-semibold text-gray-900">S/.45.00</p>
-                        <button class="mt-4 px-6 py-2 bg-pink-500 text-white rounded-full transition transform hover:scale-105">Comprar ahora</button>
-                    </div>
-                </div>
-                <div class="product-card text-center bg-white border border-gray-300 rounded-lg overflow-hidden">
-                    <img src="/img/zapatillakawain.jpg" alt="Botines 20" class="w-full h-56 object-cover">
-                    <div class="p-4">
-                        <p class="text-base font-medium text-gray-700">Botines 20</p>
-                        <p class="text-lg font-semibold text-gray-900">S/.45.00</p>
-                        <button class="mt-4 px-6 py-2 bg-pink-500 text-white rounded-full transition transform hover:scale-105">Comprar ahora</button>
-                    </div>
-                </div>
-                <div class="product-card text-center bg-white border border-gray-300 rounded-lg overflow-hidden">
-                    <img src="/img/zapatillakawain.jpg" alt="Botines 20" class="w-full h-56 object-cover">
-                    <div class="p-4">
-                        <p class="text-base font-medium text-gray-700">Botines 20</p>
-                        <p class="text-lg font-semibold text-gray-900">S/.45.00</p>
-                        <button class="mt-4 px-6 py-2 bg-pink-500 text-white rounded-full transition transform hover:scale-105">Comprar ahora</button>
-                    </div>
-                </div>
-                <div class="product-card text-center bg-white border border-gray-300 rounded-lg overflow-hidden">
-                    <img src="/img/zapatillakawain.jpg" alt="Botines 20" class="w-full h-56 object-cover">
-                    <div class="p-4">
-                        <p class="text-base font-medium text-gray-700">Botines 20</p>
-                        <p class="text-lg font-semibold text-gray-900">S/.45.00</p>
-                        <button class="mt-4 px-6 py-2 bg-pink-500 text-white rounded-full transition transform hover:scale-105">Comprar ahora</button>
-                    </div>
-                </div>
-                <div class="product-card text-center bg-white border border-gray-300 rounded-lg overflow-hidden">
-                    <img src="/img/zapatillakawain.jpg" alt="Botines 20" class="w-full h-56 object-cover">
-                    <div class="p-4">
-                        <p class="text-base font-medium text-gray-700">Botines 20</p>
-                        <p class="text-lg font-semibold text-gray-900">S/.45.00</p>
-                        <button class="mt-4 px-6 py-2 bg-pink-500 text-white rounded-full transition transform hover:scale-105">Comprar ahora</button>
-                    </div>
-                </div>
-                <div class="product-card text-center bg-white border border-gray-300 rounded-lg overflow-hidden">
-                    <img src="/img/zapatillakawain.jpg" alt="Botines 20" class="w-full h-56 object-cover">
-                    <div class="p-4">
-                        <p class="text-base font-medium text-gray-700">Botines 20</p>
-                        <p class="text-lg font-semibold text-gray-900">S/.45.00</p>
-                        <button class="mt-4 px-6 py-2 bg-pink-500 text-white rounded-full transition transform hover:scale-105">Comprar ahora</button>
-                    </div>
-                </div>
-                <div class="product-card text-center bg-white border border-gray-300 rounded-lg overflow-hidden">
-                    <img src="/img/zapatillakawain.jpg" alt="Botines 20" class="w-full h-56 object-cover">
-                    <div class="p-4">
-                        <p class="text-base font-medium text-gray-700">Botines 20</p>
-                        <p class="text-lg font-semibold text-gray-900">S/.45.00</p>
-                        <button class="mt-4 px-6 py-2 bg-pink-500 text-white rounded-full transition transform hover:scale-105">Comprar ahora</button>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+    <!-- Botón de WhatsApp -->
+    <a href="https://wa.me/987654321" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg">
+        WhatsApp
+    </a>
+
+    <!-- Footer -->
     <Footer />
 </body>
 </html>
