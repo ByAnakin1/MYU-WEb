@@ -98,10 +98,37 @@ import Header from '../components/header.astro';
         .tiktok-block iframe {
             border-radius: 15px;
         }
+
+        /* Estilos de chispitas en los costados */
+        .sparkles {
+            position: relative;
+        }
+
+        .sparkles::before,
+        .sparkles::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+            background-image: radial-gradient(circle, #F6BBD0 20%, transparent 20%),
+                              radial-gradient(circle, #F6A1B0 20%, transparent 20%);
+            background-size: 10px 10px;
+            background-position: 0 0, 5px 5px;
+        }
+
+        .sparkles::before {
+            left: -30px;
+        }
+
+        .sparkles::after {
+            right: -30px;
+        }
     </style>
 </head>
 <body class="bg-pink-100 font-sans">
     <Header />
+    <div class="max-w-7xl mx-auto px-4 sparkles">
     <d class="max-w-7xl mx-auto px-4">
         <br>
         <br>
@@ -283,4 +310,3 @@ import Header from '../components/header.astro';
     </div>
 </body>
 </html>
-

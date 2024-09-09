@@ -15,30 +15,33 @@ import Logo from "./Logo.astro"
 
   <nav class="hidden xl:block sm:hidden">
     <ul
-      class="flex text-sm [&>li>a]:transition-colors [&>li>a]:duration-500 [&>li>a]:text-lg [&>li>a]:font-bold [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2">
-      <li><a class="hover:bg-pink-400 rounded-xl"href="/">INICIO</a></li>
-      <li><a class="hover:bg-pink-400 rounded-xl" href="/detalle">PRODUCTOS</a></li>
+      class="flex text-sm [&>li>a]:transition-colors [&>li>a]:duration-500 [&>li>a]:text-current [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2"
+    >
+      <li><a class="hover:bg-pink-200 rounded-xl"href="/">INICIO</a></li>
+      <li><a class="hover:bg-pink-200 rounded-xl" href="/detalle">PRODUCTOS</a></li>
       
       <!-- Menú desplegable de TIENDA -->
       <li class="relative group">
-        <a href="#" class="cursor-pointer flex items-center hover:bg-pink-400 rounded-xl">
+        <a href="#" class="cursor-pointer flex items-center">
           TIENDA
           <!-- Flecha hacia abajo -->
           <span class="ml-1 transition-transform group-hover:rotate-180">▼</span>
         </a>
         <!-- Submenú desplegable con categorías -->
         <ul class="absolute opacity-0 invisible group-hover:opacity-100 group-hover:visible bg-[#f6bbd0] text-white mt-2 w-48 shadow-lg rounded-lg transition-all duration-300 ease-in-out z-50">
-          <li class="hover:bg-pink-400 px-4 py-2 rounded-lg text-lg text-bold"><a href="#">ZAPATOS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2 text-lg text-bold"><a href="#">BLUSAS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2 text-lg text-bold"><a href="#">POLERAS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2 text-lg text-bold"><a href="#">FALDAS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2 text-lg text-bold"><a href="#">PANTALONES</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2 text-lg text-bold"><a href="#">ACCESORIOS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2 rounded-lg text-lg text-bold"><a href="#">VESTIDOS</a></li>
+          <li class="hover:bg-pink-200 px-4 py-2 rounded-lg"><a href="#">ZAPATOS</a></li>
+          <li class="hover:bg-pink-200 px-4 py-2"><a href="#">BLUSAS</a></li>
+          <li class="hover:bg-pink-200 px-4 py-2"><a href="#">POLERAS</a></li>
+          <li class="hover:bg-pink-200 px-4 py-2"><a href="#">FALDAS</a></li>
+          <li class="hover:bg-pink-200 px-4 py-2"><a href="#">PANTALONES</a></li>
+          <li class="hover:bg-pink-200 px-4 py-2"><a href="#">ACCESORIOS</a></li>
+          <li class="hover:bg-pink-200 px-4 py-2 rounded-lg"><a href="#">VESTIDOS</a></li>
         </ul> 
       </li>
-      <li><a class="hover:bg-pink-400 rounded-xl" href="/contacto">CONTACTO</a></li>
-      <li><a class="hover:bg-pink-400 rounded-xl"  href="/detalle">SOBRE NOSOTROS</a></li>
+      
+      <li><a class="hover:bg-pink-200 rounded-xl" href="/faq">FQA</a></li>
+      <li><a class="hover:bg-pink-200 rounded-xl" href="/contacto">CONTACTO</a></li>
+      <li><a class="hover:bg-pink-200 rounded-xl"  href="/detalle">SOBRE NOSOTROS</a></li>
     </ul>
   </nav>
 

@@ -1,5 +1,6 @@
 ---
 import Header from "../components/header.astro"
+import Card from "../components/Card.astro"
 ---
 <!DOCTYPE html>
 <html lang="es">
@@ -9,96 +10,115 @@ import Header from "../components/header.astro"
     <title>Tienda - Zona Outlet</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Asegura que el header esté siempre fijo y visible */
+        body {
+            background-color: #fffcf6; /* Fondo solicitado */
+        }
         header {
+            background-color: #fff;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
-            background-color: black; /* Color negro para el fondo */
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-
-        /* Ajustes para asegurar que el contenido no se superponga con el header */
-        body {
-            padding-top: 80px; /* Deja espacio para el header (ajusta según el tamaño del header) */
+        .product-card img {
+            max-height: 300px;
+            object-fit: cover;
         }
     </style>
 </head>
-<body class="bg-gray-100">
-    <!-- Header -->
-    <Header />
-
+<body>
+    <Header/>
     <!-- Contenido Principal -->
-    <section class="container mx-auto mt-10">
+     <br>
+     <br>
+    <main class="container mx-auto mt-20 px-4">
         <div class="flex">
             <!-- Filtros -->
             <aside class="w-1/5 p-4 bg-white shadow-md">
                 <h2 class="font-bold text-xl mb-4">Filtros</h2>
-                <ul class="space-y-2">
-                    <li><a href="#" class="block hover:underline">Mujer</a></li>
-                    <li><a href="#" class="block hover:underline">Hombre</a></li>
-                    <li><a href="#" class="block hover:underline">Niños</a></li>
-                    <li class="font-bold">Descuento</li>
-                    <li class="font-bold">Color</li>
-                    <li class="font-bold">Marca</li>
-                    <li class="font-bold">Precio</li>
-                </ul>
+                <div class="mb-6">
+                    <h3 class="font-semibold">Descuento</h3>
+                    <ul class="space-y-2 mt-2">
+                        <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
+                        <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
+                        <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
+                        <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
+                        <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
+                    </ul>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="font-semibold">Color</h3>
+                    <ul class="space-y-2 mt-2">
+                        <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
+                        <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
+                        <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
+                        <!-- Agrega más colores según sea necesario -->
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold">Precio</h3>
+                    <ul class="space-y-2 mt-2">
+                        <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
+                        <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
+                        <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
+                    </ul>
+                </div>
             </aside>
 
             <!-- Productos -->
-            <div class="w-4/5">
-                <!-- Zona Outlet -->
-                <div class="bg-red-500 text-white p-4 mb-4 flex justify-between items-center">
-                    <h2 class="text-3xl font-bold">Zona Outlet</h2>
-                    <div>
-                        <a href="#" class="text-xl">Mujer</a> | 
-                        <a href="#" class="text-xl">Hombre</a> | 
-                        <a href="#" class="text-xl">Niños</a>
-                    </div>
-                </div>
+            <section class="w-4/5">
+
 
                 <!-- Productos Listado -->
                 <div class="grid grid-cols-4 gap-4">
                     <!-- Producto -->
-                    <div class="bg-white p-4 shadow-md">
-                        <img src="https://via.placeholder.com/150" alt="Producto Mujer" class="w-full">
-                        <div class="mt-2">
-                            <h3 class="text-gray-800 font-semibold">Producto Mujer</h3>
-                            <p class="text-red-600 font-bold">-60%</p>
-                        </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
+                    </div>
+                    <div>
+                        <Card />
                     </div>
 
-                    <!-- Producto -->
-                    <div class="bg-white p-4 shadow-md">
-                        <img src="https://via.placeholder.com/150" alt="Producto Hombre" class="w-full">
-                        <div class="mt-2">
-                            <h3 class="text-gray-800 font-semibold">Producto Hombre</h3>
-                            <p class="text-red-600 font-bold">-50%</p>
-                        </div>
-                    </div>
-
-                    <!-- Producto -->
-                    <div class="bg-white p-4 shadow-md">
-                        <img src="https://via.placeholder.com/150" alt="Producto Niño" class="w-full">
-                        <div class="mt-2">
-                            <h3 class="text-gray-800 font-semibold">Producto Niño</h3>
-                            <p class="text-red-600 font-bold">-40%</p>
-                        </div>
-                    </div>
-
-                    <!-- Producto -->
-                    <div class="bg-white p-4 shadow-md">
-                        <img src="https://via.placeholder.com/150" alt="Producto Mujer 2" class="w-full">
-                        <div class="mt-2">
-                            <h3 class="text-gray-800 font-semibold">Producto Mujer</h3>
-                            <p class="text-red-600 font-bold">-30%</p>
-                        </div>
-                    </div>
+                    <!-- Más productos -->
                 </div>
-            </div>
+            </section>
         </div>
-    </section>
+    </main>
 
     <!-- Botón de WhatsApp -->
     <a href="https://wa.me/1234567890" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg">
