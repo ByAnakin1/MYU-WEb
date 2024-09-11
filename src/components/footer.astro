@@ -1,27 +1,6 @@
-<style>
-    .custom-list {
-    list-style-type: disc; /* Usa puntos */
-    padding-left: 20px; /* Espacio a la izquierda para los puntos */
-}
-
-.custom-list li {
-    margin-bottom: 8px; /* Espacio entre elementos de la lista */
-}
-
-/* Opcional: Estilizar el color de los puntos */
-.custom-list {
-    color: #e8e7e1; /* Color del texto y puntos */
-}
-
-.custom-list li::marker {
-    color: #e8e7e1; /* Color de los puntos */
-}
-
-    </style>
-</style>
-
 <footer class="bg-[#121212] py-10">
-    <div class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <div class="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
+        <!-- Sobre nosotros -->
         <div>
             <h3 class="text-[#ffffff] font-bold text-xl">Sobre nosotros</h3>
             <p class="mt-4 text-[#e8e7e1] text-sm">
@@ -29,7 +8,7 @@
             </p>
         </div>
 
-        <!-- Contact Info -->
+        <!-- Contacto -->
         <div>
             <h3 class="text-[#ffffff] font-bold text-xl">Contacto</h3>
             <p class="mt-4 text-[#e8e7e1] text-sm">
@@ -39,7 +18,7 @@
             </p>
         </div>
 
-        <!-- Legal Info -->
+        <!-- Datos legales -->
         <div>
             <h3 class="text-[#ffffff] font-bold text-xl">Datos legales</h3>
             <ul class="mt-4 text-[#e8e7e1] text-sm space-y-2 custom-list">
@@ -51,18 +30,22 @@
                 <li>Contacto</li>
             </ul>
         </div>
-        
+
         <!-- Google Maps -->
         <div>
-            <h3 class="text-[#ffffff] font-bold">Cómo llegar a la tienda?</h3>
+            <h3 class="text-[#ffffff] font-bold text-xl">¿Cómo llegar a la tienda?</h3>
             <div id="map" class="mt-4 w-full h-48 bg-gray-300 rounded-lg"></div>
         </div>
     </div>
+
+    <!-- Social Media Icons -->
     <div class="container mx-auto mt-8 flex justify-center space-x-4 text-[#4A3E4C]">
-        <a href="#"><img src="img/instagram-icon.png" alt="Instagram" class="w-6 h-6"></a>
-        <a href="#"><img src="img/face-icon.png" alt="Facebook" class="w-6 h-6"></a>
-        <a href="#"><img src="img/wasap-icon.png" alt="WhatsApp" class="w-6 h-6"></a>
-        <a href="#"><img src="img/tiktok-icon.png" alt="TikTok" class="w-6 h-6"></a>
+        <a href="#"><img src="img/instagram-icon.png" alt="Instagram" class="w-6 h-6 sm:w-8 sm:h-8"></a>
+        <a href="#"><img src="img/face-icon.png" alt="Facebook" class="w-6 h-6 sm:w-8 sm:h-8"></a>
+        <a href="#"><img src="img/wasap-icon.png" alt="WhatsApp" class="w-6 h-6 sm:w-8 sm:h-8"></a>
+        <a href="#"><img src="img/tiktok-icon.png" alt="TikTok" class="w-6 h-6 sm:w-8 sm:h-8"></a>
     </div>
 </footer>
+
+<!-- Google Maps Script -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>

@@ -109,8 +109,24 @@ import Card from "./Card.astro"
         el: ".swiper-pagination",
         clickable: true,
       },
-    });
-  </script>
+      breakpoints: {
+      // Cuando la pantalla es menor o igual a 768px
+      1556: {
+        slidesPerView: 5, // Número de slides por vista en pantallas medianas
+      },
+      768: {
+        slidesPerView: 4, // Número de slides por vista en pantallas pequeñas
+      },
+      400: {
+        slidesPerView: 2, // Número de slides por vista en pantallas pequeñas
+      },
+      393: {
+        slidesPerView: 2, // Número de slides por vista en pantallas pequeñas
+        spaceBetween: 2, // Espacio entre slides
+      }
+    },
+  });
+</script>
 </body>
 
 </html>
