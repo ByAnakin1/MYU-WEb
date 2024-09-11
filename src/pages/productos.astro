@@ -1,178 +1,179 @@
 ---
-import Header from "../components/header.astro"
-import Card from "../components/Card.astro"
-import Footer from "../components/footer.astro"
+import Header from "../components/header.astro";
+import Footer from "../components/footer.astro";
+import Card from "../components/Card.astro";
 ---
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda - Zona Outlet</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Tienda de Zapatos</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #fffcf6; /* Fondo solicitado */
+        .filter-container {
+            max-height: calc(75vh - 10rem); /* Ajuste para que el filtro no sea demasiado largo */
+            overflow-y: auto;
         }
-        header {
-            background-color: #fff;
+        .overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.9); /* Más visible para el overlay */
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 40;
+            overflow: hidden;
         }
-        .product-card img {
-            max-height: 300px;
-            object-fit: cover;
+        .overlay.show {
+            transform: translateX(0);
         }
-        /* Estilos para el slider */
-        .slider {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            gap: 1rem;
+        body.no-scroll {
+            overflow: hidden;
         }
-
-        .product-card {
-            scroll-snap-align: start;
-            min-width: 200px; /* Ajusta según el tamaño de tus tarjetas */
-            padding: 16px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Estilos para las flechas */
-        button {
-            background-color: #ff5b77;
-            color: white;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        button:hover {
-            background-color: #ff3b57;
-        }
-
-        /* Espacio entre el footer y el main */
-        main {
-            margin-bottom: 100px;
-        }
-
-        /* Contenedor para las flechas */
-        .slider-container {
-            position: relative;
-        }
-
-        /* Posición de las flechas */
-        .slider-container button {
+        .overlay-content {
+            width: 80%;
+            max-width: 360px; /* Un poco más pequeño en móvil */
+            background: white;
+            height: 100%;
+            padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Sombra más prominente */
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 0;
+            left: 0;
+            z-index: 50;
+            overflow-y: auto;
         }
-
-        .slider-container button.left {
-            left: 10px;
+        .filter-button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            min-width: 120px;
+            background-color: #f5bad0; /* Color de fondo del botón */
+            border-color: #e2e8f0; /* Color del borde del botón */
         }
-
-        .slider-container button.right {
-            right: 10px;
-        }
-
-        /* Estilos para ocultar las flechas al llegar al final */
-        .slider-container button.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .filter-button svg {
+            margin-right: 0.5rem; /* Espacio entre icono y texto */
         }
     </style>
 </head>
-<body>
+<body class="bg-pink-50 text-gray-800">
+
     <Header />
+    <div class="h-20"></div>
 
-    <!-- Banner con imagen de fondo -->
-    <div class="w-full h-96 bg-red-500 text-white p-8 mb-6 flex items-center justify-center" style="background-image: url(/public/img/banner_novedades.jpeg); background-size: cover; background-position: center;">
-    </div>
+    <div class="container mx-auto flex flex-col md:flex-row py-10 gap-4">
 
-    <!-- Contenido Principal -->
-    <main class="container mx-auto px-4">
-        <div class="flex">
-            <!-- Filtros -->
-            <aside class="w-1/5 p-4 bg-white shadow-md">
-                <h2 class="font-bold text-xl mb-4">Filtros</h2>
-                <div class="mb-6">
-                    <h3 class="font-semibold">Descuento</h3>
-                    <ul class="space-y-2 mt-2">
-                        <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
-                        <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
-                        <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
-                        <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
-                        <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
-                    </ul>
-                </div>
+        <aside class="w-full md:w-1/5 p-4 bg-white shadow-md mt-10 filter-container hidden md:block" id="filterSidebar">
+            <h2 class="font-bold text-xl mb-4">Filtros</h2>
+            <div class="mb-6">
+                <h3 class="font-semibold">Descuento</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
+                    <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
+                    <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
+                    <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
+                    <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
+                </ul>
+            </div>
 
-                <div class="mb-6">
-                    <h3 class="font-semibold">Color</h3>
-                    <ul class="space-y-2 mt-2">
-                        <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
-                        <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
-                        <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
-                        <!-- Agrega más colores según sea necesario -->
-                    </ul>
-                </div>
+            <div class="mb-6">
+                <h3 class="font-semibold">Color</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
+                    <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
+                    <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
+                </ul>
+            </div>
 
-                <div>
-                    <h3 class="font-semibold">Precio</h3>
-                    <ul class="space-y-2 mt-2">
-                        <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
-                        <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
-                        <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
-                    </ul>
+            <div>
+                <h3 class="font-semibold">Precio</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
+                    <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
+                    <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
+                </ul>
+            </div>
+        </aside>
+
+        <div class="md:hidden">
+            <button class="filter-button flex items-center text-white border border-gray-300 rounded-lg shadow-sm transform transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-pink-500" id="filterToggle">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 12h18M3 19h18"></path>
+                </svg>
+                Filtros
+            </button>
+            <aside class="overlay" id="filterSidebarMobile">
+                <div class="overlay-content">
+                    <button class="text-gray-600 hover:text-gray-800 focus:outline-none" id="closeFilterMobile">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                    <h2 class="font-bold text-xl mb-4">Filtros</h2>
+                    <div class="mb-6">
+                        <h3 class="font-semibold">Descuento</h3>
+                        <ul class="space-y-2 mt-2">
+                            <li><input type="checkbox" id="descuento30-mobile" /> <label for="descuento30-mobile">Hasta 30%</label></li>
+                            <li><input type="checkbox" id="descuento40-mobile" /> <label for="descuento40-mobile">30% - 40%</label></li>
+                            <li><input type="checkbox" id="descuento50-mobile" /> <label for="descuento50-mobile">40% - 50%</label></li>
+                            <li><input type="checkbox" id="descuento60-mobile" /> <label for="descuento60-mobile">50% - 60%</label></li>
+                            <li><input type="checkbox" id="mas60-mobile" /> <label for="mas60-mobile">Más de 60%</label></li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="font-semibold">Color</h3>
+                        <ul class="space-y-2 mt-2">
+                            <li><input type="checkbox" id="colorAmarillo-mobile" /> <label for="colorAmarillo-mobile">Amarillo</label></li>
+                            <li><input type="checkbox" id="colorAzul-mobile" /> <label for="colorAzul-mobile">Azul</label></li>
+                            <li><input type="checkbox" id="colorBlanco-mobile" /> <label for="colorBlanco-mobile">Blanco</label></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="font-semibold">Precio</h3>
+                        <ul class="space-y-2 mt-2">
+                            <li><input type="checkbox" id="precio20-mobile" /> <label for="precio20-mobile">Hasta S/ 20.00</label></li>
+                            <li><input type="checkbox" id="precio40-mobile" /> <label for="precio40-mobile">S/ 20.00 - S/ 40.00</label></li>
+                            <li><input type="checkbox" id="precio60-mobile" /> <label for="precio60-mobile">S/ 40.00 - S/ 60.00</label></li>
+                        </ul>
+                    </div>
                 </div>
             </aside>
-
-            <!-- Productos con slider -->
-            <section class="w-4/5">
-                <!-- Contenedor del slider -->
-                <div class="slider-container">
-                    <button class="left">⬅</button>
-                    <div class="slider">
-                        <div class="product-card">
-                            <Card />
-                        </div>
-                        <div class="product-card">
-                            <Card />
-                        </div>
-                        <div class="product-card">
-                            <Card />
-                        </div>
-                        <div class="product-card">
-                            <Card />
-                        </div>
-                        <div class="product-card">
-                            <Card />
-                        </div>
-                        <div class="product-card">
-                            <Card />
-                        </div>
-                        <!-- Agrega más tarjetas de productos aquí -->
-                    </div>
-                    <button class="right">➡</button>
-                </div>
-            </section>
         </div>
-    </main>
 
-    <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/987654321" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg">
-        WhatsApp
-    </a>
+        <div class="w-full md:w-4/5">
+            <!-- Centrar título "Zapatos" -->
+            <h2 class="text-center font-bold text-2xl mb-6">Zapatos</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <Card />
+                <!-- Agregar más tarjetas aquí -->
+            </div>
+        </div>
 
-    <!-- Footer -->
+    </div>
+
     <Footer />
+
+    <script type="module">
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterToggle = document.getElementById('filterToggle');
+            const filterSidebarMobile = document.getElementById('filterSidebarMobile');
+            const closeFilterMobile = document.getElementById('closeFilterMobile');
+
+            filterToggle.addEventListener('click', function() {
+                filterSidebarMobile.classList.add('show');
+                document.body.classList.add('no-scroll');
+            });
+
+            closeFilterMobile.addEventListener('click', function() {
+                filterSidebarMobile.classList.remove('show');
+                document.body.classList.remove('no-scroll');
+            });
+        });
+    </script>
 </body>
 </html>

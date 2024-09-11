@@ -1,10 +1,12 @@
 <style>
+  /* Estilos para pantallas grandes (por defecto) */
   .product-card {
     background-color: #fffcfc;
     width: 276px;
     height: 372px;
     border-radius: 12px;  
     overflow: hidden;
+    margin-right: 10px; /* Añadimos un margen de 10px entre tarjetas */
   }
 
   .product-card img {
@@ -12,19 +14,61 @@
     height: 228px;
     object-fit: cover;
   }
+
+  /* Reducimos los márgenes entre título y la imagen */
+  .product-card .p-4 {
+    padding: 5px; /* Ajusta el padding entre la imagen y el contenido */
+  }
+
+  .product-card p.text-lg {
+    margin-top: 1px; /* Reducimos el espacio entre el título y la imagen */
+  }
+
+  .product-card p.text-red-500 {
+    margin-top: 2px; /* Reducimos el espacio entre el precio y el título */
+    margin-bottom: 6px; /* Espacio entre el precio y el botón de compra */
+  }
+
+  /* Contenedor para ajustar las tarjetas en pantallas pequeñas */
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centra las tarjetas en la pantalla */
+    gap: 10px; /* Espacio entre las tarjetas reducido a 10px */
+  }
+
+  /* Media query para pantallas pequeñas (celulares) */
+  @media (max-width: 768px) {
+    .product-card {
+      width: 100%; /* Ajustamos el ancho para que quepan dos tarjetas por fila */
+      height: 300px; /* Deja que la altura se ajuste automáticamente */
+      border-radius: 10px;
+      
+    }
+
+    .product-card img {
+      width: 100%; /* Aseguramos que la imagen se ajuste al nuevo tamaño */
+      height: auto; /* Ajustamos la altura de la imagen automáticamente */
+    }
+
+    .card-container {
+      gap: 10px; /* Reducimos el espacio entre las tarjetas */
+    }
+  }
 </style>
-<div class="bg-[#E5E5E5] p-1 rounded-2xl shadow-md">
-<div class="product-card flex flex-col items-center ">
-  <!-- Sección de Imagen -->
-  <div class="bg-white w-full h-[228px] flex items-center justify-center">
-    <img src="/public/img/faldas.png" alt="Pantalon 5">
-    <div class="gradient-overlay"></div>
-  </div>
-  <!-- Sección de Texto -->
-  <div class="p-4 flex flex-col items-center">
-    <p class="mt-2 text-lg font-semibold">PANTALON #5</p>
-    <p class="text-red-500 text-xl font-bold">S/ 39.90</p>
-    <button class="mt-4 px-10 py-2 bg-[#f6bbd0] text-white rounded-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-pink-400 duration-300">COMPRAR</button>
-  </div>
-  </div>
+
+<div class="p-1 rounded-2xl shadow-md card-container">
+  <div class="product-card flex flex-col items-center">
+    <!-- Sección de Imagen -->
+    <div class="bg-white w-full h-[228px] flex items-center justify-center rounded-2xl">
+      <img src="/public/img/faldas.png" alt="Pantalon 5">
+      <div class="gradient-overlay"></div>
+    </div>
+    <!-- Sección de Texto -->
+    <div class="p-4 flex flex-col items-center">
+      <p class="mt-1 text-lg font-semibold">PANTALON #5</p>
+      <p class="text-red-500 text-xl font-bold">S/ 39.90</p>
+      <button class="mt-1 px-10 py-2 bg-[#f6bbd0] text-white rounded-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-pink-400 duration-300">COMPRAR</button>
+    </div>
+  </div>  
 </div>
