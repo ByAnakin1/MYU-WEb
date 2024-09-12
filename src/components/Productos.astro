@@ -1,61 +1,72 @@
---- 
-import Card from "./Card.astro" 
---- 
-<style> 
-@media (max-width: 768px) { 
-  .card-container { 
-    flex-direction: column; 
-    align-items: center; 
-  } 
-} 
+---
+import Card from "./Card.astro"
+---
+
+<style>
+  .container {
+    max-width: 1370px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+  }
+
+  @media (max-width: 1500px) {
+    .product-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .product-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .product-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .product-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: #f6bbd0;
+    color: white;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+  }
 </style>
 
 <body>
-  <h2 class="text-2xl font-bold text-center mb-4 bg-[#f6bbd0] py-3 text-white">PRODUCTOS</h2>
-  <section class="py-7">
-    <!-- Contenedor para las tarjetas -->
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-      <div class="card-container">
+  <h2 class="section-title">PRODUCTOS</h2>
+  <div class="container">
+    <section class="py-7">
+      <div class="product-grid">
         <Card />
-      </div>
-      <div class="card-container">
         <Card />
-      </div>
-      <div class="card-container">
         <Card />
-      </div>
-      <div class="card-container">
         <Card />
-      </div>
-      <div class="card-container">
         <Card />
-      </div>
-      <div class="card-container">
         <Card />
-      </div>
-    </div>
-
-    <br>
-
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-      <div class="card-container">
         <Card />
-      </div>
-      <div class="card-container">
         <Card />
-      </div>
-      <div class="card-container">
         <Card />
-      </div>
-      <div class="card-container">
         <Card />
+        <!-- Añade más componentes Card según sea necesario -->
       </div>
-      <div class="card-container">
-        <Card />
-      </div>
-      <div class="card-container">
-        <Card />
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </body>
