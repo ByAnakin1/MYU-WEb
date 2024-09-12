@@ -1,0 +1,74 @@
+---
+import Header from "../components/header.astro";
+import Footer from "../components/footer.astro";
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <!-- Importar la fuente desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Importar Font Awesome para los íconos -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Fira Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-pink-200 flex flex-col min-h-screen">
+    <!-- Header -->
+    <Header />
+    <br><br><br><br><br>
+    <main class="flex-grow container mx-auto bg-white p-4 lg:p-8 shadow-lg rounded-lg flex flex-col lg:flex-row lg:space-x-12">
+        <!-- Productos a la izquierda -->
+        <div class="lg:w-2/3 w-full">
+            <div class="bg-white p-4 lg:p-8 shadow-lg rounded-lg mb-4 lg:mb-8">
+                <div class="flex flex-col lg:flex-row items-center">
+                    <img src="public/img/4.jpg" alt="Blusa Ember Off White" class="w-24 h-24 lg:w-32 lg:h-32 rounded-md mb-4 lg:mb-0">
+                    <div class="text-left lg:ml-12">
+                        <h3 class="text-md lg:text-lg font-semibold">Blusa Ember Off White</h3>
+                        <p class="text-gray-500">Small</p>
+                    </div>
+                    <div class="flex flex-col lg:flex-row items-center lg:space-x-8 lg:ml-auto mt-4 lg:mt-0">
+                        <span class="text-gray-600">S/. 129.00</span>
+                        <div class="flex items-center border border-gray-300 rounded mt-2 lg:mt-0">
+                            <button class="px-2 py-1 lg:px-3 lg:py-2">-</button>
+                            <input type="text" value="2" class="w-10 lg:w-12 text-center border-none focus:ring-0">
+                            <button class="px-2 py-1 lg:px-3 lg:py-2">+</button>
+                        </div>
+                        <span class="text-gray-600 mt-2 lg:mt-0">S/. 258.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumen a la derecha -->
+        <div id="summary-container" class="lg:w-1/3 w-full bg-white p-4 lg:p-10 shadow-lg rounded-lg lg:mt-0 mt-8">
+            <h2 class="text-lg font-semibold mb-4">Resumen de compra</h2>
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-gray-600">Subtotal</span>
+                <span class="font-semibold text-lg">S/. 77.94</span>
+            </div>
+            <hr class="my-2">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-gray-600">Total</span>
+                <span class="font-semibold text-lg text-red-600">S/. 77.94</span>
+            </div>
+            <button class="bg-green-600 text-white w-full py-4 rounded hover:bg-green-500 text-lg mt-4 flex items-center justify-center">
+                <i class="fab fa-whatsapp mr-2"></i> Ir a comprar
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <Footer />
+</body>
+</html>
+
+

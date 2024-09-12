@@ -5,6 +5,57 @@ import Logo from "./Logo.astro"
   <p class="text-center text-white bg-black pt-1 pb-1 w-full fixed z-10">Envios a todo el país 📍🎁🇵🇪</p>
 </footer>
 
+<style>
+  .custom-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 5px;
+      border-radius: 25px;
+      font-weight: bold;
+      width: 80%;
+      margin-top: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición para la transformación y sombra */
+  }
+  .custom-button:hover {
+      transform: translate(5px, -5px); /* Desplaza el botón 5px a la derecha y 5px hacia arriba */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade sombra para efecto de elevación */
+  }
+  .cart-button {
+      background-color: #FFD1E0;
+      color: #4A3E4C;
+  }
+  .whatsapp-button {
+      background-color: #FFD1E0;
+      color: #4A3E4C;
+  }
+  .button-icon {
+      margin-right: 8px;
+  }
+  /* Lista no ordenada personalizada */
+  .custom-list {
+      list-style-type: disc; /* Usa puntos */
+      padding-left: 20px; /* Espacio a la izquierda para los puntos */
+  }
+
+  .custom-list li {
+      margin-bottom: 8px; /* Espacio entre elementos de la lista */
+  }
+
+  /* Opcional: Estilizar el color de los puntos */
+  .custom-list {
+      color: #e8e7e1; /* Color del texto y puntos */
+  }
+
+  .custom-list li::marker {
+      color: #e8e7e1; /* Color de los puntos */
+  }
+  #map {
+      width: 100%;
+      height: 300px;
+  }
+</style>
+
 <header
   id="landing-header"
   class="py-3 px-10 flex items-center fixed top-7 w-full justify-between z-40 text-white bg-[#f6bbd0]"
@@ -15,30 +66,32 @@ import Logo from "./Logo.astro"
 
   <nav class="hidden xl:block sm:hidden">
     <ul
-      class="flex text-sm [&>li>a]:transition-colors [&>li>a]:duration-500 [&>li>a]:text-lg [&>li>a]:font-bold [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2">
-      <li><a class="hover:bg-pink-400 rounded-xl"href="/">INICIO</a></li>
-      <li><a class="hover:bg-pink-400 rounded-xl" href="/Novedades">PRODUCTOS</a></li>
+      class="flex text-sm [&>li>a]:transition-colors [&>li>a]:duration-500 [&>li>a]:text-current [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2"
+    >
+      <li><a class="hover:bg-pink-200 rounded-xl" href="/">INICIO</a></li>
+      <li><a class="hover:bg-pink-200 rounded-xl" href="/detalle">PRODUCTOS</a></li>
       
       <!-- Menú desplegable de TIENDA -->
       <li class="relative group">
-        <a href="#" class="cursor-pointer flex items-center hover:bg-pink-400 rounded-xl">
+        <a href="#" class="cursor-pointer flex items-center">
           TIENDA
           <!-- Flecha hacia abajo -->
           <span class="ml-1 transition-transform group-hover:rotate-180">▼</span>
         </a>
         <!-- Submenú desplegable con categorías -->
         <ul class="absolute opacity-0 invisible group-hover:opacity-100 group-hover:visible bg-[#f6bbd0] text-white mt-2 w-48 shadow-lg rounded-lg transition-all duration-300 ease-in-out z-50">
-          <li class="hover:bg-pink-400 px-4 py-2 rounded-lg text-lg text-bold"><a href="#">ZAPATOS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2 text-lg text-bold"><a href="#">BLUSAS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2 text-lg text-bold"><a href="#">POLERAS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2 text-lg text-bold"><a href="#">FALDAS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2 text-lg text-bold"><a href="#">PANTALONES</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2 text-lg text-bold"><a href="#">ACCESORIOS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2 rounded-lg text-lg text-bold"><a href="#">VESTIDOS</a></li>
+          <li class="hover:bg-pink-200 px-4 py-2 rounded-lg"><a href="#">ZAPATOS</a></li>
+          <li class="hover:bg-pink-200 px-4 py-2"><a href="#">BLUSAS</a></li>
+          <li class="hover:bg-pink-200 px-4 py-2"><a href="#">POLERAS</a></li>
+          <li class="hover:bg-pink-200 px-4 py-2"><a href="#">FALDAS</a></li>
+          <li class="hover:bg-pink-200 px-4 py-2"><a href="#">PANTALONES</a></li>
+          <li class="hover:bg-pink-200 px-4 py-2"><a href="#">ACCESORIOS</a></li>
+          <li class="hover:bg-pink-200 px-4 py-2 rounded-lg"><a href="#">VESTIDOS</a></li>
         </ul> 
       </li>
-      <li><a class="hover:bg-pink-400 rounded-xl" href="/contacto">CONTACTO</a></li>
-      <li><a class="hover:bg-pink-400 rounded-xl"  href="/detalle">SOBRE NOSOTROS</a></li>
+      
+      <li><a class="hover:bg-pink-200 rounded-xl" href="/contacto">SOBRE NOSOTROS</a></li>
+      <li><a class="hover:bg-pink-200 rounded-xl" href="/Novedades">NOVEDADES</a></li>
     </ul>
   </nav>
 
@@ -48,6 +101,13 @@ import Logo from "./Logo.astro"
     >
       <li class="hidden xl:block sm:hidden"><a href="#">Cuenta</a></li>
       <li><a id="menu-btn" href="#">Menú</a></li>
+      <!-- Añadido el ícono de carrito de compras -->
+      <li>
+        <a href="/Carro" class="custom-button cart-button flex items-center hover:bg-pink-200 rounded-xl px-2 py-2">
+            <span class="button-icon"></span>
+            <img src="img/carrito-kawai.png" class="w-8 h-8 mr-2">
+        </a>
+      </li>
     </ul>
   </nav>
 </header>

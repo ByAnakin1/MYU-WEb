@@ -1,3 +1,7 @@
+---
+import Header from "../components/header.astro";
+import Footer from "../components/footer.astro";
+---
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,68 +17,64 @@
         }
     </style>
 </head>
-<body class="bg-pink-200 flex items-center justify-center min-h-screen">
-    <div class="container mx-auto p-8">
-        <!-- Header -->
-        <div class="flex justify-between items-center mb-8">
-            <a href="#" class="text-gray-600 hover:text-gray-800">&lt; Continuar comprando</a>
-            <h2 class="text-2xl font-semibold">Mi carrito S/. 258.00 PEN</h2>
-        </div>
-        
-         <!-- Contenedor principal -->
-         <div class="flex flex-col lg:flex-row lg:space-x-12">
-            <!-- Productos a la izquierda -->
-            <div class="lg:w-2/3">
-                <div class="bg-white p-8 shadow-lg rounded-lg mb-8 relative">
-                    <!-- Botón de eliminar -->
-                    <button class="absolute top-2 right-2 text-gray-600 hover:text-gray-800" aria-label="Eliminar producto">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <div class="flex items-center">
-                        <img src="public/img/4.jpg" alt="Blusa Ember Off White" class="w-32 h-32 rounded-md">
-                        <div class="text-left ml-8">
-                            <h3 class="text-lg font-semibold">Blusa Ember Off White</h3>
-                            <p class="text-gray-500">Small</p>
+<body class="bg-pink-200 flex flex-col min-h-screen">
+    <!-- Header -->
+    <Header />
+    <br><br><br><br><br>
+    <main class="flex-grow container mx-auto bg-white p-8 shadow-lg rounded-lg flex flex-col lg:flex-row lg:space-x-12">
+        <!-- Productos a la izquierda -->
+        <div class="lg:w-2/3">
+            <div class="bg-white p-8 shadow-lg rounded-lg mb-8">
+                <div class="flex items-center">
+                    <img src="public/img/4.jpg" alt="Blusa Ember Off White" class="w-32 h-32 rounded-md">
+                    <div class="text-left">
+                        <h3 class="text-lg font-semibold ml-12">Blusa Ember Off White</h3>
+                        <p class="text-gray-500 ml-12">Small</p>
+                    </div>
+                    <div class="flex items-center space-x-8 ml-auto">
+                        <span class="text-gray-600">S/. 129.00</span>
+                        <div class="flex items-center border border-gray-300 rounded">
+                            <button class="px-3 py-2">-</button>
+                            <input type="text" value="2" class="w-12 text-center border-none focus:ring-0">
+                            <button class="px-3 py-2">+</button>
                         </div>
-                        <div class="flex items-center space-x-8 ml-auto">
-                            <span class="text-gray-600">S/. 129.00</span>
-                            <div class="flex items-center border border-gray-300 rounded">
-                                <button class="px-3 py-2">-</button>
-                                <input type="text" value="2" class="w-12 text-center border-none focus:ring-0">
-                                <button class="px-3 py-2">+</button>
-                            </div>
-                            <span class="text-gray-600">S/. 258.00</span>
-                        </div>
+                        <span class="text-gray-600">S/. 258.00</span>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Resumen a la derecha -->
-            <div class="lg:w-1/3">
-                <div class="bg-white p-8 shadow-lg rounded-lg">
-                    <div class="flex justify-between items-center mb-4">
-                        <p class="text-gray-600">2 artículos en tu carrito de compras</p>
-                        <div class="text-right">
-                            <span class="text-gray-600">Subtotal</span>
-                            <span class="font-semibold text-lg whitespace-nowrap">S/. 258.00 </span>
-                        </div>
-                    </div>
-                    <div class="mt-6">
-                        <textarea placeholder="Deja las instrucciones especiales a continuación:" class="w-full border border-gray-300 rounded p-4"></textarea>
-                    </div>
-                    <div class="flex justify-between items-center mt-6">
-                        <p class="text-lg font-medium">Total</p>
-                        <p class="text-3xl font-semibold text-gray-800">S/. 258.00</p>
-                    </div>
-                    <div class="mt-6 text-right">
-                        <button class="bg-gray-800 text-white px-8 py-4 rounded hover:bg-gray-700">Página de pago</button>
-                    </div>
+        <!-- Resumen a la derecha -->
+        <div id="summary-container" class="lg:w-1/3 bg-white p-10 shadow-lg rounded-lg lg:mt-0 mt-8">
+            <div class="flex justify-between items-center mb-4">
+                <p class="text-gray-600">2 artículos en tu carrito de compras</p>
+                <div class="text-right">
+                    <span class="text-gray-600">Subtotal</span>
+                    <span class="font-semibold text-lg whitespace-nowrap">S/. 258.00</span>
                 </div>
             </div>
+            <div class="mt-6">
+                <textarea placeholder="Deja las instrucciones especiales a continuación:" class="w-full border border-gray-300 rounded p-4"></textarea>
+            </div>
+            <div class="flex justify-between items-center mt-6">
+                <p class="text-lg font-medium">Total</p>
+                <p class="text-3xl font-semibold text-gray-800">S/. 258.00</p>
+            </div>
+            <div class="mt-6 text-right">
+                <button class="bg-gray-800 text-white px-8 py-4 rounded hover:bg-gray-700">Página de pago</button>
+            </div>
         </div>
-    </div>
+    </main>
+
+    <!-- Footer -->
+    <Footer />
 </body>
 </html>
+
+
+
+
+
 
 
 
