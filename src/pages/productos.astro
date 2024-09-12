@@ -1,9 +1,8 @@
 ---
-import Header from "../components/header.astro";
-import Footer from "../components/footer.astro";
-import Card from "../components/Card.astro";
+import Header from "../components/header.astro"
+import Card from "../components/Card.astro"
+import Footer from "../components/footer.astro"
 ---
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,102 +11,129 @@ import Card from "../components/Card.astro";
     <title>Tienda de Zapatos</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        .filter-container {
-            max-height: calc(75vh - 10rem); /* Ajuste para que el filtro no sea demasiado largo */
-            overflow-y: auto;
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: #FFF5F7;
+            font-family: 'Arial', sans-serif;
         }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 2rem 0;
+        }
+
+        .cards-container {
+            display: grid;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        @media (max-width: 1023px) {
+            .cards-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .cards-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .card {
+            width: 100%;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4A5568;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .filter-button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            background-color: #f5bacf;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .filter-button:hover {
+            background-color: #f5bacf;
+        }
+
+        .filter-button svg {
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 767px) {
+            .filter-button {
+                padding: 1rem 2rem;
+                font-size: 1.25rem;
+            }
+        }
+
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(255, 255, 255, 0.9); /* Más visible para el overlay */
+            background: rgba(0, 0, 0, 0.5);
             transform: translateX(-100%);
             transition: transform 0.3s ease;
             z-index: 40;
-            overflow: hidden;
         }
+
         .overlay.show {
             transform: translateX(0);
         }
-        body.no-scroll {
-            overflow: hidden;
-        }
+
         .overlay-content {
             width: 80%;
-            max-width: 360px; /* Un poco más pequeño en móvil */
+            max-width: 360px;
             background: white;
             height: 100%;
-            padding: 1rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Sombra más prominente */
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 50;
-            overflow-y: auto;
+            padding: 2rem;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
-        .filter-button {
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            min-width: 120px;
-            background-color: #f5bad0; /* Color de fondo del botón */
-            border-color: #e2e8f0; /* Color del borde del botón */
-        }
-        .filter-button svg {
-            margin-right: 0.5rem; /* Espacio entre icono y texto */
-        }
-        .cards-container {
-            margin-top: 2rem; /* Ajusta la posición vertical de las tarjetas */
+
+        .no-scroll {
+            overflow: hidden;
         }
     </style>
 </head>
-<body class="bg-pink-50 text-gray-800 flex flex-col min-h-screen">
+<body>
 
     <Header />
-    <div class="h-20"></div>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <h1 class="page-title">ZAPATOS</h1>
 
-    <div class="container mx-auto flex flex-col md:flex-row py-10 gap-4 flex-1">
+        <!-- Botón de filtro visible solo en dispositivos móviles -->
+        <button class="filter-button flex items-center md:hidden" id="filterToggleMobile">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 12h18M3 19h18"></path>
+            </svg>
+            Filtros
+        </button>
 
-        <aside class="w-full md:w-1/5 p-4 bg-white shadow-md mt-10 filter-container hidden md:block" id="filterSidebar">
-            <h2 class="font-bold text-xl mb-4">Filtros</h2>
-            <div class="mb-6">
-                <h3 class="font-semibold">Descuento</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
-                    <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
-                    <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
-                    <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
-                    <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
-                </ul>
-            </div>
-
-            <div class="mb-6">
-                <h3 class="font-semibold">Color</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
-                    <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
-                    <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
-                </ul>
-            </div>
-
-            <div>
-                <h3 class="font-semibold">Precio</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
-                    <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
-                    <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
-                </ul>
-            </div>
-        </aside>
-
-        <div class="md:hidden">
-            <button class="filter-button flex items-center text-white border border-gray-300 rounded-lg shadow-sm transform transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-pink-500" id="filterToggle">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 12h18M3 19h18"></path>
-                </svg>
-                Filtros
-            </button>
+        <div class="flex flex-wrap">
+            <!-- Panel de filtros visible solo en dispositivos móviles -->
             <aside class="overlay" id="filterSidebarMobile">
                 <div class="overlay-content">
                     <button class="text-gray-600 hover:text-gray-800 focus:outline-none" id="closeFilterMobile">
@@ -126,7 +152,7 @@ import Card from "../components/Card.astro";
                             <li><input type="checkbox" id="mas60-mobile" /> <label for="mas60-mobile">Más de 60%</label></li>
                         </ul>
                     </div>
-
+    
                     <div class="mb-6">
                         <h3 class="font-semibold">Color</h3>
                         <ul class="space-y-2 mt-2">
@@ -135,7 +161,7 @@ import Card from "../components/Card.astro";
                             <li><input type="checkbox" id="colorBlanco-mobile" /> <label for="colorBlanco-mobile">Blanco</label></li>
                         </ul>
                     </div>
-
+    
                     <div>
                         <h3 class="font-semibold">Precio</h3>
                         <ul class="space-y-2 mt-2">
@@ -146,38 +172,72 @@ import Card from "../components/Card.astro";
                     </div>
                 </div>
             </aside>
-        </div>
 
-        <main class="flex-1 p-4">
-            <div class="cards-container grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Ejemplo de tarjeta de producto -->
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-            </div>
-        </main>
-        
+            <!-- Panel de filtros para escritorio -->
+            <aside class="w-full md:w-1/5 p-4 bg-white shadow-md mt-10 filter-container hidden md:block" id="filterSidebar">
+                <h2 class="font-bold text-xl mb-4">Filtros</h2>
+                <div class="mb-6">
+                    <h3 class="font-semibold">Descuento</h3>
+                    <ul class="space-y-2 mt-2">
+                        <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
+                        <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
+                        <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
+                        <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
+                        <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
+                    </ul>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="font-semibold">Color</h3>
+                    <ul class="space-y-2 mt-2">
+                        <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
+                        <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
+                        <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold">Precio</h3>
+                    <ul class="space-y-2 mt-2">
+                        <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
+                        <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
+                        <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <main class="w-full md:w-4/5 md:pl-8">
+                <div class="cards-container mt-10">
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                </div>
+            </main>
+        </div>
     </div>
 
     <Footer />
 
     <script type="module">
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterToggle = document.getElementById('filterToggle');
-            const filterSidebarMobile = document.getElementById('filterSidebarMobile');
-            const closeFilterMobile = document.getElementById('closeFilterMobile');
-            const body = document.body;
+        // Mostrar y ocultar el panel de filtros en dispositivos móviles
+        const filterToggleMobile = document.getElementById('filterToggleMobile');
+        const filterSidebarMobile = document.getElementById('filterSidebarMobile');
+        const closeFilterMobile = document.getElementById('closeFilterMobile');
+        const body = document.body;
 
-            filterToggle.addEventListener('click', function() {
-                filterSidebarMobile.classList.toggle('show');
-                body.classList.toggle('no-scroll');
-            });
+        filterToggleMobile.addEventListener('click', () => {
+            filterSidebarMobile.classList.add('show');
+            body.classList.add('no-scroll');
+        });
 
-            closeFilterMobile.addEventListener('click', function() {
-                filterSidebarMobile.classList.remove('show');
-                body.classList.remove('no-scroll');
-            });
+        closeFilterMobile.addEventListener('click', () => {
+            filterSidebarMobile.classList.remove('show');
+            body.classList.remove('no-scroll');
         });
     </script>
 </body>
