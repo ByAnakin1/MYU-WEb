@@ -57,14 +57,17 @@ import Card from "../components/Card.astro";
         .filter-button svg {
             margin-right: 0.5rem; /* Espacio entre icono y texto */
         }
+        .cards-container {
+            margin-top: 2rem; /* Ajusta la posición vertical de las tarjetas */
+        }
     </style>
 </head>
-<body class="bg-pink-50 text-gray-800">
+<body class="bg-pink-50 text-gray-800 flex flex-col min-h-screen">
 
     <Header />
     <div class="h-20"></div>
 
-    <div class="container mx-auto flex flex-col md:flex-row py-10 gap-4">
+    <div class="container mx-auto flex flex-col md:flex-row py-10 gap-4 flex-1">
 
         <aside class="w-full md:w-1/5 p-4 bg-white shadow-md mt-10 filter-container hidden md:block" id="filterSidebar">
             <h2 class="font-bold text-xl mb-4">Filtros</h2>
@@ -145,15 +148,16 @@ import Card from "../components/Card.astro";
             </aside>
         </div>
 
-        <div class="w-full md:w-4/5">
-            <!-- Centrar título "Zapatos" -->
-            <h2 class="text-center font-bold text-2xl mb-6">Zapatos</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <main class="flex-1 p-4">
+            <div class="cards-container grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Ejemplo de tarjeta de producto -->
                 <Card />
-                <!-- Agregar más tarjetas aquí -->
+                <Card />
+                <Card />
+                <Card />
             </div>
-        </div>
-
+        </main>
+        
     </div>
 
     <Footer />
@@ -163,15 +167,16 @@ import Card from "../components/Card.astro";
             const filterToggle = document.getElementById('filterToggle');
             const filterSidebarMobile = document.getElementById('filterSidebarMobile');
             const closeFilterMobile = document.getElementById('closeFilterMobile');
+            const body = document.body;
 
             filterToggle.addEventListener('click', function() {
-                filterSidebarMobile.classList.add('show');
-                document.body.classList.add('no-scroll');
+                filterSidebarMobile.classList.toggle('show');
+                body.classList.toggle('no-scroll');
             });
 
             closeFilterMobile.addEventListener('click', function() {
                 filterSidebarMobile.classList.remove('show');
-                document.body.classList.remove('no-scroll');
+                body.classList.remove('no-scroll');
             });
         });
     </script>
