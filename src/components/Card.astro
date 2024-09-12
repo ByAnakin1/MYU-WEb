@@ -1,30 +1,52 @@
-<style>
-  .product-card {
-    background-color: #fffcfc;
-    width: 276px;
-    height: 372px;
-    border-radius: 12px;  
-    overflow: hidden;
-  }
-
-  .product-card img {
-    width: 276px;
-    height: 228px;
-    object-fit: cover;
-  }
-</style>
-<div class="bg-[#E5E5E5] p-1 rounded-2xl shadow-md">
-<div class="product-card flex flex-col items-center ">
-  <!-- Sección de Imagen -->
-  <div class="bg-white w-full h-[228px] flex items-center justify-center">
-    <img src="/public/img/faldas.png" alt="Pantalon 5">
-    <div class="gradient-overlay"></div>
+<div class="flex flex-wrap justify-center gap-4 lg:justify-start  rounded-2xl">
+  <div class="card w-[90%] sm:w-auto sm:max-w-xs bg-white rounded-xl duration-500 hover:scale-105 hover:shadow-xl transform transition-transform ease-out shadow-lg">
+    <a href="#">
+      <img src="/public/img/faldas.png" alt="Product" class="h-48 max-w-full sm:h-64 object-cover rounded-t-xl" />
+      <div class="px-2 py-1 sm:px-3 sm:py-2">
+        <p class="text-md sm:text-lg font-bold text-black truncate block capitalize">Product Name</p>
+        <div class="flex items-center">
+          <p class="text-md sm:text-lg font-semibold text-black cursor-auto my-2 sm:my-3">$149</p>
+          <del>
+            <p class="text-sm text-gray-600 cursor-auto ml-2">$199</p>
+          </del>
+        </div>
+      </div>
+    </a>
+    <!-- Botón de compra -->
+    <div class="px-2 py-2 sm:px-3 sm:py-3">
+      <button class="w-full bg-[#f6bbd0] text-white text-md sm:text-lg font-semibold py-2 rounded-lg hover:bg-pink-600 transition duration-300 ease-in-out">
+        Comprar
+      </button>
+    </div>
   </div>
-  <!-- Sección de Texto -->
-  <div class="p-4 flex flex-col items-center">
-    <p class="mt-2 text-lg font-semibold">PANTALON #5</p>
-    <p class="text-red-500 text-xl font-bold">S/ 39.90</p>
-    <button class="mt-4 px-10 py-2 bg-[#f6bbd0] text-white rounded-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-pink-400 duration-300">COMPRAR</button>
-  </div>
-  </div>
 </div>
+
+<style>
+  /* Para pantallas grandes (PCs, más de 1024px) */
+  @media (min-width: 1024px) {
+    .card {
+      width: 100%;
+    }
+  }
+  
+  /* Para tablets grandes (768px a 1023px) */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .card {
+      width: 90%;
+    }
+  }
+  
+  /* Para tablets pequeñas (más de 640px y hasta 767px) */
+  @media (min-width: 640px) and (max-width: 767px) {
+    .card {
+      width: 30%;
+    }
+  }
+  
+  /* Para móviles (menos de 640px) */
+  @media (max-width: 639px) {
+    .card {
+      width: 90%;
+    }
+  }
+  </style>
