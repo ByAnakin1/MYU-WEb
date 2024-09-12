@@ -1,167 +1,312 @@
 ---
-import Header from "../components/header.astro";
-import Card from "../components/Card.astro";
-import Footer from "../components/footer.astro";
+import Header from '../components/header.astro';
 ---
-
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tienda - Zona Outlet</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda - Información</title>
+    <!-- Incluye Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-      body {
-        background-color: #fffcf6;
-      }
+        /* Animaciones personalizadas */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .scale-up {
+            transform: scale(0.95);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .scale-up:hover {
+            transform: scale(1);
+        }
+
+        .rotate {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .rotate:hover {
+            transform: rotate(10deg);
+        }
+
+        .slide-in {
+            transform: translateX(-100%);
+            animation: slideIn 1s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .zoom {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .zoom:hover {
+            transform: scale(1.1);
+        }
+
+        .image-shadow {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .text-shadow {
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #F6BBD0, #F6A1B0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Estilos para los bloques de TikTok */
+        .tiktok-block {
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border: 2px solid #F6BBD0;
+            overflow: hidden;
+        }
+
+        .tiktok-block iframe {
+            border-radius: 15px;
+        }
+
+        /* Estilos de chispitas en los costados */
+        .sparkles {
+            position: relative;
+        }
+
+        .sparkles::before,
+        .sparkles::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+            background-image: radial-gradient(circle, #F6BBD0 20%, transparent 20%),
+                              radial-gradient(circle, #F6A1B0 20%, transparent 20%);
+            background-size: 10px 10px;
+            background-position: 0 0, 5px 5px;
+        }
+
+        .sparkles::before {
+            left: -30px;
+        }
+
+        .sparkles::after {
+            right: -30px;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body class="bg-pink-100 font-sans">
     <Header />
-
-    <!-- Banner -->
-    <div
-      class="container mx-auto px-4 py-16 flex items-center justify-center h-96"
-      style="background-image: url('/public/img/banner_novedades.jpeg'); background-size: cover; background-position: center; margin-top: 2rem;"
-    >
-      <!-- Puedes agregar contenido aquí si es necesario -->
-    </div>
-
-    <main class="container mx-auto px-4 my-8">
-      <div class="flex">
-        <!-- Filters -->
-        <aside class="w-1/5 p-4 bg-white shadow-md">
-          <h2 class="font-bold text-xl mb-4">Filtros</h2>
-          <div class="mb-6">
-            <h3 class="font-semibold">Descuento</h3>
-            <ul class="space-y-2 mt-2">
-              <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
-              <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
-              <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
-              <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
-              <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
-            </ul>
-          </div>
-
-          <div class="mb-6">
-            <h3 class="font-semibold">Color</h3>
-            <ul class="space-y-2 mt-2">
-              <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
-              <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
-              <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
-              <!-- Add more colors as needed -->
-            </ul>
-          </div>
-
-          <div>
-            <h3 class="font-semibold">Precio</h3>
-            <ul class="space-y-2 mt-2">
-              <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
-              <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
-              <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
-            </ul>
-          </div>
-        </aside>
-
-        <!-- Products -->
-        <section class="w-4/5">
-          <!-- Section for "Mujer, Hombre, Niños" -->
-          <div class="grid grid-cols-3 gap-4 mb-6">
-            <div class="bg-gray-200 h-40 flex items-center justify-center">Mujer (Fill here)</div>
-            <div class="bg-gray-200 h-40 flex items-center justify-center">Hombre (Fill here)</div>
-            <div class="bg-gray-200 h-40 flex items-center justify-center">Niños (Fill here)</div>
-          </div>
-
-          <!-- Sort By -->
-          <div class="mb-4 flex justify-between items-center">
-            <p>362 productos</p>
-            <select class="border p-2">
-              <option value="">Ordenar por</option>
-              <option value="menor-precio">Menor Precio</option>
-              <option value="mayor-precio">Mayor Precio</option>
-              <option value="mas-vendidos">Más vendidos</option>
-              <option value="mejor-valorados">Mejor valorados</option>
-              <option value="a-z">A - Z</option>
-              <option value="z-a">Z - A</option>
-              <option value="lo-nuevo">Lo nuevo</option>
-              <option value="mejor-descuento">Mejor descuento</option>
-            </select>
-          </div>
-
-          <!-- Products Listing -->
-          <section class="w-full">
-            <div class="grid grid-cols-4 gap-4">
-              <!-- Product -->
-              <div>
-                <Card />
-              </div>
-              <div>
-                <Card />
-              </div>
-              <div>
-                <Card />
-              </div>
-              <div>
-                <Card />
-              </div>
-              <div>
-                <Card />
-              </div>
-              <div>
-                <Card />
-              </div>
-              <div>
-                <Card />
-              </div>
-              <div>
-                <Card />
-              </div>
-              <!-- Add more product cards here -->
+    <div class="max-w-7xl mx-auto px-4 sparkles">
+    <d class="max-w-7xl mx-auto px-4">
+        <br>
+        <br>
+        <br>
+        <br>
+        <section class="p-10 flex flex-col md:flex-row justify-center bg-white rounded-lg shadow-lg mx-4 my-8 fade-in" style="max-width: 1200px; margin: 0 auto;">
+            <!-- Cuadro centrado -->
+            <div class="w-full md:w-7/12 bg-pink-100 border-2 border-pink-300 rounded-lg p-6 mx-auto text-center">
+                <h2 class="text-4xl font-bold text-pink-600 mb-6 text-shadow highlight">QUIÉNES SOMOS</h2>
+                <p class="text-xl text-gray-700 mb-4">MYU es una marca peruana inspirada en la moda asiática. En nuestra tienda podrás encontrar el complemento perfecto para tu outfit, tenemos productos de tendencia coreana, japonesa y asiática en general.</p>
+                <p class="text-xl text-gray-700">Nuestra marca apoya el consumo local, por lo que nuestras prendas son en su gran mayoría de producción nacional, también contamos con productos y modelos importados. MYU busca ser una tienda de moda sostenible con proyección social.</p>
             </div>
-          </section>
+            
+            <!-- Imagen -->
+            <div class="w-full md:w-5/12 flex justify-center zoom mt-6 md:mt-0 md:ml-6">
+                <img src="/public/img/tienda.jpeg" alt="Vestimenta de la tienda" class="w-full md:w-11/12 rounded-lg image-shadow">
+            </div>
         </section>
-      </div>
+    
+        <!-- Sección de Preguntas -->
+        <br>
+        <section class="text-center my-8 fade-in">
+            <h2 class="text-2xl font-bold text-pink-600 mb-6 bounce">PREGUNTAS FRECUENTES</h2>
+            <div class="flex justify-center gap-4 p-4 mx-auto" style="max-width: 1500px;">
+                <!-- Columna Izquierda -->
+                <div class="max-w-lg bg-pink-100 rounded-lg p-4">
+                    <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
+                        <h3 class="text-lg font-semibold flex justify-between items-center">
+                            ¿Cuentan con tienda física?
+                            <span class="transition-transform transform arrow">&#9654;</span>
+                        </h3>
+                        <p class="mt-2 hidden text-gray-700">¡Hola! Nos encontramos en Lima, Perú, en el Centro Comercial Arenales. Puedes encontrar la dirección exacta y consultar el mapa más abajo para facilitarte la llegada. ¡Te esperamos con mucho entusiasmo!</p>
+                    </div>
+                    <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
+                        <h3 class="text-lg font-semibold flex justify-between items-center">
+                            ¿Qué empresa utilizan para los envíos?
+                            <span class="transition-transform transform arrow">&#9654;</span>
+                        </h3>
+                        <p class="mt-2 hidden text-gray-700">Utilizamos empresas de mensajería confiables como DHL, FedEx y Serpost para garantizar que tu pedido llegue a tiempo y en perfectas condiciones.</p>
+                    </div>
+                    <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
+                        <h3 class="text-lg font-semibold flex justify-between items-center">
+                            ¿Es posible pagar contra entrega?
+                            <span class="transition-transform transform arrow">&#9654;</span>
+                        </h3>
+                        <p class="mt-2 hidden text-gray-700">Actualmente no ofrecemos pago contra entrega. Sin embargo, contamos con varias opciones de pago en línea seguras.</p>
+                    </div>
+                </div>
+        
+                <!-- Columna Centro -->
+                <div class="max-w-lg bg-pink-100 rounded-lg p-4">
+                    <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
+                        <h3 class="text-lg font-semibold flex justify-between items-center">
+                            ¿Ofrecen devoluciones?
+                            <span class="transition-transform transform arrow">&#9654;</span>
+                        </h3>
+                        <p class="mt-2 hidden text-gray-700">Sí, ofrecemos devoluciones dentro de los 30 días posteriores a la compra. El producto debe estar en su estado original.</p>
+                    </div>
+                    <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
+                        <h3 class="text-lg font-semibold flex justify-between items-center">
+                            ¿Tienen productos en promoción?
+                            <span class="transition-transform transform arrow">&#9654;</span>
+                        </h3>
+                        <p class="mt-2 hidden text-gray-700">¡Claro! Regularmente ofrecemos descuentos y promociones en nuestra tienda online. ¡Mantente atento a nuestras redes sociales!</p>
+                    </div>
+                    <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
+                        <h3 class="text-lg font-semibold flex justify-between items-center">
+                            ¿Ofrecen envíos internacionales?
+                            <span class="transition-transform transform arrow">&#9654;</span>
+                        </h3>
+                        <p class="mt-2 hidden text-gray-700">Sí, realizamos envíos internacionales a la mayoría de los países. Los tiempos de entrega pueden variar según la ubicación.</p>
+                    </div>
+                </div>
+        
+                <!-- Columna Derecha -->
+                <div class="max-w-lg bg-pink-100 rounded-lg p-4">
+                    <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
+                        <h3 class="text-lg font-semibold flex justify-between items-center">
+                            ¿Cuál es el tiempo estimado de entrega?
+                            <span class="transition-transform transform arrow">&#9654;</span>
+                        </h3>
+                        <p class="mt-2 hidden text-gray-700">El tiempo de entrega varía según la ubicación, pero suele ser entre 3 a 7 días hábiles en el ámbito nacional.</p>
+                    </div>
+                    <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
+                        <h3 class="text-lg font-semibold flex justify-between items-center">
+                            ¿Tienen servicio de atención al cliente?
+                            <span class="transition-transform transform arrow">&#9654;</span>
+                        </h3>
+                        <p class="mt-2 hidden text-gray-700">Sí, nuestro equipo de atención al cliente está disponible de lunes a viernes, de 9 am a 6 pm. Puedes contactarnos a través de correo electrónico o teléfono.</p>
+                    </div>
+                    <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
+                        <h3 class="text-lg font-semibold flex justify-between items-center">
+                            ¿Dónde puedo encontrar más información sobre los productos?
+                            <span class="transition-transform transform arrow">&#9654;</span>
+                        </h3>
+                        <p class="mt-2 hidden text-gray-700">Toda la información sobre nuestros productos está disponible en nuestra página web. También puedes seguirnos en redes sociales para más actualizaciones.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const content = item.querySelector('p');
+                        const arrow = item.querySelector<HTMLElement>('.arrow'); // Asegurarse de que querySelector devuelva un HTMLElement
+        
+                        // Verificar si el contenido (p) existe
+                        if (content && arrow) {
+                            if (content.classList.contains('hidden')) {
+                                content.classList.remove('hidden');
+                                arrow.style.transform = 'rotate(90deg)'; // Rotar flecha
+                            } else {
+                                content.classList.add('hidden');
+                                arrow.style.transform = 'rotate(0deg)'; // Flecha vuelve a posición original
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+        
 
-      <!-- Navigation Arrows -->
-      <div class="pagination mt-8 flex justify-center gap-4">
-        <button
-          class="pagination-arrow bg-pink-500 text-white hover:bg-pink-600 rounded-full flex items-center justify-center w-12 h-12"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="feather feather-arrow-left w-6 h-6"
-          >
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
-        </button>
-        <button
-          class="pagination-arrow bg-pink-500 text-white hover:bg-pink-600 rounded-full flex items-center justify-center w-12 h-12"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="feather feather-arrow-right w-6 h-6"
-          >
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </button>
-      </div>
-    </main>
-
-    <Footer />
-  </body>
+        <section class="text-center my-8 fade-in">
+            <h2 class="text-2xl font-bold text-pink-600 mb-6 bounce">Nuestro TikTok</h2>
+            <div class="flex flex-wrap justify-center items-center gap-4">
+                <!-- Primer TikTok -->
+                <blockquote class="tiktok-embed tiktok-block scale-up" cite="https://www.tiktok.com/@myu.fashionshop/video/7168904062405053701" data-video-id="7168904062405053701" style="max-width: 300px; min-width: 200px; width: 32%; height: auto; display: block;">
+                    <section> 
+                        <a target="_blank" title="@myu.fashionshop" href="https://www.tiktok.com/@myu.fashionshop/video/7168904062405053701" style="color: #F6BBD0;">@myu.fashionshop</a>
+                    </section>
+                </blockquote>
+                <!-- Segundo TikTok -->
+                <blockquote class="tiktok-embed tiktok-block scale-up" cite="https://www.tiktok.com/@myu.fashionshop/video/7400469883097681158" data-video-id="7400469883097681158" style="max-width: 300px; min-width: 200px; width: 32%; height: auto; display: block;">
+                    <section> 
+                        <a target="_blank" title="@myu.fashionshop" href="https://www.tiktok.com/@myu.fashionshop/video/7400469883097681158" style="color: #F6BBD0;">@myu.fashionshop</a>
+                    </section>
+                </blockquote>
+                <!-- Tercer TikTok -->
+                <blockquote class="tiktok-embed tiktok-block scale-up" cite="https://www.tiktok.com/@myu.fashionshop/video/7088081288657259782" data-video-id="7088081288657259782" style="max-width: 300px; min-width: 200px; width: 32%; height: auto; display: block;">
+                    <section> 
+                        <a target="_blank" title="@myu.fashionshop" href="https://www.tiktok.com/@myu.fashionshop/video/7088081288657259782" style="color: #F6BBD0;">@myu.fashionshop</a>
+                    </section>
+                </blockquote>
+            </div>
+            <script async src="https://www.tiktok.com/embed.js"></script>
+        </section>
+        
+        
+        <!-- Nueva Sección: Redes Sociales -->
+        <section class="bg-white rounded-lg shadow-lg p-10 mx-4 my-8 fade-in">
+            <h2 class="text-2xl font-bold text-pink-600 mb-6 text-center bounce">¡Síguenos en Redes Sociales!</h2>
+            <div class="flex justify-around items-center">
+                <!-- Facebook -->
+                <div class="w-1/4 text-center scale-up">
+                    <a href="https://www.facebook.com/Myufashionshop" target="_blank">
+                        <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
+                        <p class="text-gray-700 mt-4">Facebook</p>
+                    </a>
+                </div>
+                <!-- Instagram -->
+                <div class="w-1/4 text-center scale-up">
+                    <a href="https://www.instagram.com/myu.fashionshop/" target="_blank">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
+                        <p class="text-gray-700 mt-4">Instagram</p>
+                    </a>
+                </div>
+                <!-- TikTok -->
+                <div class="w-1/4 text-center scale-up">
+                    <a href="https://www.tiktok.com/@myu.fashionshop" target="_blank">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3046/3046127.png" alt="TikTok" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
+                        <p class="text-gray-700 mt-4">TikTok</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
 </html>

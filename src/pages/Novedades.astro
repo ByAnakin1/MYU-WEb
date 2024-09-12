@@ -3,116 +3,186 @@ import Header from "../components/header.astro";
 import Card from "../components/Card.astro";
 import Footer from "../components/footer.astro";
 ---
-
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tienda - Zona Outlet</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            background-color: #fffcf6;
+      body {
+        background-color: #fffcf6;
+      }
+      @media (max-width: 640px) {
+        /* Ajustes para pantallas pequeñas (celulares) */
+        .banner {
+          height: 200px; /* Ajustar altura del banner */
+          background-size: cover;
+          background-position: center;
         }
+      }
+      .no-scroll {
+        overflow: hidden;
+      }
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 50;
+        display: none;
+      }
+      .overlay.show {
+        display: block;
+      }
+      .overlay-content {
+        background-color: white;
+        padding: 1rem;
+        position: relative;
+        width: 80%;
+        max-width: 300px;
+        margin: 100px auto;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
     </style>
-</head>
-<body>
-    <!-- Encabezado -->
-    <header class="w-full h-96 bg-red-500 text-white p-8 mb-6 flex items-center justify-center" 
-            style="background-image: url('/public/img/banner_novedades.jpeg'); background-size: cover; background-position: center;">
-    </header>
+  </head>
+  <body>
+    <Header />
+    <br>
+    <br>
+    <br>
+    <div
+      class="container mx-auto px-4 py-16 flex items-center justify-center banner h-96 sm:h-64"
+      style="background-image: url('/public/img/banner_novedades.jpeg'); background-size: cover; background-position: center; margin-top: 2rem;"
+    >
+    </div>
 
     <main class="container mx-auto px-4 my-8">
-        <div class="flex">
-            <!-- Filtros -->
-            <aside class="w-1/5 p-4 bg-white shadow-md">
-                <h2 class="font-bold text-xl mb-4">Filtros</h2>
-                <!-- Descuentos -->
-                <div class="mb-6">
-                    <h3 class="font-semibold">Descuento</h3>
-                    <ul class="space-y-2 mt-2">
-                        <li><input type="checkbox" id="descuento30"> <label for="descuento30">Hasta 30%</label></li>
-                        <li><input type="checkbox" id="descuento40"> <label for="descuento40">30% - 40%</label></li>
-                        <li><input type="checkbox" id="descuento50"> <label for="descuento50">40% - 50%</label></li>
-                        <li><input type="checkbox" id="descuento60"> <label for="descuento60">50% - 60%</label></li>
-                        <li><input type="checkbox" id="mas60"> <label for="mas60">Más de 60%</label></li>
-                    </ul>
-                </div>
-                <!-- Colores -->
-                <div class="mb-6">
-                    <h3 class="font-semibold">Color</h3>
-                    <ul class="space-y-2 mt-2">
-                        <li><input type="checkbox" id="colorAmarillo"> <label for="colorAmarillo">Amarillo</label></li>
-                        <li><input type="checkbox" id="colorAzul"> <label for="colorAzul">Azul</label></li>
-                        <li><input type="checkbox" id="colorBlanco"> <label for="colorBlanco">Blanco</label></li>
-                    </ul>
-                </div>
-                <!-- Precio -->
-                <div>
-                    <h3 class="font-semibold">Precio</h3>
-                    <ul class="space-y-2 mt-2">
-                        <li><input type="checkbox" id="precio20"> <label for="precio20">Hasta S/ 20.00</label></li>
-                        <li><input type="checkbox" id="precio40"> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
-                        <li><input type="checkbox" id="precio60"> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
-                    </ul>
-                </div>
-            </aside>
+      <div class="flex flex-col lg:flex-row">
+        <aside class="w-full lg:w-1/5 p-4 bg-white shadow-md mb-8 lg:mb-0 hidden md:block" id="filterSidebar">
+          <h2 class="font-bold text-xl mb-4">Filtros</h2>
+          <div class="mb-6">
+            <h3 class="font-semibold">Descuento</h3>
+            <ul class="space-y-2 mt-2">
+              <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
+              <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
+              <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
+              <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
+              <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
+            </ul>
+          </div>
+          <div class="mb-6">
+            <h3 class="font-semibold">Color</h3>
+            <ul class="space-y-2 mt-2">
+              <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
+              <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
+              <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold">Precio</h3>
+            <ul class="space-y-2 mt-2">
+              <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
+              <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
+              <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
+            </ul>
+          </div>
+        </aside>
 
-            <!-- Sección de Productos -->
-            <section class="w-4/5">
-                <div class="grid grid-cols-3 gap-4 mb-6">
-                    <div class="bg-gray-200 h-40 flex items-center justify-center">Mujer</div>
-                    <div class="bg-gray-200 h-40 flex items-center justify-center">Hombre</div>
-                    <div class="bg-gray-200 h-40 flex items-center justify-center">Niños</div>
-                </div>
-                
-                <!-- Ordenar por -->
-                <div class="mb-4 flex justify-between items-center">
-                    <p>362 productos</p>
-                    <select class="border p-2">
-                        <option value="">Ordenar por</option>
-                        <option value="menor-precio">Menor Precio</option>
-                        <option value="mayor-precio">Mayor Precio</option>
-                        <option value="mas-vendidos">Más vendidos</option>
-                        <option value="mejor-valorados">Mejor valorados</option>
-                        <option value="a-z">A - Z</option>
-                        <option value="z-a">Z - A</option>
-                        <option value="lo-nuevo">Lo nuevo</option>
-                        <option value="mejor-descuento">Mejor descuento</option>
-                    </select>
-                </div>
-
-                <!-- Listado de Productos -->
-                <div class="grid grid-cols-4 gap-4">
-                    <div class="bg-white p-4 shadow-md">Producto 1</div>
-                    <div class="bg-white p-4 shadow-md">Producto 2</div>
-                    <div class="bg-white p-4 shadow-md">Producto 3</div>
-                    <div class="bg-white p-4 shadow-md">Producto 4</div>
-                    <!-- Repetir más productos según sea necesario -->
-                </div>
-            </section>
+        <!-- Filtros para mobile -->
+        <div class="md:hidden">
+          <button class="filter-button flex items-center text-white border border-gray-300 rounded-lg shadow-sm transform transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-pink-500" id="filterToggle">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 12h18M3 19h18"></path>
+            </svg>
+            Filtros
+          </button>
+          <aside class="overlay" id="filterSidebarMobile">
+            <div class="overlay-content">
+              <button class="text-gray-600 hover:text-gray-800 focus:outline-none" id="closeFilterMobile">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+              <h2 class="font-bold text-xl mb-4">Filtros</h2>
+              <div class="mb-6">
+                <h3 class="font-semibold">Descuento</h3>
+                <ul class="space-y-2 mt-2">
+                  <li><input type="checkbox" id="descuento30-mobile" /> <label for="descuento30-mobile">Hasta 30%</label></li>
+                  <li><input type="checkbox" id="descuento40-mobile" /> <label for="descuento40-mobile">30% - 40%</label></li>
+                  <li><input type="checkbox" id="descuento50-mobile" /> <label for="descuento50-mobile">40% - 50%</label></li>
+                  <li><input type="checkbox" id="descuento60-mobile" /> <label for="descuento60-mobile">50% - 60%</label></li>
+                  <li><input type="checkbox" id="mas60-mobile" /> <label for="mas60-mobile">Más de 60%</label></li>
+                </ul>
+              </div>
+              <div class="mb-6">
+                <h3 class="font-semibold">Color</h3>
+                <ul class="space-y-2 mt-2">
+                  <li><input type="checkbox" id="colorAmarillo-mobile" /> <label for="colorAmarillo-mobile">Amarillo</label></li>
+                  <li><input type="checkbox" id="colorAzul-mobile" /> <label for="colorAzul-mobile">Azul</label></li>
+                  <li><input type="checkbox" id="colorBlanco-mobile" /> <label for="colorBlanco-mobile">Blanco</label></li>
+                </ul>
+              </div>
+              <div>
+                <h3 class="font-semibold">Precio</h3>
+                <ul class="space-y-2 mt-2">
+                  <li><input type="checkbox" id="precio20-mobile" /> <label for="precio20-mobile">Hasta S/ 20.00</label></li>
+                  <li><input type="checkbox" id="precio40-mobile" /> <label for="precio40-mobile">S/ 20.00 - S/ 40.00</label></li>
+                  <li><input type="checkbox" id="precio60-mobile" /> <label for="precio60-mobile">S/ 40.00 - S/ 60.00</label></li>
+                </ul>
+              </div>
+            </div>
+          </aside>
         </div>
 
-        <!-- Paginación -->
-        <div class="pagination mt-8 flex justify-center gap-4">
-            <button class="pagination-arrow bg-pink-500 text-white hover:bg-pink-600 rounded-full flex items-center justify-center w-12 h-12">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left w-6 h-6">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-            </button>
-            <button class="pagination-arrow bg-pink-500 text-white hover:bg-pink-600 rounded-full flex items-center justify-center w-12 h-12">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right w-6 h-6">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-            </button>
-        </div>
+        <!-- Productos -->
+        <section class="w-full lg:w-4/5 lg:ml-8">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-gray-200 h-40 flex items-center justify-center">Mujer (Fill here)</div>
+            <div class="bg-gray-200 h-40 flex items-center justify-center">Hombre (Fill here)</div>
+            <div class="bg-gray-200 h-40 flex items-center justify-center">Accesorios (Fill here)</div>
+          </div>
+          <div class="bg-white p-4 shadow-md">
+            <h2 class="font-bold text-2xl mb-4">Resultados</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-1">
+              <div>
+                <Card/>
+              </div>
+              <div>
+                <Card/>
+              </div>
+              <div>
+                <Card/>
+              </div>
+              <div>
+                <Card/>
+              </div>
+
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
 
-    <!-- Pie de página -->
-    <footer class="bg-black text-white p-4 text-center">© 2024 Mi tienda</footer>
-</body>
-</html>
+    <footer class="bg-gray-900 text-white p-6 mt-16">
+      <div class="container mx-auto text-center">
+        <p>&copy; 2023 Zona Outlet</p>
+      </div>
+    </footer>
 
+    <script type="module">
+      document.getElementById('filterToggle').addEventListener('click', function () {
+        document.getElementById('filterSidebarMobile').classList.add('show');
+        document.body.classList.add('no-scroll');
+      });
+
+      document.getElementById('closeFilterMobile').addEventListener('click', function () {
+        document.getElementById('filterSidebarMobile').classList.remove('show');
+        document.body.classList.remove('no-scroll');
+      });
+    </script>
+  </body>
+</html>
