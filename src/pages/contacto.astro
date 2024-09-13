@@ -52,7 +52,6 @@ import Footer from '../components/footer.astro';
         .rotate:hover {
             transform: rotate(360deg);
         }
-        
 
         .slide-in {
             transform: translateX(-100%);
@@ -112,7 +111,7 @@ import Footer from '../components/footer.astro';
             bottom: 0;
             width: 20px;
             background-image: radial-gradient(circle, #F6BBD0 20%, transparent 20%),
-                              radial-gradient(circle, #F6A1B0 20%, transparent 20%);
+                            radial-gradient(circle, #F6A1B0 20%, transparent 20%);
             background-size: 10px 10px;
             background-position: 0 0, 5px 5px;
         }
@@ -126,76 +125,78 @@ import Footer from '../components/footer.astro';
         }
     </style>
 </head>
-<body class="bg-pink-100 font-sans">
+<body class="bg-pink-100 font-sans overflow-x-hidden">
     <Header />
     <div class="max-w-7xl mx-auto px-4 sparkles">
         <br><br><br><br>
-        <section class="p-10 flex flex-col md:flex-row justify-center bg-white rounded-lg shadow-lg mx-4 my-8 fade-in" style="max-width: 1200px; margin: 0 auto;">
+
+        <!-- Sección de Quiénes Somos -->
+        <section class="p-10 flex flex-col md:flex-row justify-center bg-white rounded-lg shadow-lg mx-auto my-8 fade-in" style="max-width: 1200px;">
             <!-- Cuadro centrado -->
             <div class="w-full md:w-7/12 bg-pink-100 border-2 border-pink-300 rounded-lg p-6 mx-auto text-center">
                 <h2 class="text-4xl font-bold text-pink-600 mb-6 text-shadow highlight">QUIÉNES SOMOS</h2>
                 <p class="text-xl text-gray-700 mb-4">MYU es una marca peruana inspirada en la moda asiática. En nuestra tienda podrás encontrar el complemento perfecto para tu outfit, tenemos productos de tendencia coreana, japonesa y asiática en general.</p>
                 <p class="text-xl text-gray-700">Nuestra marca apoya el consumo local, por lo que nuestras prendas son en su gran mayoría de producción nacional, también contamos con productos y modelos importados. MYU busca ser una tienda de moda sostenible con proyección social.</p>
             </div>
-            
+
             <!-- Imagen -->
             <div class="w-full md:w-5/12 flex justify-center zoom mt-6 md:mt-0 md:ml-6">
                 <img src="/public/img/tienda.jpeg" alt="Vestimenta de la tienda" class="w-full md:w-11/12 rounded-lg image-shadow">
             </div>
         </section>
-    
-        <!-- Sección de Preguntas -->
+
+        <!-- Sección de Preguntas Frecuentes -->
         <br>
         <section class="text-center my-8 fade-in">
             <h2 class="text-2xl font-bold text-pink-600 mb-6 bounce">PREGUNTAS FRECUENTES</h2>
             <div class="flex flex-col md:flex-row justify-center gap-4 p-4 mx-auto" style="max-width: 1500px;">
                 <!-- Columna Izquierda -->
-                <div class="max-w-lg bg-pink-100 rounded-lg p-4">
+                <div class="max-w-full bg-pink-100 rounded-lg p-4 overflow-hidden">
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
                             ¿Cuentan con tienda física?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">¡Hola! Nos encontramos en Lima, Perú, en el Centro Comercial Arenales. Puedes encontrar la dirección exacta y consultar el mapa más abajo para facilitarte la llegada. ¡Te esperamos con mucho entusiasmo!</p>
+                        <p class="mt-2 hidden text-gray-700">¡Hola! Nos encontramos en Lima, Perú, en el Centro Comercial Arenales...</p>
                     </div>
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
                             ¿Qué empresa utilizan para los envíos?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">Utilizamos empresas de mensajería confiables como DHL, FedEx y Serpost para garantizar que tu pedido llegue a tiempo y en perfectas condiciones.</p>
+                        <p class="mt-2 hidden text-gray-700">Utilizamos empresas de mensajería confiables como DHL, FedEx y Serpost...</p>
                     </div>
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
                             ¿Es posible pagar contra entrega?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">Actualmente no ofrecemos pago contra entrega. Sin embargo, contamos con varias opciones de pago en línea seguras.</p>
+                        <p class="mt-2 hidden text-gray-700">Actualmente no ofrecemos pago contra entrega...</p>
                     </div>
                 </div>
-        
+
                 <!-- Columna Centro -->
-                <div class="max-w-lg bg-pink-100 rounded-lg p-4">
+                <div class="max-w-full bg-pink-100 rounded-lg p-4 overflow-hidden">
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
                             ¿Ofrecen devoluciones?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">Sí, ofrecemos devoluciones dentro de los 30 días posteriores a la compra. El producto debe estar en su estado original.</p>
+                        <p class="mt-2 hidden text-gray-700">Sí, ofrecemos devoluciones dentro de los 30 días posteriores a la compra...</p>
                     </div>
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
                             ¿Tienen productos en promoción?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">¡Claro! Regularmente ofrecemos descuentos y promociones en nuestra tienda online. ¡Mantente atento a nuestras redes sociales!</p>
+                        <p class="mt-2 hidden text-gray-700">¡Claro! Regularmente ofrecemos descuentos y promociones...</p>
                     </div>
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
                             ¿Puedo hacer pedidos personalizados?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">No, actualmente no ofrecemos pedidos personalizados. Sin embargo, tenemos una amplia gama de productos que puedes elegir.</p>
+                        <p class="mt-2 hidden text-gray-700">No, actualmente no ofrecemos pedidos personalizados...</p>
                     </div>
                 </div>
 
@@ -220,29 +221,29 @@ import Footer from '../components/footer.astro';
                         });
                     });
                 </script>
-        
+
                 <!-- Columna Derecha -->
-                <div class="max-w-lg bg-pink-100 rounded-lg p-4">
+                <div class="max-w-full bg-pink-100 rounded-lg p-4 overflow-hidden">
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
                             ¿Qué debo hacer si tengo un problema con mi pedido?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">Si tienes algún problema con tu pedido, contáctanos a través de nuestro formulario de contacto y te asistiremos lo más pronto posible.</p>
+                        <p class="mt-2 hidden text-gray-700">Si tienes algún problema con tu pedido, contáctanos a través de nuestras redes sociales...</p>
                     </div>
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
-                            ¿Realizan envíos internacionales?
+                            ¿Cuál es el tiempo de entrega estimado?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">Sí, realizamos envíos internacionales. Los costos y tiempos de entrega pueden variar según el país de destino.</p>
+                        <p class="mt-2 hidden text-gray-700">El tiempo de entrega depende de tu ubicación. A nivel nacional, de 2 a 5 días hábiles...</p>
                     </div>
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
-                            ¿Cómo puedo contactar con el servicio al cliente?
+                            ¿Ofrecen envíos internacionales?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">Puedes contactarnos a través de nuestro correo electrónico o llamarnos a nuestro número de teléfono que encontrarás en la sección de contacto.</p>
+                        <p class="mt-2 hidden text-gray-700">¡Sí! Hacemos envíos a varios países. El costo de envío varía según la ubicación...</p>
                     </div>
                 </div>
             </div>
@@ -251,7 +252,7 @@ import Footer from '../components/footer.astro';
         <!-- Sección TikTok -->
         <section class="text-center my-8 fade-in">
             <h2 class="text-2xl font-bold text-pink-600 mb-6 bounce">Nuestro TikTok</h2>
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-full">
                 <!-- Primer TikTok -->
                 <blockquote class="tiktok-embed tiktok-block scale-up" cite="https://www.tiktok.com/@myu.fashionshop/video/7168904062405053701" data-video-id="7168904062405053701" style="width: 100%; max-width: 300px; height: auto; display: block;">
                     <section> 
@@ -273,35 +274,41 @@ import Footer from '../components/footer.astro';
             </div>
             <script async src="https://www.tiktok.com/embed.js"></script>
         </section>
-        
-        <!-- Nueva Sección: Redes Sociales -->
-        <section class="bg-white rounded-lg shadow-lg p-10 mx-4 my-8 fade-in">
-            <h2 class="text-2xl font-bold text-pink-600 mb-6 text-center bounce">¡Síguenos en Redes Sociales!</h2>
-            <div class="flex flex-wrap justify-around items-center">
-                <!-- Facebook -->
-                <div class="w-full sm:w-1/4 text-center scale-up mb-4 sm:mb-0">
-                    <a href="https://www.facebook.com/Myufashionshop" target="_blank">
-                        <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
-                        <p class="text-gray-700 mt-4">Facebook</p>
-                    </a>
-                </div>
-                <!-- Instagram -->
-                <div class="w-full sm:w-1/4 text-center scale-up mb-4 sm:mb-0">
-                    <a href="https://www.instagram.com/myu.fashionshop/" target="_blank">
-                        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
-                        <p class="text-gray-700 mt-4">Instagram</p>
-                    </a>
-                </div>
-                <!-- TikTok -->
-                <div class="w-full sm:w-1/4 text-center scale-up">
-                    <a href="https://www.tiktok.com/@myu.fashionshop" target="_blank">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3046/3046127.png" alt="TikTok" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
-                        <p class="text-gray-700 mt-4">TikTok</p>
-                    </a>
-                </div>
-            </div>
-        </section>
+
+        <!-- Sección Redes Sociales -->
+<section class="bg-white rounded-lg shadow-lg p-6 md:p-10 mx-auto my-8 fade-in max-w-full">
+    <h2 class="text-2xl font-bold text-pink-600 mb-6 text-center bounce">¡Síguenos en Redes Sociales!</h2>
+    <!-- Contenedor de los íconos -->
+    <div class="flex flex-col sm:flex-row sm:justify-around">
+        <!-- Facebook -->
+        <div class="w-full sm:w-1/4 text-center scale-up mb-4 sm:mb-0">
+            <a href="https://www.facebook.com/Myufashionshop" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
+                <p class="text-gray-700 mt-4">Facebook</p>
+            </a>
+        </div>
+        <!-- Instagram -->
+        <div class="w-full sm:w-1/4 text-center scale-up mb-4 sm:mb-0">
+            <a href="https://www.instagram.com/myu.fashionshop/" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
+                <p class="text-gray-700 mt-4">Instagram</p>
+            </a>
+        </div>
+        <!-- TikTok -->
+        <div class="w-full sm:w-1/4 text-center scale-up">
+            <a href="https://www.tiktok.com/@myu.fashionshop" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/3046/3046127.png" alt="TikTok" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
+                <p class="text-gray-700 mt-4">TikTok</p>
+            </a>
+        </div>
     </div>
+</section>
+
+    </div>
+</body>
+</html>
+
+
     <Footer />
 </body>
 </html>

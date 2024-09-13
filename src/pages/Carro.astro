@@ -1,68 +1,90 @@
+---
+import Header from "../components/header.astro";
+import Footer from "../components/footer.astro";
+---
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito de Compras</title>
+    <!-- Importar la fuente desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Importar Font Awesome para los íconos -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Fira Sans', sans-serif;
+        }
+    </style>
 </head>
-<body class="bg-pink-200 flex items-center justify-center min-h-screen">
-    <div class="container mx-auto max-w-6xl p-4">
-        <!-- Header -->
-        <div class="flex justify-between items-center mb-6">
-            <a href="#" class="text-gray-600 hover:text-gray-800">&lt; Continuar comprando</a>
-            <h2 class="text-2xl font-semibold">Mi carrito S/. 258.00 PEN</h2>
-        </div>
-        
-        <!-- Contenedor principal -->
-        <div class="flex flex-col lg:flex-row lg:space-x-4">
-            <!-- Productos a la izquierda -->
-            <div class="lg:w-5/6 ">
-                <div class="bg-white p-4 shadow rounded-lg mb-4">
-                    <div class="flex items-center">
-                        <img src="imagen.png" alt="Blusa Ember Off White" class="w-24 h-24 rounded-md">
-                        <div class="ml-4 flex-1">
-                            <h3 class="text-lg font-semibold">Blusa Ember Off White</h3>
-                            <p class="text-gray-500">Small</p>
+<body class="bg-pink-200 flex flex-col min-h-screen">
+    <!-- Header -->
+    <Header />
+    <br><br><br><br><br>
+    <main class="flex-grow container mx-auto bg-white p-4 lg:p-8 shadow-lg rounded-lg flex flex-col lg:flex-row lg:space-x-12">
+        <!-- Productos a la izquierda -->
+        <div class="lg:w-2/3 w-full">
+            <div class="bg-white p-4 lg:p-8 shadow-lg rounded-lg mb-4 lg:mb-8 relative">
+                <div class="flex flex-col lg:flex-row items-center">
+                    <img src="public/img/4.jpg" alt="Blusa Ember Off White" class="w-24 h-24 lg:w-32 lg:h-32 rounded-md mb-4 lg:mb-0">
+                    <div class="text-left lg:ml-12">
+                        <h3 class="text-md lg:text-lg font-semibold">Blusa Ember Off White</h3>
+                        <p class="text-gray-500">Small</p>
+                    </div>
+                    <div class="flex flex-col lg:flex-row items-center lg:space-x-8 lg:ml-auto mt-4 lg:mt-0">
+                        <span class="text-gray-600">S/. 129.00</span>
+                        <div class="flex items-center border border-gray-300 rounded mt-2 lg:mt-0">
+                            <button class="px-2 py-1 lg:px-3 lg:py-2">-</button>
+                            <input type="text" value="2" class="w-10 lg:w-12 text-center border-none focus:ring-0">
+                            <button class="px-2 py-1 lg:px-3 lg:py-2">+</button>
                         </div>
-                        <div class="flex items-center space-x-4">
-                            <span class="text-gray-600">S/. 129.00</span>
-                            <div class="flex items-center border border-gray-300 rounded">
-                                <button class="px-2 py-1">-</button>
-                                <input type="text" value="2" class="w-10 text-center border-none focus:ring-0">
-                                <button class="px-2 py-1">+</button>
-                            </div>
-                            <span class="text-gray-600">S/. 258.00</span>
-                        </div>
+                        <span class="text-gray-600 mt-2 lg:mt-0">S/. 258.00</span>
                     </div>
                 </div>
+                <!-- Botón de eliminar en la esquina inferior derecha -->
+                <button class="absolute top-4 right-4 bg-transparent border-none p-1 rounded-full hover:bg-gray-100">
+                    <img src="img/Tacho-basura.png" alt="Eliminar" class="w-8 h-8">
+                </button>
             </div>
+        </div>
 
-            <!-- Resumen a la derecha -->
-            <div class="lg:w-1/2"> <!-- Aumentado el ancho a la mitad de la pantalla en pantallas grandes -->
-                <div class="bg-white p-6 shadow rounded-lg">
-                    <div class="flex justify-between items-center">
-                        <p class="text-gray-600">2 artículos en tu carrito de compras</p>
-                        <div class="text-right"> <!-- Alineado a la derecha para más espacio -->
-                            <span class="text-gray-600">Subtotal</span>
-                            <span class="ml-1 font-semibold text-lg">S/. 258.00 PEN</span> <!-- Texto ligeramente más grande -->
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <textarea placeholder="Deja las instrucciones especiales a continuación:" class="w-full border border-gray-300 rounded p-3"></textarea> <!-- Padding aumentado para más espacio -->
-                    </div>
-                    <div class="flex justify-between items-center mt-4">
-                        <p class="text-lg font-medium">Total</p> <!-- Texto más grande y negrita -->
-                        <p class="text-3xl font-semibold text-gray-800">S/. 258.00</p> <!-- Texto más grande y con mejor contraste -->
-                    </div>
-                    <div class="mt-4 text-right">
-                        <button class="bg-gray-800 text-white px-6 py-3 rounded hover:bg-gray-700">Página de pago</button> <!-- Botón más grande y con efecto hover -->
-                    </div>
-                </div>
+        <!-- Resumen a la derecha -->
+        <div id="summary-container" class="lg:w-1/3 w-full bg-white p-4 lg:p-10 shadow-lg rounded-lg lg:mt-0 mt-8">
+            <h2 class="text-lg font-semibold mb-4">Resumen de compra</h2>
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-gray-600">Subtotal</span>
+                <span class="font-semibold text-lg">S/. 77.94</span>
             </div>
-            
+            <hr class="my-2">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-gray-600">Total</span>
+                <span class="font-semibold text-lg text-red-600">S/. 77.94</span>
+            </div>
+            <button class="bg-green-600 text-white w-full py-4 rounded hover:bg-green-500 text-lg mt-4 flex items-center justify-center">
+                Ir a comprar
+                <img src="img/whatsap-icono.png" class="w-8 h-8 ml-2">
+            </button>
         </div>
-    </div>
+    </main>
+
+    <!-- Footer -->
+    <Footer />
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
