@@ -1,6 +1,6 @@
 ---
-import Footer from "../components/footer.astro"
-import Header from "../components/header.astro" 
+import Header from "../components/header.astro";
+import Footer from "../components/footer.astro";
 ---
 <!DOCTYPE html>
 <html lang="es">
@@ -19,11 +19,11 @@ import Header from "../components/header.astro"
             font-weight: bold;
             width: 80%;
             margin-top: 10px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición para la transformación y sombra */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .custom-button:hover {
-            transform: translate(5px, -5px); /* Desplaza el botón 5px a la derecha y 5px hacia arriba */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade sombra para efecto de elevación */
+            transform: translate(5px, -5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .cart-button {
             background-color: #FFD1E0;
@@ -36,58 +36,125 @@ import Header from "../components/header.astro"
         .button-icon {
             margin-right: 8px;
         }
-        /* Lista no ordenada personalizada */
         .custom-list {
-            list-style-type: disc; /* Usa puntos */
-            padding-left: 20px; /* Espacio a la izquierda para los puntos */
+            list-style-type: disc;
+            padding-left: 20px;
         }
-
         .custom-list li {
-            margin-bottom: 8px; /* Espacio entre elementos de la lista */
+            margin-bottom: 8px;
         }
-
-        /* Opcional: Estilizar el color de los puntos */
         .custom-list {
-            color: #e8e7e1; /* Color del texto y puntos */
+            color: #e8e7e1;
         }
-
         .custom-list li::marker {
-            color: #e8e7e1; /* Color de los puntos */
+            color: #e8e7e1;
         }
         #map {
             width: 100%;
             height: 300px;
         }
+
+        /* Estilos para dispositivos móviles */
+        @media (max-width: 768px) {
+            .image-gallery-container {
+                flex-direction: column-reverse;
+            }
+            .thumbnail-container {
+                display: flex;
+                flex-direction: row;
+                overflow-x: auto;
+                padding: 0;
+                gap: 4px;
+                margin-top: 10px;
+            }
+            .thumbnail-container img {
+                max-width: 80px;
+                max-height: 80px;
+            }
+            .main-image-container {
+                position: relative;
+            }
+            .main-image-container img {
+                width: 100%;
+            }
+            .nav-buttons {
+                position: absolute;
+                top: 50%;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                transform: translateY(-50%);
+            }
+            .nav-buttons button {
+                background-color: rgba(255, 255, 255, 0.7);
+                border: none;
+                padding: 10px;
+                cursor: pointer;
+            }
+            .nav-buttons .prev-btn {
+                left: 0;
+            }
+            .nav-buttons .next-btn {
+                right: 0;
+            }
+        }
+
+        /* Estilos para pantallas grandes */
+        @media (min-width: 769px) {
+            .image-gallery-container {
+                flex-direction: row;
+            }
+            .thumbnail-container {
+                display: flex;
+                flex-direction: column;
+                overflow-y: auto;
+                padding: 0;
+                gap: 4px;
+            }
+            .thumbnail-container img {
+                max-width: 120px;
+                max-height: 120px;
+            }
+            .main-image-container {
+                position: relative;
+            }
+            .main-image-container img {
+                width: 100%;
+            }
+        }
     </style>
-    
 </head>
-<body class="bg-[#FFECF4] font-sans text-[#444444] "> 
+<body class="bg-[#FFECF4] font-sans text-[#444444]"> 
     <Header />
     <div class="h-2"></div>
     <!-- Product Section -->
     <section class="container mx-auto p-10 mt-20 grid grid-cols-1 lg:grid-cols-2 gap-7">
         <!-- Image Gallery -->
-        <div class="flex items-start space-x-4 lg:space-x-8">
+        <div class="flex items-start space-x-4 lg:space-x-8 image-gallery-container">
             <!-- Thumbnails -->
-            <div class="flex flex-col space-y-4 items-center">
-                <div class="bg-white p-2 rounded-lg shadow-lg cursor-pointer">
-                    <img src="img/falda37.jpg" alt="Falda #28" class="w-24 h-24 rounded-lg" onclick="changeImage('img/falda37.jpg')">
+            <div class="flex flex-col space-y-4 items-center thumbnail-container">
+                <div class="bg-white p-2 rounded-lg shadow-lg cursor-pointer" onclick="changeImage(0)">
+                    <img src="img/falda37.jpg" alt="Falda #28" class="w-24 h-24 rounded-lg" data-index="0">
                 </div>
-                <div class="bg-white p-2 rounded-lg shadow-lg cursor-pointer">
-                    <img src="img/falda37l.jpg" alt="Vista 1" class="w-24 h-24 rounded-lg" onclick="changeImage('img/falda37l.jpg')">
+                <div class="bg-white p-2 rounded-lg shadow-lg cursor-pointer" onclick="changeImage(1)">
+                    <img src="img/falda37l.jpg" alt="Vista 1" class="w-24 h-24 rounded-lg" data-index="1">
                 </div>
-                <div class="bg-gray-200 h-24 w-24 rounded-lg"></div>
-                <div class="bg-gray-200 h-24 w-24 rounded-lg"></div>
+                <!-- Agrega más imágenes aquí si es necesario -->
             </div>
-
+            
             <!-- Main Image -->
-            <div class="flex-grow bg-white p-2 rounded-lg shadow-lg">
+            <div class="main-image-container flex-grow bg-white p-2 rounded-lg shadow-lg relative">
                 <img id="mainImage" src="img/falda37.jpg" alt="Falda Principal" class="w-full h-auto rounded-lg">
+                <!-- Navigation Buttons -->
+                <div class="nav-buttons">
+                    <button class="prev-btn" onclick="prevImage()">&#10094;</button>
+                    <button class="next-btn" onclick="nextImage()">&#10095;</button>
+                </div>
             </div>
         </div>
 
         <!-- Product Details -->
-        <div class="bg-[#FFE6EE] p-8 rounded-lg shadow-lg">
+        <div class="bg-[#FFE6EE] p-8 rounded-lg shadow-lg product-details">
             <h2 class="text-[#4A3E4C] text-3xl font-bold">FALDA #28</h2>
             <div class="mt-4">
                 <p class="font-semibold">MATERIAL:</p>
@@ -126,16 +193,69 @@ import Header from "../components/header.astro"
             <div class="mt-4 flex flex-col">
                 <button class="custom-button cart-button">
                     <span class="button-icon"></span>
-                    AGREGAR AL CARRITO <img src="img/carrito-kawai.png"  class="w-13 h-11 ml-4">
+                    AGREGAR AL CARRITO <img src="img/carrito-kawai.png" class="w-13 h-11 ml-4">
                 </button>
                 <button class="custom-button whatsapp-button">
                     <span class="button-icon"></span>
-                    CONTINUAR COMPRA A  <img src="img/wasa-kawai.png"  class="w-13 h-11 ml-4">
+                    CONTINUAR COMPRA A <img src="img/wasa-kawai.png" class="w-13 h-11 ml-4">
                 </button>
             </div>
         </div>
     </section>
     <!-- Footer -->
     <Footer />
+<<<<<<< HEAD
+=======
+
+    <script type="module">
+        const images = [
+            'img/falda37.jpg',
+            'img/falda37l.jpg',
+            // Agrega más imágenes aquí según sea necesario
+        ];
+
+        let currentImageIndex = 0;
+
+        function changeImage(index) {
+            currentImageIndex = index;
+            document.getElementById('mainImage').src = images[currentImageIndex];
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            document.getElementById('mainImage').src = images[currentImageIndex];
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            document.getElementById('mainImage').src = images[currentImageIndex];
+        }
+
+        // Eventos de teclado para cambiar imágenes en PC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevImage();
+            } else if (e.key === 'ArrowRight') {
+                nextImage();
+            }
+        });
+
+        // Eventos de clic en miniaturas en PC y móvil
+        document.querySelectorAll('.thumbnail-container img').forEach((img, index) => {
+            img.addEventListener('click', () => {
+                changeImage(index);
+            });
+        });
+
+        // Eventos de clic en la imagen principal en móvil
+        document.getElementById('mainImage').addEventListener('click', () => {
+            nextImage();
+        });
+
+        // Eventos de clic en flechas de navegación en móvil
+        document.querySelector('.prev-btn').addEventListener('click', prevImage);
+        document.querySelector('.next-btn').addEventListener('click', nextImage);
+    </script>
+>>>>>>> 33fc34f8caf7d3d58cd60aa1581dc07b65aefc54
 </body>
 </html>

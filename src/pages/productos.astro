@@ -8,102 +8,173 @@ import Footer from "../components/footer.astro"
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda - Zona Outlet</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Tienda de Zapatos</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #fffcf6; /* Fondo solicitado */
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: #FFF5F7;
+            font-family: 'Arial', sans-serif;
         }
-        header {
-            background-color: #fff;
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 2rem 0;
+        }
+
+        .cards-container {
+            display: grid;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        @media (max-width: 1023px) {
+            .cards-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .cards-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .card {
+            width: 100%;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4A5568;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .filter-button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            background-color: #f5bacf;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .filter-button:hover {
+            background-color: #f5bacf;
+        }
+
+        .filter-button svg {
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 767px) {
+            .filter-button {
+                padding: 1rem 2rem;
+                font-size: 1.25rem;
+            }
+        }
+
+        .overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .product-card img {
-            max-height: 300px;
-            object-fit: cover;
-        }
-        /* Estilos para el slider */
-        .slider {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            gap: 1rem;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 40;
         }
 
-        .product-card {
-            scroll-snap-align: start;
-            min-width: 200px; /* Ajusta según el tamaño de tus tarjetas */
-            padding: 16px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        .overlay.show {
+            transform: translateX(0);
         }
 
-        /* Estilos para las flechas */
-        button {
-            background-color: #ff5b77;
-            color: white;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 10;
+        .overlay-content {
+            width: 80%;
+            max-width: 360px;
+            background: white;
+            height: 100%;
+            padding: 2rem;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
 
-        button:hover {
-            background-color: #ff3b57;
-        }
-
-        /* Espacio entre el footer y el main */
-        main {
-            margin-bottom: 100px;
-        }
-
-        /* Contenedor para las flechas */
-        .slider-container {
-            position: relative;
-        }
-
-        /* Posición de las flechas */
-        .slider-container button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .slider-container button.left {
-            left: 10px;
-        }
-
-        .slider-container button.right {
-            right: 10px;
-        }
-
-        /* Estilos para ocultar las flechas al llegar al final */
-        .slider-container button.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .no-scroll {
+            overflow: hidden;
         }
     </style>
 </head>
 <body>
-    <Header />
-    
 
-    <!-- Banner con imagen de fondo -->
-    <div class="w-full h-96 bg-red-500 text-white p-8 mb-6 flex items-center justify-center" style="background-image: url(/public/img/banner_novedades.jpeg); background-size: cover; background-position: center;">
-    </div>
+    <Header />
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <h1 class="page-title">ZAPATOS</h1>
+
+        <!-- Botón de filtro visible solo en dispositivos móviles -->
+        <button class="filter-button flex items-center md:hidden" id="filterToggleMobile">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 12h18M3 19h18"></path>
+            </svg>
+            Filtros
+        </button>
+
+        <div class="flex flex-wrap">
+            <!-- Panel de filtros visible solo en dispositivos móviles -->
+            <aside class="overlay" id="filterSidebarMobile">
+                <div class="overlay-content">
+                    <button class="text-gray-600 hover:text-gray-800 focus:outline-none" id="closeFilterMobile">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                    <h2 class="font-bold text-xl mb-4">Filtros</h2>
+                    <div class="mb-6">
+                        <h3 class="font-semibold">Descuento</h3>
+                        <ul class="space-y-2 mt-2">
+                            <li><input type="checkbox" id="descuento30-mobile" /> <label for="descuento30-mobile">Hasta 30%</label></li>
+                            <li><input type="checkbox" id="descuento40-mobile" /> <label for="descuento40-mobile">30% - 40%</label></li>
+                            <li><input type="checkbox" id="descuento50-mobile" /> <label for="descuento50-mobile">40% - 50%</label></li>
+                            <li><input type="checkbox" id="descuento60-mobile" /> <label for="descuento60-mobile">50% - 60%</label></li>
+                            <li><input type="checkbox" id="mas60-mobile" /> <label for="mas60-mobile">Más de 60%</label></li>
+                        </ul>
+                    </div>
     
-    <!-- Contenido Principal -->
-    <main class="container mx-auto px-4">
-        <div class="flex">
-            <!-- Filtros -->
-            <aside class="w-1/5 p-4 bg-white shadow-md">
+                    <div class="mb-6">
+                        <h3 class="font-semibold">Color</h3>
+                        <ul class="space-y-2 mt-2">
+                            <li><input type="checkbox" id="colorAmarillo-mobile" /> <label for="colorAmarillo-mobile">Amarillo</label></li>
+                            <li><input type="checkbox" id="colorAzul-mobile" /> <label for="colorAzul-mobile">Azul</label></li>
+                            <li><input type="checkbox" id="colorBlanco-mobile" /> <label for="colorBlanco-mobile">Blanco</label></li>
+                        </ul>
+                    </div>
+    
+                    <div>
+                        <h3 class="font-semibold">Precio</h3>
+                        <ul class="space-y-2 mt-2">
+                            <li><input type="checkbox" id="precio20-mobile" /> <label for="precio20-mobile">Hasta S/ 20.00</label></li>
+                            <li><input type="checkbox" id="precio40-mobile" /> <label for="precio40-mobile">S/ 20.00 - S/ 40.00</label></li>
+                            <li><input type="checkbox" id="precio60-mobile" /> <label for="precio60-mobile">S/ 40.00 - S/ 60.00</label></li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Panel de filtros para escritorio -->
+            <aside class="w-full md:w-1/5 p-4 bg-white shadow-md mt-10 filter-container hidden md:block" id="filterSidebar">
                 <h2 class="font-bold text-xl mb-4">Filtros</h2>
                 <div class="mb-6">
                     <h3 class="font-semibold">Descuento</h3>
@@ -122,7 +193,6 @@ import Footer from "../components/footer.astro"
                         <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
                         <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
                         <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
-                        <!-- Agrega más colores según sea necesario -->
                     </ul>
                 </div>
 
@@ -136,44 +206,51 @@ import Footer from "../components/footer.astro"
                 </div>
             </aside>
 
-            <!-- Productos con slider -->
-            <section class="w-4/5">
-                <!-- Contenedor del slider -->
-                <div class="slider-container">
-                    <button class="left">⬅</button>
-                    <div class="slider">
-                        <div class="product-card">
-                            <Card />
-                        </div>
-                        <div class="product-card">
-                            <Card />
-                        </div>
-                        <div class="product-card">
-                            <Card />
-                        </div>
-                        <div class="product-card">
-                            <Card />
-                        </div>
-                        <div class="product-card">
-                            <Card />
-                        </div>
-                        <div class="product-card">
-                            <Card />
-                        </div>
-                        <!-- Agrega más tarjetas de productos aquí -->
-                    </div>
-                    <button class="right">➡</button>
+            <main class="w-full md:w-4/5 md:pl-8">
+                <div class="cards-container mt-10">
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
                 </div>
-            </section>
+            </main>
         </div>
-    </main>
+    </div>
 
-    <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/987654321" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg">
-        WhatsApp
-    </a>
-
-    <!-- Footer -->
     <Footer />
+
+    <script type="module">
+        // Mostrar y ocultar el panel de filtros en dispositivos móviles
+        const filterToggleMobile = document.getElementById('filterToggleMobile');
+        const filterSidebarMobile = document.getElementById('filterSidebarMobile');
+        const closeFilterMobile = document.getElementById('closeFilterMobile');
+        const body = document.body;
+
+        filterToggleMobile.addEventListener('click', () => {
+            filterSidebarMobile.classList.add('show');
+            body.classList.add('no-scroll');
+        });
+
+        closeFilterMobile.addEventListener('click', () => {
+            filterSidebarMobile.classList.remove('show');
+            body.classList.remove('no-scroll');
+        });
+    </script>
 </body>
 </html>

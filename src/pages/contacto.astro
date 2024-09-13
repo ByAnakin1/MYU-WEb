@@ -13,38 +13,36 @@ import Footer from '../components/footer.astro';
     <style>
         /* Animaciones personalizadas */
         .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 1s ease-in-out forwards;
+            animation: fadeIn 1s ease-in-out;
         }
 
         @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .bounce {
-            animation: bounce 2s infinite;
+            animation: bounce 1s infinite;
         }
 
         @keyframes bounce {
-            0%, 100% {
+            0%, 20%, 50%, 80%, 100% {
                 transform: translateY(0);
             }
-            50% {
-                transform: translateY(-10px);
+            40% {
+                transform: translateY(-30px);
+            }
+            60% {
+                transform: translateY(-15px);
             }
         }
 
         .scale-up {
-            transform: scale(0.95);
             transition: transform 0.3s ease-in-out;
         }
 
         .scale-up:hover {
-            transform: scale(1);
+            transform: scale(1.1);
         }
 
         .rotate {
@@ -52,7 +50,7 @@ import Footer from '../components/footer.astro';
         }
 
         .rotate:hover {
-            transform: rotate(10deg);
+            transform: rotate(360deg);
         }
 
         .slide-in {
@@ -127,151 +125,148 @@ import Footer from '../components/footer.astro';
         }
     </style>
 </head>
-<body class="bg-pink-100 font-sans">
+<body class="bg-pink-100 font-sans overflow-x-hidden">
     <Header />
     <div class="max-w-7xl mx-auto px-4 sparkles">
-    <d class="max-w-7xl mx-auto px-4">
-        <br>
-        <br>
-        <br>
-        <br>
-        <section class="p-10 flex flex-col md:flex-row justify-center bg-white rounded-lg shadow-lg mx-4 my-8 fade-in" style="max-width: 1200px; margin: 0 auto;">
+        <br><br><br><br>
+
+        <!-- Sección de Quiénes Somos -->
+        <section class="p-10 flex flex-col md:flex-row justify-center bg-white rounded-lg shadow-lg mx-auto my-8 fade-in" style="max-width: 1200px;">
             <!-- Cuadro centrado -->
             <div class="w-full md:w-7/12 bg-pink-100 border-2 border-pink-300 rounded-lg p-6 mx-auto text-center">
                 <h2 class="text-4xl font-bold text-pink-600 mb-6 text-shadow highlight">QUIÉNES SOMOS</h2>
                 <p class="text-xl text-gray-700 mb-4">MYU es una marca peruana inspirada en la moda asiática. En nuestra tienda podrás encontrar el complemento perfecto para tu outfit, tenemos productos de tendencia coreana, japonesa y asiática en general.</p>
                 <p class="text-xl text-gray-700">Nuestra marca apoya el consumo local, por lo que nuestras prendas son en su gran mayoría de producción nacional, también contamos con productos y modelos importados. MYU busca ser una tienda de moda sostenible con proyección social.</p>
             </div>
-            
+
             <!-- Imagen -->
             <div class="w-full md:w-5/12 flex justify-center zoom mt-6 md:mt-0 md:ml-6">
                 <img src="/public/img/tienda.jpeg" alt="Vestimenta de la tienda" class="w-full md:w-11/12 rounded-lg image-shadow">
             </div>
         </section>
-    
-        <!-- Sección de Preguntas -->
+
+        <!-- Sección de Preguntas Frecuentes -->
         <br>
         <section class="text-center my-8 fade-in">
             <h2 class="text-2xl font-bold text-pink-600 mb-6 bounce">PREGUNTAS FRECUENTES</h2>
-            <div class="flex justify-center gap-4 p-4 mx-auto" style="max-width: 1500px;">
+            <div class="flex flex-col md:flex-row justify-center gap-4 p-4 mx-auto" style="max-width: 1500px;">
                 <!-- Columna Izquierda -->
-                <div class="max-w-lg bg-pink-100 rounded-lg p-4">
+                <div class="max-w-full bg-pink-100 rounded-lg p-4 overflow-hidden">
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
                             ¿Cuentan con tienda física?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">¡Hola! Nos encontramos en Lima, Perú, en el Centro Comercial Arenales. Puedes encontrar la dirección exacta y consultar el mapa más abajo para facilitarte la llegada. ¡Te esperamos con mucho entusiasmo!</p>
+                        <p class="mt-2 hidden text-gray-700">¡Hola! Nos encontramos en Lima, Perú, en el Centro Comercial Arenales...</p>
                     </div>
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
                             ¿Qué empresa utilizan para los envíos?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">Utilizamos empresas de mensajería confiables como DHL, FedEx y Serpost para garantizar que tu pedido llegue a tiempo y en perfectas condiciones.</p>
+                        <p class="mt-2 hidden text-gray-700">Utilizamos empresas de mensajería confiables como DHL, FedEx y Serpost...</p>
                     </div>
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
                             ¿Es posible pagar contra entrega?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">Actualmente no ofrecemos pago contra entrega. Sin embargo, contamos con varias opciones de pago en línea seguras.</p>
+                        <p class="mt-2 hidden text-gray-700">Actualmente no ofrecemos pago contra entrega...</p>
                     </div>
                 </div>
-        
+
                 <!-- Columna Centro -->
-                <div class="max-w-lg bg-pink-100 rounded-lg p-4">
+                <div class="max-w-full bg-pink-100 rounded-lg p-4 overflow-hidden">
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
                             ¿Ofrecen devoluciones?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">Sí, ofrecemos devoluciones dentro de los 30 días posteriores a la compra. El producto debe estar en su estado original.</p>
+                        <p class="mt-2 hidden text-gray-700">Sí, ofrecemos devoluciones dentro de los 30 días posteriores a la compra...</p>
                     </div>
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
                             ¿Tienen productos en promoción?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">¡Claro! Regularmente ofrecemos descuentos y promociones en nuestra tienda online. ¡Mantente atento a nuestras redes sociales!</p>
+                        <p class="mt-2 hidden text-gray-700">¡Claro! Regularmente ofrecemos descuentos y promociones...</p>
+                    </div>
+                    <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
+                        <h3 class="text-lg font-semibold flex justify-between items-center">
+                            ¿Puedo hacer pedidos personalizados?
+                            <span class="transition-transform transform arrow">&#9654;</span>
+                        </h3>
+                        <p class="mt-2 hidden text-gray-700">No, actualmente no ofrecemos pedidos personalizados...</p>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        document.querySelectorAll('.faq-item').forEach(item => {
+                            item.addEventListener('click', () => {
+                                const content = item.querySelector('p');
+                                const arrow = item.querySelector<HTMLElement>('.arrow'); // Asegurarse de que querySelector devuelva un HTMLElement
+                
+                                // Verificar si el contenido (p) existe
+                                if (content && arrow) {
+                                    if (content.classList.contains('hidden')) {
+                                        content.classList.remove('hidden');
+                                        arrow.style.transform = 'rotate(90deg)'; // Rotar flecha
+                                    } else {
+                                        content.classList.add('hidden');
+                                        arrow.style.transform = 'rotate(0deg)'; // Flecha vuelve a posición original
+                                    }
+                                }
+                            });
+                        });
+                    });
+                </script>
+
+                <!-- Columna Derecha -->
+                <div class="max-w-full bg-pink-100 rounded-lg p-4 overflow-hidden">
+                    <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
+                        <h3 class="text-lg font-semibold flex justify-between items-center">
+                            ¿Qué debo hacer si tengo un problema con mi pedido?
+                            <span class="transition-transform transform arrow">&#9654;</span>
+                        </h3>
+                        <p class="mt-2 hidden text-gray-700">Si tienes algún problema con tu pedido, contáctanos a través de nuestras redes sociales...</p>
+                    </div>
+                    <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
+                        <h3 class="text-lg font-semibold flex justify-between items-center">
+                            ¿Cuál es el tiempo de entrega estimado?
+                            <span class="transition-transform transform arrow">&#9654;</span>
+                        </h3>
+                        <p class="mt-2 hidden text-gray-700">El tiempo de entrega depende de tu ubicación. A nivel nacional, de 2 a 5 días hábiles...</p>
                     </div>
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
                             ¿Ofrecen envíos internacionales?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">Sí, realizamos envíos internacionales a la mayoría de los países. Los tiempos de entrega pueden variar según la ubicación.</p>
-                    </div>
-                </div>
-        
-                <!-- Columna Derecha -->
-                <div class="max-w-lg bg-pink-100 rounded-lg p-4">
-                    <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
-                        <h3 class="text-lg font-semibold flex justify-between items-center">
-                            ¿Cuál es el tiempo estimado de entrega?
-                            <span class="transition-transform transform arrow">&#9654;</span>
-                        </h3>
-                        <p class="mt-2 hidden text-gray-700">El tiempo de entrega varía según la ubicación, pero suele ser entre 3 a 7 días hábiles en el ámbito nacional.</p>
-                    </div>
-                    <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
-                        <h3 class="text-lg font-semibold flex justify-between items-center">
-                            ¿Tienen servicio de atención al cliente?
-                            <span class="transition-transform transform arrow">&#9654;</span>
-                        </h3>
-                        <p class="mt-2 hidden text-gray-700">Sí, nuestro equipo de atención al cliente está disponible de lunes a viernes, de 9 am a 6 pm. Puedes contactarnos a través de correo electrónico o teléfono.</p>
-                    </div>
-                    <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
-                        <h3 class="text-lg font-semibold flex justify-between items-center">
-                            ¿Dónde puedo encontrar más información sobre los productos?
-                            <span class="transition-transform transform arrow">&#9654;</span>
-                        </h3>
-                        <p class="mt-2 hidden text-gray-700">Toda la información sobre nuestros productos está disponible en nuestra página web. También puedes seguirnos en redes sociales para más actualizaciones.</p>
+                        <p class="mt-2 hidden text-gray-700">¡Sí! Hacemos envíos a varios países. El costo de envío varía según la ubicación...</p>
                     </div>
                 </div>
             </div>
         </section>
-        
-        
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                document.querySelectorAll('.faq-item').forEach(item => {
-                    item.addEventListener('click', () => {
-                        const content = item.querySelector('p');
-                        const arrow = item.querySelector<HTMLElement>('.arrow'); // Asegurarse de que querySelector devuelva un HTMLElement
-        
-                        // Verificar si el contenido (p) existe
-                        if (content && arrow) {
-                            if (content.classList.contains('hidden')) {
-                                content.classList.remove('hidden');
-                                arrow.style.transform = 'rotate(90deg)'; // Rotar flecha
-                            } else {
-                                content.classList.add('hidden');
-                                arrow.style.transform = 'rotate(0deg)'; // Flecha vuelve a posición original
-                            }
-                        }
-                    });
-                });
-            });
-        </script>
-        
 
+        <!-- Sección TikTok -->
         <section class="text-center my-8 fade-in">
             <h2 class="text-2xl font-bold text-pink-600 mb-6 bounce">Nuestro TikTok</h2>
-            <div class="flex flex-wrap justify-center items-center gap-4">
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-full">
                 <!-- Primer TikTok -->
-                <blockquote class="tiktok-embed tiktok-block scale-up" cite="https://www.tiktok.com/@myu.fashionshop/video/7168904062405053701" data-video-id="7168904062405053701" style="max-width: 300px; min-width: 200px; width: 32%; height: auto; display: block;">
+                <blockquote class="tiktok-embed tiktok-block scale-up" cite="https://www.tiktok.com/@myu.fashionshop/video/7168904062405053701" data-video-id="7168904062405053701" style="width: 100%; max-width: 300px; height: auto; display: block;">
                     <section> 
                         <a target="_blank" title="@myu.fashionshop" href="https://www.tiktok.com/@myu.fashionshop/video/7168904062405053701" style="color: #F6BBD0;">@myu.fashionshop</a>
                     </section>
                 </blockquote>
                 <!-- Segundo TikTok -->
-                <blockquote class="tiktok-embed tiktok-block scale-up" cite="https://www.tiktok.com/@myu.fashionshop/video/7400469883097681158" data-video-id="7400469883097681158" style="max-width: 300px; min-width: 200px; width: 32%; height: auto; display: block;">
+                <blockquote class="tiktok-embed tiktok-block scale-up" cite="https://www.tiktok.com/@myu.fashionshop/video/7400469883097681158" data-video-id="7400469883097681158" style="width: 100%; max-width: 300px; height: auto; display: block;">
                     <section> 
                         <a target="_blank" title="@myu.fashionshop" href="https://www.tiktok.com/@myu.fashionshop/video/7400469883097681158" style="color: #F6BBD0;">@myu.fashionshop</a>
                     </section>
                 </blockquote>
                 <!-- Tercer TikTok -->
-                <blockquote class="tiktok-embed tiktok-block scale-up" cite="https://www.tiktok.com/@myu.fashionshop/video/7088081288657259782" data-video-id="7088081288657259782" style="max-width: 300px; min-width: 200px; width: 32%; height: auto; display: block;">
+                <blockquote class="tiktok-embed tiktok-block scale-up" cite="https://www.tiktok.com/@myu.fashionshop/video/7088081288657259782" data-video-id="7088081288657259782" style="width: 100%; max-width: 300px; height: auto; display: block;">
                     <section> 
                         <a target="_blank" title="@myu.fashionshop" href="https://www.tiktok.com/@myu.fashionshop/video/7088081288657259782" style="color: #F6BBD0;">@myu.fashionshop</a>
                     </section>
@@ -279,36 +274,40 @@ import Footer from '../components/footer.astro';
             </div>
             <script async src="https://www.tiktok.com/embed.js"></script>
         </section>
-        
-        
-        <!-- Nueva Sección: Redes Sociales -->
-        <section class="bg-white rounded-lg shadow-lg p-10 mx-4 my-8 fade-in">
-            <h2 class="text-2xl font-bold text-pink-600 mb-6 text-center bounce">¡Síguenos en Redes Sociales!</h2>
-            <div class="flex justify-around items-center">
-                <!-- Facebook -->
-                <div class="w-1/4 text-center scale-up">
-                    <a href="https://www.facebook.com/Myufashionshop" target="_blank">
-                        <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
-                        <p class="text-gray-700 mt-4">Facebook</p>
-                    </a>
-                </div>
-                <!-- Instagram -->
-                <div class="w-1/4 text-center scale-up">
-                    <a href="https://www.instagram.com/myu.fashionshop/" target="_blank">
-                        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
-                        <p class="text-gray-700 mt-4">Instagram</p>
-                    </a>
-                </div>
-                <!-- TikTok -->
-                <div class="w-1/4 text-center scale-up">
-                    <a href="https://www.tiktok.com/@myu.fashionshop" target="_blank">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3046/3046127.png" alt="TikTok" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
-                        <p class="text-gray-700 mt-4">TikTok</p>
-                    </a>
-                </div>
-            </div>
-        </section>
+
+        <!-- Sección Redes Sociales -->
+<section class="bg-white rounded-lg shadow-lg p-6 md:p-10 mx-auto my-8 fade-in max-w-full">
+    <h2 class="text-2xl font-bold text-pink-600 mb-6 text-center bounce">¡Síguenos en Redes Sociales!</h2>
+    <!-- Contenedor de los íconos -->
+    <div class="flex flex-col sm:flex-row sm:justify-around">
+        <!-- Facebook -->
+        <div class="w-full sm:w-1/4 text-center scale-up mb-4 sm:mb-0">
+            <a href="https://www.facebook.com/Myufashionshop" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
+                <p class="text-gray-700 mt-4">Facebook</p>
+            </a>
+        </div>
+        <!-- Instagram -->
+        <div class="w-full sm:w-1/4 text-center scale-up mb-4 sm:mb-0">
+            <a href="https://www.instagram.com/myu.fashionshop/" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
+                <p class="text-gray-700 mt-4">Instagram</p>
+            </a>
+        </div>
+        <!-- TikTok -->
+        <div class="w-full sm:w-1/4 text-center scale-up">
+            <a href="https://www.tiktok.com/@myu.fashionshop" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/3046/3046127.png" alt="TikTok" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
+                <p class="text-gray-700 mt-4">TikTok</p>
+            </a>
+        </div>
     </div>
+</section>
+
+    </div>
+</body>
+</html>
+
 
     <Footer />
 </body>
