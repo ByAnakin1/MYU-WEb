@@ -13,38 +13,36 @@ import Footer from '../components/footer.astro';
     <style>
         /* Animaciones personalizadas */
         .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 1s ease-in-out forwards;
+            animation: fadeIn 1s ease-in-out;
         }
 
         @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .bounce {
-            animation: bounce 2s infinite;
+            animation: bounce 1s infinite;
         }
 
         @keyframes bounce {
-            0%, 100% {
+            0%, 20%, 50%, 80%, 100% {
                 transform: translateY(0);
             }
-            50% {
-                transform: translateY(-10px);
+            40% {
+                transform: translateY(-30px);
+            }
+            60% {
+                transform: translateY(-15px);
             }
         }
 
         .scale-up {
-            transform: scale(0.95);
             transition: transform 0.3s ease-in-out;
         }
 
         .scale-up:hover {
-            transform: scale(1);
+            transform: scale(1.1);
         }
 
         .rotate {
@@ -52,8 +50,9 @@ import Footer from '../components/footer.astro';
         }
 
         .rotate:hover {
-            transform: rotate(10deg);
+            transform: rotate(360deg);
         }
+        
 
         .slide-in {
             transform: translateX(-100%);
@@ -130,11 +129,7 @@ import Footer from '../components/footer.astro';
 <body class="bg-pink-100 font-sans">
     <Header />
     <div class="max-w-7xl mx-auto px-4 sparkles">
-    <d class="max-w-7xl mx-auto px-4">
-        <br>
-        <br>
-        <br>
-        <br>
+        <br><br><br><br>
         <section class="p-10 flex flex-col md:flex-row justify-center bg-white rounded-lg shadow-lg mx-4 my-8 fade-in" style="max-width: 1200px; margin: 0 auto;">
             <!-- Cuadro centrado -->
             <div class="w-full md:w-7/12 bg-pink-100 border-2 border-pink-300 rounded-lg p-6 mx-auto text-center">
@@ -153,7 +148,7 @@ import Footer from '../components/footer.astro';
         <br>
         <section class="text-center my-8 fade-in">
             <h2 class="text-2xl font-bold text-pink-600 mb-6 bounce">PREGUNTAS FRECUENTES</h2>
-            <div class="flex justify-center gap-4 p-4 mx-auto" style="max-width: 1500px;">
+            <div class="flex flex-col md:flex-row justify-center gap-4 p-4 mx-auto" style="max-width: 1500px;">
                 <!-- Columna Izquierda -->
                 <div class="max-w-lg bg-pink-100 rounded-lg p-4">
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
@@ -197,81 +192,80 @@ import Footer from '../components/footer.astro';
                     </div>
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
-                            ¿Ofrecen envíos internacionales?
+                            ¿Puedo hacer pedidos personalizados?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">Sí, realizamos envíos internacionales a la mayoría de los países. Los tiempos de entrega pueden variar según la ubicación.</p>
+                        <p class="mt-2 hidden text-gray-700">No, actualmente no ofrecemos pedidos personalizados. Sin embargo, tenemos una amplia gama de productos que puedes elegir.</p>
                     </div>
                 </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        document.querySelectorAll('.faq-item').forEach(item => {
+                            item.addEventListener('click', () => {
+                                const content = item.querySelector('p');
+                                const arrow = item.querySelector<HTMLElement>('.arrow'); // Asegurarse de que querySelector devuelva un HTMLElement
+                
+                                // Verificar si el contenido (p) existe
+                                if (content && arrow) {
+                                    if (content.classList.contains('hidden')) {
+                                        content.classList.remove('hidden');
+                                        arrow.style.transform = 'rotate(90deg)'; // Rotar flecha
+                                    } else {
+                                        content.classList.add('hidden');
+                                        arrow.style.transform = 'rotate(0deg)'; // Flecha vuelve a posición original
+                                    }
+                                }
+                            });
+                        });
+                    });
+                </script>
         
                 <!-- Columna Derecha -->
                 <div class="max-w-lg bg-pink-100 rounded-lg p-4">
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
-                            ¿Cuál es el tiempo estimado de entrega?
+                            ¿Qué debo hacer si tengo un problema con mi pedido?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">El tiempo de entrega varía según la ubicación, pero suele ser entre 3 a 7 días hábiles en el ámbito nacional.</p>
+                        <p class="mt-2 hidden text-gray-700">Si tienes algún problema con tu pedido, contáctanos a través de nuestro formulario de contacto y te asistiremos lo más pronto posible.</p>
                     </div>
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
-                            ¿Tienen servicio de atención al cliente?
+                            ¿Realizan envíos internacionales?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">Sí, nuestro equipo de atención al cliente está disponible de lunes a viernes, de 9 am a 6 pm. Puedes contactarnos a través de correo electrónico o teléfono.</p>
+                        <p class="mt-2 hidden text-gray-700">Sí, realizamos envíos internacionales. Los costos y tiempos de entrega pueden variar según el país de destino.</p>
                     </div>
                     <div class="bg-pink-200 rounded-lg mb-4 p-4 cursor-pointer transition-transform transform hover:scale-105 faq-item">
                         <h3 class="text-lg font-semibold flex justify-between items-center">
-                            ¿Dónde puedo encontrar más información sobre los productos?
+                            ¿Cómo puedo contactar con el servicio al cliente?
                             <span class="transition-transform transform arrow">&#9654;</span>
                         </h3>
-                        <p class="mt-2 hidden text-gray-700">Toda la información sobre nuestros productos está disponible en nuestra página web. También puedes seguirnos en redes sociales para más actualizaciones.</p>
+                        <p class="mt-2 hidden text-gray-700">Puedes contactarnos a través de nuestro correo electrónico o llamarnos a nuestro número de teléfono que encontrarás en la sección de contacto.</p>
                     </div>
                 </div>
             </div>
         </section>
-        
-        
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                document.querySelectorAll('.faq-item').forEach(item => {
-                    item.addEventListener('click', () => {
-                        const content = item.querySelector('p');
-                        const arrow = item.querySelector<HTMLElement>('.arrow'); // Asegurarse de que querySelector devuelva un HTMLElement
-        
-                        // Verificar si el contenido (p) existe
-                        if (content && arrow) {
-                            if (content.classList.contains('hidden')) {
-                                content.classList.remove('hidden');
-                                arrow.style.transform = 'rotate(90deg)'; // Rotar flecha
-                            } else {
-                                content.classList.add('hidden');
-                                arrow.style.transform = 'rotate(0deg)'; // Flecha vuelve a posición original
-                            }
-                        }
-                    });
-                });
-            });
-        </script>
-        
 
+        <!-- Sección TikTok -->
         <section class="text-center my-8 fade-in">
             <h2 class="text-2xl font-bold text-pink-600 mb-6 bounce">Nuestro TikTok</h2>
-            <div class="flex flex-wrap justify-center items-center gap-4">
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
                 <!-- Primer TikTok -->
-                <blockquote class="tiktok-embed tiktok-block scale-up" cite="https://www.tiktok.com/@myu.fashionshop/video/7168904062405053701" data-video-id="7168904062405053701" style="max-width: 300px; min-width: 200px; width: 32%; height: auto; display: block;">
+                <blockquote class="tiktok-embed tiktok-block scale-up" cite="https://www.tiktok.com/@myu.fashionshop/video/7168904062405053701" data-video-id="7168904062405053701" style="width: 100%; max-width: 300px; height: auto; display: block;">
                     <section> 
                         <a target="_blank" title="@myu.fashionshop" href="https://www.tiktok.com/@myu.fashionshop/video/7168904062405053701" style="color: #F6BBD0;">@myu.fashionshop</a>
                     </section>
                 </blockquote>
                 <!-- Segundo TikTok -->
-                <blockquote class="tiktok-embed tiktok-block scale-up" cite="https://www.tiktok.com/@myu.fashionshop/video/7400469883097681158" data-video-id="7400469883097681158" style="max-width: 300px; min-width: 200px; width: 32%; height: auto; display: block;">
+                <blockquote class="tiktok-embed tiktok-block scale-up" cite="https://www.tiktok.com/@myu.fashionshop/video/7400469883097681158" data-video-id="7400469883097681158" style="width: 100%; max-width: 300px; height: auto; display: block;">
                     <section> 
                         <a target="_blank" title="@myu.fashionshop" href="https://www.tiktok.com/@myu.fashionshop/video/7400469883097681158" style="color: #F6BBD0;">@myu.fashionshop</a>
                     </section>
                 </blockquote>
                 <!-- Tercer TikTok -->
-                <blockquote class="tiktok-embed tiktok-block scale-up" cite="https://www.tiktok.com/@myu.fashionshop/video/7088081288657259782" data-video-id="7088081288657259782" style="max-width: 300px; min-width: 200px; width: 32%; height: auto; display: block;">
+                <blockquote class="tiktok-embed tiktok-block scale-up" cite="https://www.tiktok.com/@myu.fashionshop/video/7088081288657259782" data-video-id="7088081288657259782" style="width: 100%; max-width: 300px; height: auto; display: block;">
                     <section> 
                         <a target="_blank" title="@myu.fashionshop" href="https://www.tiktok.com/@myu.fashionshop/video/7088081288657259782" style="color: #F6BBD0;">@myu.fashionshop</a>
                     </section>
@@ -280,27 +274,26 @@ import Footer from '../components/footer.astro';
             <script async src="https://www.tiktok.com/embed.js"></script>
         </section>
         
-        
         <!-- Nueva Sección: Redes Sociales -->
         <section class="bg-white rounded-lg shadow-lg p-10 mx-4 my-8 fade-in">
             <h2 class="text-2xl font-bold text-pink-600 mb-6 text-center bounce">¡Síguenos en Redes Sociales!</h2>
-            <div class="flex justify-around items-center">
+            <div class="flex flex-wrap justify-around items-center">
                 <!-- Facebook -->
-                <div class="w-1/4 text-center scale-up">
+                <div class="w-full sm:w-1/4 text-center scale-up mb-4 sm:mb-0">
                     <a href="https://www.facebook.com/Myufashionshop" target="_blank">
                         <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
                         <p class="text-gray-700 mt-4">Facebook</p>
                     </a>
                 </div>
                 <!-- Instagram -->
-                <div class="w-1/4 text-center scale-up">
+                <div class="w-full sm:w-1/4 text-center scale-up mb-4 sm:mb-0">
                     <a href="https://www.instagram.com/myu.fashionshop/" target="_blank">
                         <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
                         <p class="text-gray-700 mt-4">Instagram</p>
                     </a>
                 </div>
                 <!-- TikTok -->
-                <div class="w-1/4 text-center scale-up">
+                <div class="w-full sm:w-1/4 text-center scale-up">
                     <a href="https://www.tiktok.com/@myu.fashionshop" target="_blank">
                         <img src="https://cdn-icons-png.flaticon.com/512/3046/3046127.png" alt="TikTok" class="w-16 h-16 mx-auto transition-transform transform hover:scale-110 rotate">
                         <p class="text-gray-700 mt-4">TikTok</p>
@@ -309,7 +302,6 @@ import Footer from '../components/footer.astro';
             </div>
         </section>
     </div>
-
     <Footer />
 </body>
 </html>
