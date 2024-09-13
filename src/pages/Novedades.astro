@@ -3,7 +3,8 @@ import Header from "../components/header.astro";
 import Card from "../components/Card.astro";
 import Footer from "../components/footer.astro";
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -13,7 +14,7 @@ import Footer from "../components/footer.astro";
     <style>
       body {
         background-color: #fffcf6;
-        font-family: 'Arial', sans-serif;
+        font-family: "Arial", sans-serif;
         overflow-x: hidden;
       }
 
@@ -56,8 +57,9 @@ import Footer from "../components/footer.astro";
         text-align: center;
         font-size: 2.5rem;
         font-weight: bold;
-        color: #4A5568;
+        color: #4a5568;
         margin-bottom: 2rem;
+        margin-top: -4rem; /* Ajusta a un valor más pequeño aquí */
         text-transform: uppercase;
         letter-spacing: 2px;
       }
@@ -148,73 +150,146 @@ import Footer from "../components/footer.astro";
   </head>
   <body>
     <Header />
-
-    <!-- Banner -->
+    <br>
+    <br>
+    <br>
     <div class="container">
       <div
         class="banner"
-        style="background-image: url('/public/img/banner_novedades.jpeg');">
+        style="background-image: url('/public/img/banner_novedades.jpeg');"
+      >
       </div>
     </div>
 
     <!-- Secciones de Hombre, Mujer, Niños -->
-    <div class="container my-12">
+    <div class="container my-6">
+      <!-- Cambia my-12 por my-6 aquí -->
       <h2 class="section-title">Categorías</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-        <div class="section-item bg-gray-200 h-40 flex items-center justify-center">Mujer</div>
-        <div class="section-item bg-gray-200 h-40 flex items-center justify-center">Hombre</div>
-        <div class="section-item bg-gray-200 h-40 flex items-center justify-center">Niños</div>
+        <div
+          class="section-item bg-gray-200 h-40 flex items-center justify-center"
+        >
+          Mujer
+        </div>
+        <div
+          class="section-item bg-gray-200 h-40 flex items-center justify-center"
+        >
+          Hombre
+        </div>
+        <div
+          class="section-item bg-gray-200 h-40 flex items-center justify-center"
+        >
+          Niños
+        </div>
       </div>
     </div>
-
-    <!-- Productos -->
-    <div class="container">
+    <div class="container mt-6">
       <h1 class="page-title">NOVEDADES</h1>
 
       <!-- Botón de filtro visible solo en dispositivos móviles -->
-      <button class="filter-button flex items-center md:hidden" id="filterToggleMobile">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 12h18M3 19h18"></path>
+      <button
+        class="filter-button flex items-center md:hidden"
+        id="filterToggleMobile"
+      >
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 5h18M3 12h18M3 19h18"></path>
         </svg>
         Filtros
       </button>
-
+      <br />
+      <br />
       <div class="flex flex-wrap">
         <!-- Panel de filtros visible solo en dispositivos móviles -->
         <aside class="overlay" id="filterSidebarMobile">
           <div class="overlay-content">
-            <button class="text-gray-600 hover:text-gray-800 focus:outline-none" id="closeFilterMobile">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            <button
+              class="text-gray-600 hover:text-gray-800 focus:outline-none"
+              id="closeFilterMobile"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"></path>
               </svg>
             </button>
             <h2 class="font-bold text-xl mb-4">Filtros</h2>
             <div class="mb-6">
               <h3 class="font-semibold">Descuento</h3>
               <ul class="space-y-2 mt-2">
-                <li><input type="checkbox" id="descuento30-mobile" /> <label for="descuento30-mobile">Hasta 30%</label></li>
-                <li><input type="checkbox" id="descuento40-mobile" /> <label for="descuento40-mobile">30% - 40%</label></li>
-                <li><input type="checkbox" id="descuento50-mobile" /> <label for="descuento50-mobile">40% - 50%</label></li>
-                <li><input type="checkbox" id="descuento60-mobile" /> <label for="descuento60-mobile">50% - 60%</label></li>
-                <li><input type="checkbox" id="mas60-mobile" /> <label for="mas60-mobile">Más de 60%</label></li>
+                <li>
+                  <input type="checkbox" id="descuento30-mobile" />
+                  <label for="descuento30-mobile">Hasta 30%</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="descuento40-mobile" />
+                  <label for="descuento40-mobile">30% - 40%</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="descuento50-mobile" />
+                  <label for="descuento50-mobile">40% - 50%</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="descuento60-mobile" />
+                  <label for="descuento60-mobile">50% - 60%</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="mas60-mobile" />
+                  <label for="mas60-mobile">Más de 60%</label>
+                </li>
               </ul>
             </div>
 
             <div class="mb-6">
               <h3 class="font-semibold">Color</h3>
               <ul class="space-y-2 mt-2">
-                <li><input type="checkbox" id="colorAmarillo-mobile" /> <label for="colorAmarillo-mobile">Amarillo</label></li>
-                <li><input type="checkbox" id="colorAzul-mobile" /> <label for="colorAzul-mobile">Azul</label></li>
-                <li><input type="checkbox" id="colorBlanco-mobile" /> <label for="colorBlanco-mobile">Blanco</label></li>
+                <li>
+                  <input type="checkbox" id="colorAmarillo-mobile" />
+                  <label for="colorAmarillo-mobile">Amarillo</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="colorAzul-mobile" />
+                  <label for="colorAzul-mobile">Azul</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="colorBlanco-mobile" />
+                  <label for="colorBlanco-mobile">Blanco</label>
+                </li>
               </ul>
             </div>
 
             <div>
               <h3 class="font-semibold">Precio</h3>
               <ul class="space-y-2 mt-2">
-                <li><input type="checkbox" id="precio20-mobile" /> <label for="precio20-mobile">Hasta S/ 20.00</label></li>
-                <li><input type="checkbox" id="precio40-mobile" /> <label for="precio40-mobile">S/ 20.00 - S/ 40.00</label></li>
-                <li><input type="checkbox" id="precio60-mobile" /> <label for="precio60-mobile">S/ 40.00 - S/ 60.00</label></li>
+                <li>
+                  <input type="checkbox" id="precio20-mobile" />
+                  <label for="precio20-mobile">Hasta S/ 20.00</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="precio40-mobile" />
+                  <label for="precio40-mobile">S/ 20.00 - S/ 40.00</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="precio60-mobile" />
+                  <label for="precio60-mobile">S/ 40.00 - S/ 60.00</label>
+                </li>
               </ul>
             </div>
           </div>
@@ -226,29 +301,62 @@ import Footer from "../components/footer.astro";
           <div class="mb-6">
             <h3 class="font-semibold">Descuento</h3>
             <ul class="space-y-2 mt-2">
-              <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
-              <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
-              <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
-              <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
-              <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
+              <li>
+                <input type="checkbox" id="descuento30" />
+                <label for="descuento30">Hasta 30%</label>
+              </li>
+              <li>
+                <input type="checkbox" id="descuento40" />
+                <label for="descuento40">30% - 40%</label>
+              </li>
+              <li>
+                <input type="checkbox" id="descuento50" />
+                <label for="descuento50">40% - 50%</label>
+              </li>
+              <li>
+                <input type="checkbox" id="descuento60" />
+                <label for="descuento60">50% - 60%</label>
+              </li>
+              <li>
+                <input type="checkbox" id="mas60" />
+                <label for="mas60">Más de 60%</label>
+              </li>
             </ul>
           </div>
 
           <div class="mb-6">
             <h3 class="font-semibold">Color</h3>
             <ul class="space-y-2 mt-2">
-              <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
-              <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
-              <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
+              <li>
+                <input type="checkbox" id="colorAmarillo" />
+                <label for="colorAmarillo">Amarillo</label>
+              </li>
+              <li>
+                <input type="checkbox" id="colorAzul" />
+                <label for="colorAzul">Azul</label>
+              </li>
+              <li>
+                <input type="checkbox" id="colorBlanco" />
+                <label for="colorBlanco">Blanco</label>
+              </li>
             </ul>
           </div>
 
           <div>
             <h3 class="font-semibold">Precio</h3>
             <ul class="space-y-2 mt-2">
-              <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
-              <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
-              <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
+              <li>
+                <input type="checkbox" id="precio20" />
+                <label for="precio20">Hasta S/ 20.00</label>
+              </li>
+              <li>
+                <input type="checkbox" id="precio40" />
+                <label for="precio40">S/ 20.00 - S/ 40.00</label>
+              </li>
+              <li>
+                <input type="checkbox" id="precio60" />
+                <label for="precio60">S/ 40.00 - S/ 60.00</label>
+              </li>
             </ul>
           </div>
         </aside>
@@ -277,15 +385,21 @@ import Footer from "../components/footer.astro";
 
     <script type="module">
       // Mostrar y ocultar el filtro en móvil
-      document.getElementById('filterToggleMobile').addEventListener('click', function () {
-        document.getElementById('filterSidebarMobile').classList.add('show');
-        document.body.classList.add('no-scroll');
-      });
+      document
+        .getElementById("filterToggleMobile")
+        .addEventListener("click", function () {
+          document.getElementById("filterSidebarMobile").classList.add("show");
+          document.body.classList.add("no-scroll");
+        });
 
-      document.getElementById('closeFilterMobile').addEventListener('click', function () {
-        document.getElementById('filterSidebarMobile').classList.remove('show');
-        document.body.classList.remove('no-scroll');
-      });
+      document
+        .getElementById("closeFilterMobile")
+        .addEventListener("click", function () {
+          document
+            .getElementById("filterSidebarMobile")
+            .classList.remove("show");
+          document.body.classList.remove("no-scroll");
+        });
     </script>
   </body>
 </html>
