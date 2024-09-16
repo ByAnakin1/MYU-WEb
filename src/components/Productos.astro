@@ -11,32 +11,7 @@ import Card from "./Card.astro"
 
   .product-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
     gap: 1rem;
-  }
-
-  @media (max-width: 1500px) {
-    .product-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-
-  @media (max-width: 1200px) {
-    .product-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  @media (max-width: 900px) {
-    .product-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 600px) {
-    .product-grid {
-      grid-template-columns: 1fr;
-    }
   }
 
   .section-title {
@@ -47,6 +22,27 @@ import Card from "./Card.astro"
     color: white;
     padding: 0.75rem;
     margin-bottom: 1rem;
+  }
+
+  /* Para móviles y tablets pequeñas (menos de 768px) */
+  @media (max-width: 767px) {
+    .product-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Para tablets grandes (768px a 1023px) */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .product-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Para pantallas de escritorio (1024px y más) */
+  @media (min-width: 1024px) {
+    .product-grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
   }
 </style>
 
