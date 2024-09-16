@@ -6,16 +6,14 @@ import Footer from "../components/footer.astro";
 
 <!doctype html>
 <html lang="es">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tienda - Zona Outlet</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-    body {
+      body {
         background-color: #fffcf6;
-    }
-
         font-family: "Arial", sans-serif;
         overflow-x: hidden;
       }
@@ -149,8 +147,8 @@ import Footer from "../components/footer.astro";
         background-color: #ddd;
       }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <Header />
     <br>
     <br>
@@ -162,11 +160,6 @@ import Footer from "../components/footer.astro";
       >
       </div>
     </div>
-    <!-- Banner -->
-    <div
-    class="container mx-auto px-4 py-16 flex items-center justify-center h-96"
-    style="background-image: url('/public/img/banner_novedades.jpeg'); background-size: cover; background-position: center; margin-top: 2rem;">
-    <!-- Puedes agregar contenido aquí si es necesario -->
 
     <!-- Secciones de Hombre, Mujer, Niños -->
     <div class="container my-6">
@@ -301,19 +294,7 @@ import Footer from "../components/footer.astro";
             </div>
           </div>
         </aside>
-    <main class="container mx-auto px-4 my-8">
-    <div class="flex">
-        <!-- Filters -->
-        <aside class="w-1/5 p-4 bg-white shadow-md">
-        <h2 class="font-bold text-xl mb-4">Filtros</h2>
-        <div class="mb-6">
-            <h3 class="font-semibold">Descuento</h3>
-            <ul class="space-y-2 mt-2">
-            <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
-            <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
-            <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
-            <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
-            <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
+
         <!-- Filtros para escritorio -->
         <aside class="w-1/5 hidden md:block">
           <h2 class="font-bold text-xl mb-4">Filtros</h2>
@@ -340,18 +321,12 @@ import Footer from "../components/footer.astro";
                 <input type="checkbox" id="mas60" />
                 <label for="mas60">Más de 60%</label>
               </li>
-
             </ul>
-        </div>
+          </div>
 
-        <div class="mb-6">
+          <div class="mb-6">
             <h3 class="font-semibold">Color</h3>
             <ul class="space-y-2 mt-2">
-            <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
-            <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
-            <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
-            <!-- Add more colors as needed -->
-
               <li>
                 <input type="checkbox" id="colorAmarillo" />
                 <label for="colorAmarillo">Amarillo</label>
@@ -364,18 +339,12 @@ import Footer from "../components/footer.astro";
                 <input type="checkbox" id="colorBlanco" />
                 <label for="colorBlanco">Blanco</label>
               </li>
-
             </ul>
-        </div>
+          </div>
 
-        <div>
+          <div>
             <h3 class="font-semibold">Precio</h3>
             <ul class="space-y-2 mt-2">
-
-            <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
-            <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
-            <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
-
               <li>
                 <input type="checkbox" id="precio20" />
                 <label for="precio20">Hasta S/ 20.00</label>
@@ -388,112 +357,9 @@ import Footer from "../components/footer.astro";
                 <input type="checkbox" id="precio60" />
                 <label for="precio60">S/ 40.00 - S/ 60.00</label>
               </li>
-
             </ul>
-        </div>
+          </div>
         </aside>
-
-
-        <!-- Products -->
-        <section class="w-4/5">
-        <!-- Section for "Mujer, Hombre, Niños" -->
-        <div class="grid grid-cols-3 gap-4 mb-6">
-            <div class="bg-gray-200 h-40 flex items-center justify-center">Mujer (Fill here)</div>
-            <div class="bg-gray-200 h-40 flex items-center justify-center">Hombre (Fill here)</div>
-            <div class="bg-gray-200 h-40 flex items-center justify-center">Niños (Fill here)</div>
-        </div>
-
-        <!-- Sort By -->
-        <div class="mb-4 flex justify-between items-center">
-            <p>362 productos</p>
-            <select class="border p-2">
-            <option value="">Ordenar por</option>
-            <option value="menor-precio">Menor Precio</option>
-            <option value="mayor-precio">Mayor Precio</option>
-            <option value="mas-vendidos">Más vendidos</option>
-            <option value="mejor-valorados">Mejor valorados</option>
-            <option value="a-z">A - Z</option>
-            <option value="z-a">Z - A</option>
-            <option value="lo-nuevo">Lo nuevo</option>
-            <option value="mejor-descuento">Mejor descuento</option>
-            </select>
-        </div>
-
-        <!-- Products Listing -->
-        <section class="w-full">
-            <div class="grid grid-cols-4 gap-4">
-            <!-- Product -->
-            <div>
-                <Card />
-            </div>
-            <div>
-                <Card />
-            </div>
-            <div>
-                <Card />
-            </div>
-            <div>
-                <Card />
-            </div>
-            <div>
-                <Card />
-            </div>
-            <div>
-                <Card />
-            </div>
-            <div>
-                <Card />
-            </div>
-            <div>
-                <Card />
-            </div>
-            <!-- Add more product cards here -->
-            </div>
-        </section>
-        </section>
-    </div>
-
-    <!-- Navigation Arrows -->
-    <div class="pagination mt-8 flex justify-center gap-4">
-        <button
-        class="pagination-arrow bg-pink-500 text-white hover:bg-pink-600 rounded-full flex items-center justify-center w-12 h-12"
-        >
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="feather feather-arrow-left w-6 h-6"
-        >
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-        </svg>
-        </button>
-        <button
-        class="pagination-arrow bg-pink-500 text-white hover:bg-pink-600 rounded-full flex items-center justify-center w-12 h-12"
-        >
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="feather feather-arrow-right w-6 h-6"
-        >
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-        </svg>
-        </button>
-    </div>
-    </main>
-
-    <Footer />
-</body>
 
         <!-- Productos -->
         <section class="w-full md:w-4/5">
@@ -536,5 +402,4 @@ import Footer from "../components/footer.astro";
         });
     </script>
   </body>
-
 </html>
