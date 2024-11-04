@@ -10,24 +10,30 @@ import Footer from "../components/footer.astro";
     <title>Myu Fashion Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #FFECF4;
+            color: #444444;
+        }
         .custom-button {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 25px;
             font-weight: bold;
-            width: 80%;
+            width: 100%;
             margin-top: 10px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
         }
         .custom-button:hover {
-            transform: translate(5px, -5px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
         .cart-button {
-            background-color: #FFD1E0;
-            color: #4A3E4C;
+            background-color: #FF71A9;
+            color: white;
         }
         .whatsapp-button {
             background-color: #FFD1E0;
@@ -36,22 +42,43 @@ import Footer from "../components/footer.astro";
         .button-icon {
             margin-right: 8px;
         }
-        .custom-list {
-            list-style-type: disc;
-            padding-left: 20px;
+        .quantity-control {
+            display: inline-flex;
+            align-items: center;
+            border: 2px solid #FF71A9;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 15px;
+            width: fit-content;
         }
-        .custom-list li {
-            margin-bottom: 8px;
+        .quantity-control button {
+            background-color: #FF71A9;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
         }
-        .custom-list {
-            color: #e8e7e1;
+        .quantity-control button:hover {
+            background-color: #FF517B;
         }
-        .custom-list li::marker {
-            color: #e8e7e1;
+        .quantity-display {
+            width: 40px;
+            text-align: center;
+            font-size: 1em;
+            padding: 5px 0;
+            border-left: 1px solid #FF71A9;
+            border-right: 1px solid #FF71A9;
         }
-        #map {
-            width: 100%;
-            height: 300px;
+        .product-details {
+            background-color: #FFE6EE;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .product-details h2 {
+            margin-bottom: 15px;
         }
 
         /* Estilos para dispositivos móviles */
@@ -124,7 +151,7 @@ import Footer from "../components/footer.astro";
         }
     </style>
 </head>
-<body class="bg-[#FFECF4] font-sans text-[#444444]"> 
+<body> 
     <Header />
     <div class="h-2"></div>
     <!-- Product Section -->
@@ -154,7 +181,7 @@ import Footer from "../components/footer.astro";
         </div>
 
         <!-- Product Details -->
-        <div class="bg-[#FFE6EE] p-8 rounded-lg shadow-lg product-details">
+        <div class="product-details">
             <h2 class="text-[#4A3E4C] text-3xl font-bold">FALDA #28</h2>
             <div class="mt-4">
                 <p class="font-semibold">MATERIAL:</p>
@@ -190,11 +217,16 @@ import Footer from "../components/footer.astro";
                 <span>0050</span>
             </div>
             <div class="mt-4 text-3xl text-[#FF71A9] font-bold">S/. 1.00</div>
+            <div class="quantity-control">
+                <button id="decreaseBtn">-</button>
+                <span id="quantity" class="quantity-display">1</span>
+                <button id="increaseBtn">+</button>
+            </div>
             <div class="mt-4 flex flex-col">
-                <button class="custom-button cart-button">
+                <button class="custom-button cart-button" onclick="window.location.href='http://localhost:4321/Carro'">
                     <span class="button-icon"></span>
                     AGREGAR AL CARRITO <img src="img/carrito-kawai.png" class="w-13 h-11 ml-4">
-                </button>
+                </button>                
                 <button class="custom-button whatsapp-button">
                     <span class="button-icon"></span>
                     CONTINUAR COMPRA A <img src="img/wasa-kawai.png" class="w-13 h-11 ml-4">
@@ -228,6 +260,23 @@ import Footer from "../components/footer.astro";
             currentImageIndex = (currentImageIndex + 1) % images.length;
             document.getElementById('mainImage').src = images[currentImageIndex];
         }
+
+        // Inicializar cantidad
+        let quantity = 1;
+
+        // Manejar botón de disminuir
+        document.getElementById('decreaseBtn').addEventListener('click', () => {
+            if (quantity > 1) {
+                quantity--;
+                document.getElementById('quantity').textContent = quantity;
+            }
+        });
+
+        // Manejar botón de aumentar
+        document.getElementById('increaseBtn').addEventListener('click', () => {
+            quantity++;
+            document.getElementById('quantity').textContent = quantity;
+        });
 
         // Eventos de teclado para cambiar imágenes en PC
         document.addEventListener('keydown', (e) => {
