@@ -1,0 +1,256 @@
+---
+import Header from "../../components/header.astro"
+import Card from "../../components/Card.astro"
+import Footer from "../../components/footer.astro"
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Poleras</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: #FFF5F7;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 2rem 0;
+        }
+
+        .cards-container {
+            display: grid;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        @media (max-width: 1023px) {
+            .cards-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .cards-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .card {
+            width: 100%;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4A5568;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .filter-button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            background-color: #f5bacf;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .filter-button:hover {
+            background-color: #f5bacf;
+        }
+
+        .filter-button svg {
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 767px) {
+            .filter-button {
+                padding: 1rem 2rem;
+                font-size: 1.25rem;
+            }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 40;
+        }
+
+        .overlay.show {
+            transform: translateX(0);
+        }
+
+        .overlay-content {
+            width: 80%;
+            max-width: 360px;
+            background: white;
+            height: 100%;
+            padding: 2rem;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-scroll {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <Header />
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <h1 class="page-title">POLERAS</h1>
+
+        <!-- Botón de filtro visible solo en dispositivos móviles -->
+        <button class="filter-button flex items-center md:hidden" id="filterToggleMobile">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 12h18M3 19h18"></path>
+            </svg>
+            Filtros
+        </button>
+
+        <div class="flex flex-wrap">
+            <!-- Panel de filtros visible solo en dispositivos móviles -->
+            <aside class="overlay" id="filterSidebarMobile">
+                <div class="overlay-content">
+                    <button class="text-gray-600 hover:text-gray-800 focus:outline-none" id="closeFilterMobile">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                    <h2 class="font-bold text-xl mb-4">Filtros</h2>
+                    <div class="mb-6">
+                        <h3 class="font-semibold">Descuento</h3>
+                        <ul class="space-y-2 mt-2">
+                            <li><input type="checkbox" id="descuento30-mobile" /> <label for="descuento30-mobile">Hasta 30%</label></li>
+                            <li><input type="checkbox" id="descuento40-mobile" /> <label for="descuento40-mobile">30% - 40%</label></li>
+                            <li><input type="checkbox" id="descuento50-mobile" /> <label for="descuento50-mobile">40% - 50%</label></li>
+                            <li><input type="checkbox" id="descuento60-mobile" /> <label for="descuento60-mobile">50% - 60%</label></li>
+                            <li><input type="checkbox" id="mas60-mobile" /> <label for="mas60-mobile">Más de 60%</label></li>
+                        </ul>
+                    </div>
+    
+                    <div class="mb-6">
+                        <h3 class="font-semibold">Color</h3>
+                        <ul class="space-y-2 mt-2">
+                            <li><input type="checkbox" id="colorAmarillo-mobile" /> <label for="colorAmarillo-mobile">Amarillo</label></li>
+                            <li><input type="checkbox" id="colorAzul-mobile" /> <label for="colorAzul-mobile">Azul</label></li>
+                            <li><input type="checkbox" id="colorBlanco-mobile" /> <label for="colorBlanco-mobile">Blanco</label></li>
+                        </ul>
+                    </div>
+    
+                    <div>
+                        <h3 class="font-semibold">Precio</h3>
+                        <ul class="space-y-2 mt-2">
+                            <li><input type="checkbox" id="precio20-mobile" /> <label for="precio20-mobile">Hasta S/ 20.00</label></li>
+                            <li><input type="checkbox" id="precio40-mobile" /> <label for="precio40-mobile">S/ 20.00 - S/ 40.00</label></li>
+                            <li><input type="checkbox" id="precio60-mobile" /> <label for="precio60-mobile">S/ 40.00 - S/ 60.00</label></li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Panel de filtros para escritorio -->
+            <aside class="w-full md:w-1/5 p-4 bg-white shadow-md mt-10 filter-container hidden md:block" id="filterSidebar">
+                <h2 class="font-bold text-xl mb-4">Filtros</h2>
+                <div class="mb-6">
+                    <h3 class="font-semibold">Descuento</h3>
+                    <ul class="space-y-2 mt-2">
+                        <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
+                        <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
+                        <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
+                        <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
+                        <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
+                    </ul>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="font-semibold">Color</h3>
+                    <ul class="space-y-2 mt-2">
+                        <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
+                        <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
+                        <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold">Precio</h3>
+                    <ul class="space-y-2 mt-2">
+                        <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
+                        <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
+                        <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <main class="w-full md:w-4/5 md:pl-8">
+                <div class="cards-container mt-10">
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <Footer />
+
+    <script type="module">
+        // Mostrar y ocultar el panel de filtros en dispositivos móviles
+        const filterToggleMobile = document.getElementById('filterToggleMobile');
+        const filterSidebarMobile = document.getElementById('filterSidebarMobile');
+        const closeFilterMobile = document.getElementById('closeFilterMobile');
+        const body = document.body;
+
+        filterToggleMobile.addEventListener('click', () => {
+            filterSidebarMobile.classList.add('show');
+            body.classList.add('no-scroll');
+        });
+
+        closeFilterMobile.addEventListener('click', () => {
+            filterSidebarMobile.classList.remove('show');
+            body.classList.remove('no-scroll');
+        });
+    </script>
+</body>
+</html>
