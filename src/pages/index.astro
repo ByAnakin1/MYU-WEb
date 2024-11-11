@@ -8,6 +8,16 @@ import Footer from '../components/footer.astro';
 import New from '../components/New.astro';
 import Productos from '../components/Productos.astro';
 import '../styles/global.css';
+
+const response = await fetch('http://localhost:3000/api/productos');
+
+if (!response.ok) {
+  console.error('Error al obtener productos:', response.statusText);
+  const errorText = await response.text(); // Captura el texto del error
+  throw new Error(`Error al obtener productos: ${errorText}`);
+}
+
+const products = await response.json(); // Intenta parsear solo si todo está bien
 ---
 
 <Layout title="MYU WEB">
@@ -33,7 +43,7 @@ import '../styles/global.css';
         <Categorias />
         <Forsale />
         <New />
-        <Productos />       
+        <Productos products={products} />      
         </main>
         <Footer />
 </Layout>
