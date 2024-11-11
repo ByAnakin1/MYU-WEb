@@ -1,8 +1,37 @@
 ---
-import Header from "../../components/header.astro"
-import Card from "../../components/Card.astro"
-import Footer from "../../components/footer.astro"
+import Header from "../../components/header.astro";
+import Footer from "../../components/footer.astro";
+
+// Define la interfaz para productos
+interface Product {
+  id_producto: number;
+  nombre_producto: string;
+  precio: number;
+  img1: string;
+  id_categoria: number; // Agrega esta propiedad para filtrar
+}
+
+// Llamada al backend para obtener los productos
+const response = await fetch('http://localhost:3000/api/productos');
+
+if (!response.ok) {
+  console.error('Error al obtener productos:', response.statusText);
+  const errorText = await response.text();
+  throw new Error(`Error al obtener productos: ${errorText}`);
+}
+
+let products: Product[] = [];
+try {
+  products = await response.json(); // Parsear la respuesta si es válida
+} catch (error) {
+  console.error('Error al parsear productos:', error);
+  throw new Error('La respuesta del servidor no es válida.');
+}
+
+// Filtrar los productos con id_categoria = 3
+const filteredProducts = products.filter(product => product.id_categoria === 3);
 ---
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -29,24 +58,61 @@ import Footer from "../../components/footer.astro"
 
         .cards-container {
             display: grid;
-            gap: 2rem;
-            justify-content: center;
-        }
-
-        @media (max-width: 1023px) {
-            .cards-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (min-width: 1024px) {
-            .cards-container {
-                grid-template-columns: repeat(4, 1fr);
-            }
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
         .card {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .card img {
             width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-transform: capitalize;
+        }
+
+        .card-price {
+            color: #f56565;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .card-button {
+            display: inline-block;
+            background: #f6bbd0;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .card-button:hover {
+            background: #f56565;
         }
 
         .page-title {
@@ -101,6 +167,15 @@ import Footer from "../../components/footer.astro"
             transform: translateX(0);
         }
 
+        .filters {
+            position: sticky;
+            top: 1rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
         .overlay-content {
             width: 80%;
             max-width: 360px;
@@ -113,123 +188,130 @@ import Footer from "../../components/footer.astro"
         .no-scroll {
             overflow: hidden;
         }
+
+        @media (max-width: 1023px) {
+            .cards-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .cards-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .card {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
-
     <Header />
     <br>
     <br>
     <br>
-    <div class="container">
-        <h1 class="page-title">FALDAS</h1>
+    <div class="container flex flex-col md:flex-row">
+        <!-- Panel de filtros -->
+        <aside class="filters w-full md:w-1/5 p-4 bg-white shadow-md mt-10 filter-container mr-6">
+            <h2 class="font-bold text-xl mb-4">Filtros</h2>
+            <div class="mb-6">
+                <h3 class="font-semibold">Descuento</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
+                    <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
+                    <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
+                    <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
+                    <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
+                </ul>
+            </div>
 
-        <!-- Botón de filtro visible solo en dispositivos móviles -->
-        <button class="filter-button flex items-center md:hidden" id="filterToggleMobile">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 12h18M3 19h18"></path>
-            </svg>
-            Filtros
-        </button>
+            <div class="mb-6">
+                <h3 class="font-semibold">Color</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
+                    <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
+                    <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
+                </ul>
+            </div>
 
-        <div class="flex flex-wrap">
-            <!-- Panel de filtros visible solo en dispositivos móviles -->
-            <aside class="overlay" id="filterSidebarMobile">
-                <div class="overlay-content">
-                    <button class="text-gray-600 hover:text-gray-800 focus:outline-none" id="closeFilterMobile">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                    <h2 class="font-bold text-xl mb-4">Filtros</h2>
-                    <div class="mb-6">
-                        <h3 class="font-semibold">Descuento</h3>
-                        <ul class="space-y-2 mt-2">
-                            <li><input type="checkbox" id="descuento30-mobile" /> <label for="descuento30-mobile">Hasta 30%</label></li>
-                            <li><input type="checkbox" id="descuento40-mobile" /> <label for="descuento40-mobile">30% - 40%</label></li>
-                            <li><input type="checkbox" id="descuento50-mobile" /> <label for="descuento50-mobile">40% - 50%</label></li>
-                            <li><input type="checkbox" id="descuento60-mobile" /> <label for="descuento60-mobile">50% - 60%</label></li>
-                            <li><input type="checkbox" id="mas60-mobile" /> <label for="mas60-mobile">Más de 60%</label></li>
-                        </ul>
-                    </div>
-    
-                    <div class="mb-6">
-                        <h3 class="font-semibold">Color</h3>
-                        <ul class="space-y-2 mt-2">
-                            <li><input type="checkbox" id="colorAmarillo-mobile" /> <label for="colorAmarillo-mobile">Amarillo</label></li>
-                            <li><input type="checkbox" id="colorAzul-mobile" /> <label for="colorAzul-mobile">Azul</label></li>
-                            <li><input type="checkbox" id="colorBlanco-mobile" /> <label for="colorBlanco-mobile">Blanco</label></li>
-                        </ul>
-                    </div>
-    
-                    <div>
-                        <h3 class="font-semibold">Precio</h3>
-                        <ul class="space-y-2 mt-2">
-                            <li><input type="checkbox" id="precio20-mobile" /> <label for="precio20-mobile">Hasta S/ 20.00</label></li>
-                            <li><input type="checkbox" id="precio40-mobile" /> <label for="precio40-mobile">S/ 20.00 - S/ 40.00</label></li>
-                            <li><input type="checkbox" id="precio60-mobile" /> <label for="precio60-mobile">S/ 40.00 - S/ 60.00</label></li>
-                        </ul>
-                    </div>
-                </div>
-            </aside>
+            <div>
+                <h3 class="font-semibold">Precio</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
+                    <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
+                    <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
+                </ul>
+            </div>
+        </aside>
 
-            <!-- Panel de filtros para escritorio -->
-            <aside class="w-full md:w-1/5 p-4 bg-white shadow-md mt-10 filter-container hidden md:block" id="filterSidebar">
-                <h2 class="font-bold text-xl mb-4">Filtros</h2>
-                <div class="mb-6">
-                    <h3 class="font-semibold">Descuento</h3>
-                    <ul class="space-y-2 mt-2">
-                        <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
-                        <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
-                        <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
-                        <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
-                        <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
-                    </ul>
-                </div>
+        <!-- Productos de faldas -->
+        <main class="w-full md:w-4/5 p-4">
+            <h1 class="page-title">FALDAS</h1>
+            <div class="cards-container">
+                {filteredProducts.length > 0 ? (
+                    filteredProducts.map((product: Product) => (
+                        <div class="card">
+                            <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
+                            <div class="card-content">
+                                <h2 class="card-title">{product.nombre_producto}</h2>
+                                <p class="card-price">Precio: S/ {Number(product.precio).toFixed(2)}</p>
+                                <a href="#" class="card-button">Comprar</a>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p class="text-center">No hay productos disponibles.</p>
+                )}
+            </div>
+        </main>
+    </div>
 
-                <div class="mb-6">
-                    <h3 class="font-semibold">Color</h3>
-                    <ul class="space-y-2 mt-2">
-                        <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
-                        <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
-                        <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
-                    </ul>
-                </div>
+    <!-- Botón de filtro visible solo en dispositivos móviles -->
+    <button class="filter-button flex items-center md:hidden" id="filterToggleMobile">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 12h18M3 19h18"></path>
+        </svg>
+        Filtros
+    </button>
 
-                <div>
-                    <h3 class="font-semibold">Precio</h3>
-                    <ul class="space-y-2 mt-2">
-                        <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
-                        <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
-                        <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
-                    </ul>
-                </div>
-            </aside>
+    <!-- Panel de filtros visible solo en dispositivos móviles -->
+    <div class="overlay" id="filterSidebarMobile">
+        <div class="overlay-content">
+            <button class="text-gray-600 hover:text-gray-800 focus:outline-none" id="closeFilterMobile">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <h2 class="font-bold text-xl mb-4">Filtros</h2>
+            <div class="mb-6">
+                <h3 class="font-semibold">Descuento</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="descuento30-mobile" /> <label for="descuento30-mobile">Hasta 30%</label></li>
+                    <li><input type="checkbox" id="descuento40-mobile" /> <label for="descuento40-mobile">30% - 40%</label></li>
+                    <li><input type="checkbox" id="descuento50-mobile" /> <label for="descuento50-mobile">40% - 50%</label></li>
+                    <li><input type="checkbox" id="descuento60-mobile" /> <label for="descuento60-mobile">50% - 60%</label></li>
+                    <li><input type="checkbox" id="mas60-mobile" /> <label for="mas60-mobile">Más de 60%</label></li>
+                </ul>
+            </div>
 
-            <main class="w-full md:w-4/5 md:pl-8">
-                <div class="cards-container mt-10">
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                </div>
-            </main>
+            <div class="mb-6">
+                <h3 class="font-semibold">Color</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="colorAmarillo-mobile" /> <label for="colorAmarillo-mobile">Amarillo</label></li>
+                    <li><input type="checkbox" id="colorAzul-mobile" /> <label for="colorAzul-mobile">Azul</label></li>
+                    <li><input type="checkbox" id="colorBlanco-mobile" /> <label for="colorBlanco-mobile">Blanco</label></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="font-semibold">Precio</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="precio20-mobile" /> <label for="precio20-mobile">Hasta S/ 20.00</label></li>
+                    <li><input type="checkbox" id="precio40-mobile" /> <label for="precio40-mobile">S/ 20.00 - S/ 40.00</label></li>
+                    <li><input type="checkbox" id="precio60-mobile" /> <label for="precio60-mobile">S/ 40.00 - S/ 60.00</label></li>
+                </ul>
+            </div>
         </div>
     </div>
 

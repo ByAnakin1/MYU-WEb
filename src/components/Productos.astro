@@ -1,5 +1,22 @@
 ---
-import Card from "./Card.astro"
+// Importar el componente Card y obtener datos dinámicos
+import Card from "./Card.astro";
+
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+}
+
+let products: Product[] = []; // Aplicar el tipado aquí
+try {
+  const response = await fetch('http://localhost:3000/api/products');
+  products = await response.json();
+} catch (err) {
+  console.error(err);
+}
 ---
 
 <style>
@@ -24,21 +41,18 @@ import Card from "./Card.astro"
     margin-bottom: 1rem;
   }
 
-  /* Para móviles y tablets pequeñas (menos de 768px) */
   @media (max-width: 767px) {
     .product-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
-  /* Para tablets grandes (768px a 1023px) */
   @media (min-width: 768px) and (max-width: 1023px) {
     .product-grid {
       grid-template-columns: repeat(3, 1fr);
     }
   }
 
-  /* Para pantallas de escritorio (1024px y más) */
   @media (min-width: 1024px) {
     .product-grid {
       grid-template-columns: repeat(5, 1fr);
@@ -49,20 +63,15 @@ import Card from "./Card.astro"
 <body>
   <h2 class="section-title">PRODUCTOS</h2>
   <div class="container">
-    <section class="py-7">
-      <div class="product-grid">
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <!-- Añade más componentes Card según sea necesario -->
-      </div>
+    <section class="product-grid">
+      {products.map((product: Product) => (
+        <div class="card">
+          <img src={product.image} alt={product.name} />
+          <h3>{product.name}</h3>
+          <p>{product.description}</p>
+          <span>{product.price}</span>
+        </div>
+      ))}
     </section>
   </div>
 </body>

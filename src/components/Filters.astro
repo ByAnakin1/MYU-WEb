@@ -1,0 +1,21 @@
+---
+export function FilterOption({ id, label }: { id: string; label: string }) {
+  return (
+    <li>
+      <input type="checkbox" id={id} />
+      <label for={id}>{label}</label>
+    </li>
+  );
+}
+---
+<aside class="filter-sidebar">
+  <h2>Filtros</h2>
+  <div>
+    <h3>Descuento</h3>
+    <ul>
+      <FilterOption id="descuento30" label="Hasta 30%" />
+      <FilterOption id="descuento40" label="30% - 40%" />
+      <!-- Más filtros -->
+    </ul>
+  </div>
+</aside>

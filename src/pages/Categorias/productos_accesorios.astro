@@ -1,17 +1,40 @@
 ---
-import Header from "../../components/header.astro"
-import Card from "../../components/Card.astro"
-import Footer from "../../components/footer.astro"
+import Header from "../../components/header.astro";
+import Footer from "../../components/footer.astro";
+
+// Define la interfaz para productos
+interface Product {
+  id_producto: number;
+  nombre_producto: string;
+  precio: number;
+  img1: string;
+  id_categoria: number;
+  id_cat_accesorio: number | null;
+}
+
+let products: Product[] = [];
+let filteredProducts: Product[] = [];
+
+// Cargar productos del servidor al renderizado inicial
+const fetchedProducts = await fetch('http://localhost:3000/api/productos')
+  .then(res => res.ok ? res.json() : [])
+  .catch(err => {
+    console.error('Error al obtener productos:', err);
+    return [];
+  });
+
+products = fetchedProducts;
+filteredProducts = products.filter(product => product.id_cat_accesorio !== null);
 ---
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda de Accesorios</title>
+    <title>Tienda de Faldas</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        /* Estilo global de la página */
         body {
             margin: 0;
             padding: 0;
@@ -20,32 +43,73 @@ import Footer from "../../components/footer.astro"
             font-family: 'Arial', sans-serif;
         }
 
-        /* Contenedor principal */
         .container {
-            display: flex;
-            width: 95%;
-            max-width: 1400px;
-            margin: 0 auto;
+            width: 90%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
             padding: 2rem 0;
         }
 
-        /* Panel de filtros - lado izquierdo */
-        .filter-container {
-            width: 20%; /* Ajuste para que el contenedor de filtros sea similar al de "Zapatos" */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
             padding: 1rem;
-            background-color: white;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            margin-top: 1rem;
-            border-radius: 8px;
+            text-align: center;
         }
 
-        /* Contenedor de productos - lado derecho */
-        .main-content {
-            width: 80%; /* Ajuste para que el contenedor de productos sea similar al de "Zapatos" */
-            padding-left: 2rem;
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-transform: capitalize;
         }
 
-        /* Título de página */
+        .card-price {
+            color: #f56565;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .card-button {
+            display: inline-block;
+            background: #f6bbd0;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .card-button:hover {
+            background: #f56565;
+        }
+
         .page-title {
             text-align: center;
             font-size: 2.5rem;
@@ -56,15 +120,6 @@ import Footer from "../../components/footer.astro"
             letter-spacing: 2px;
         }
 
-        /* Estilo para contenedor de tarjetas de productos */
-        .cards-container {
-            display: grid;
-            gap: 2rem;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ajuste para la distribución similar a "Zapatos" */
-            justify-content: center;
-        }
-
-        /* Botón de filtros en móviles */
         .filter-button {
             padding: 0.75rem 1.5rem;
             font-size: 1rem;
@@ -76,7 +131,21 @@ import Footer from "../../components/footer.astro"
             transition: background-color 0.3s ease;
         }
 
-        /* Estilo para botón de cierre de filtros en móviles */
+        .filter-button:hover {
+            background-color: #f5bacf;
+        }
+
+        .filter-button svg {
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 767px) {
+            .filter-button {
+                padding: 1rem 2rem;
+                font-size: 1.25rem;
+            }
+        }
+
         .overlay {
             position: fixed;
             top: 0;
@@ -93,6 +162,15 @@ import Footer from "../../components/footer.astro"
             transform: translateX(0);
         }
 
+        .filters {
+            position: sticky;
+            top: 1rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
         .overlay-content {
             width: 80%;
             max-width: 360px;
@@ -102,165 +180,193 @@ import Footer from "../../components/footer.astro"
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
 
-        /* Ocultar scroll cuando se muestran filtros en móviles */
         .no-scroll {
             overflow: hidden;
+        }
+
+        @media (max-width: 1023px) {
+            .cards-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .cards-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .card {
+            width: 100%;
         }
     </style>
 </head>
 <body>
-
     <Header />
     <br>
     <br>
     <br>
-    <div class="container">
-        
+    <div class="container flex flex-col md:flex-row">
+        <!-- Panel de filtros -->
+        <aside class="filters w-full md:w-1/5 p-4 bg-white shadow-md mt-10 filter-container mr-6">
+            <h2 class="font-bold text-xl mb-4">Filtros</h2>
+            <div class="mb-6">
+                <h3 class="font-semibold">Descuento</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
+                    <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
+                    <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
+                    <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
+                    <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
+                </ul>
+            </div>
 
-        <!-- Botón de filtro visible solo en dispositivos móviles -->
-        <button class="filter-button flex items-center md:hidden" id="filterToggleMobile">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 12h18M3 19h18"></path>
-            </svg>
-            Filtros
-        </button>
+            <div class="mb-6">
+                <h3 class="font-semibold">Color</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
+                    <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
+                    <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
+                </ul>
+            </div>
 
-        <div class="flex flex-wrap">
-            <!-- Panel de filtros visible solo en dispositivos móviles -->
-            <aside class="overlay" id="filterSidebarMobile">
-                <div class="overlay-content">
-                    <button class="text-gray-600 hover:text-gray-800 focus:outline-none" id="closeFilterMobile">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                    <h2 class="font-bold text-xl mb-4">Filtros</h2>
-                    <div class="mb-6">
-                        <h3 class="font-semibold">Descuento</h3>
-                        <ul class="space-y-2 mt-2">
-                            <li><input type="checkbox" id="descuento30-mobile" /> <label for="descuento30-mobile">Hasta 30%</label></li>
-                            <li><input type="checkbox" id="descuento40-mobile" /> <label for="descuento40-mobile">30% - 40%</label></li>
-                            <li><input type="checkbox" id="descuento50-mobile" /> <label for="descuento50-mobile">40% - 50%</label></li>
-                            <li><input type="checkbox" id="descuento60-mobile" /> <label for="descuento60-mobile">50% - 60%</label></li>
-                            <li><input type="checkbox" id="mas60-mobile" /> <label for="mas60-mobile">Más de 60%</label></li>
-                        </ul>
-                    </div>
-    
-                    <div class="mb-6">
-                        <h3 class="font-semibold">Color</h3>
-                        <ul class="space-y-2 mt-2">
-                            <li><input type="checkbox" id="colorAmarillo-mobile" /> <label for="colorAmarillo-mobile">Amarillo</label></li>
-                            <li><input type="checkbox" id="colorAzul-mobile" /> <label for="colorAzul-mobile">Azul</label></li>
-                            <li><input type="checkbox" id="colorBlanco-mobile" /> <label for="colorBlanco-mobile">Blanco</label></li>
-                        </ul>
-                    </div>
-    
-                    <div>
-                        <h3 class="font-semibold">Precio</h3>
-                        <ul class="space-y-2 mt-2">
-                            <li><input type="checkbox" id="precio20-mobile" /> <label for="precio20-mobile">Hasta S/ 20.00</label></li>
-                            <li><input type="checkbox" id="precio40-mobile" /> <label for="precio40-mobile">S/ 20.00 - S/ 40.00</label></li>
-                            <li><input type="checkbox" id="precio60-mobile" /> <label for="precio60-mobile">S/ 40.00 - S/ 60.00</label></li>
-                        </ul>
-                    </div>
-                </div>
-            </aside>
-
-            <!-- Panel de filtros para escritorio -->
-            <aside class="filter-container hidden md:block" id="filterSidebar">
-                <h2 class="font-bold text-xl mb-4">Filtros</h2>
-                <div class="mb-6">
-                    <h3 class="font-semibold">Descuento</h3>
-                    <ul class="space-y-2 mt-2">
-                        <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
-                        <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
-                        <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
-                        <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
-                        <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
-                    </ul>
-                </div>
-
-                <div class="mb-6">
-                    <h3 class="font-semibold">Color</h3>
-                    <ul class="space-y-2 mt-2">
-                        <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
-                        <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
-                        <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 class="font-semibold">Precio</h3>
-                    <ul class="space-y-2 mt-2">
-                        <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
-                        <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
-                        <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
-                    </ul>
-                </div>
-
-                <div class="mb-6"></div>
+            <div>
+                <h3 class="font-semibold">Precio</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
+                    <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
+                    <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
+                </ul>
+            </div>
+            <br>
+            <div>
                 <h3 class="font-semibold">Categorias</h3>
                 <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="bucket hat" /> <label for="bucket hat">Bucket hat</label></li>
-                    <li><input type="checkbox" id="gorras" /> <label for="gorras">Gorras</label></li>
-                    <li><input type="checkbox" id="lentes" /> <label for="lentes">Lentes</label></li>
-                    <li><input type="checkbox" id="correa" /> <label for="correa">Correa</label></li>
-                    <li><input type="checkbox" id="cinturones" /> <label for="cinturones">Cinturones</label></li>
-                    <li><input type="checkbox" id="cadenas" /> <label for="cadenas">Cadenas</label></li>
-                    <li><input type="checkbox" id="tirantes" /> <label for="tirantes">Tirantes</label></li>
-                    <li><input type="checkbox" id="chokers" /> <label for="chokers">Chokers</label></li>
-                    <li><input type="checkbox" id="gargantillas" /> <label for="gargantillas">Gargantillas</label></li>
-                    <li><input type="checkbox" id="collares" /> <label for="collares">Collares</label></li>
-                    <li><input type="checkbox" id="aretes anime" /> <label for="aretes anime">Aretes anime</label></li>
-                    <li><input type="checkbox" id="aretes cute" /> <label for="aretes cute">Aretes Cute</label></li>
-                    <li><input type="checkbox" id="aretes" /> <label for="aretes">Aretes</label></li>
-                    <li><input type="checkbox" id="arnes" /> <label for="arnes">Arnés</label></li>
-                    <li><input type="checkbox" id="ligeros" /> <label for="ligeros">Ligeros</label></li>
-                    <li><input type="checkbox" id="vinchas" /> <label for="vinchas">Vinchas</label></li>
-                    <li><input type="checkbox" id="ganchos" /> <label for="ganchos">Ganchos</label></li>
-                    <li><input type="checkbox" id="lazos" /> <label for="lazos">Lazos</label></li>
-                    <li><input type="checkbox" id="pines" /> <label for="pines">Pines</label></li>
-                    <li><input type="checkbox" id="malla" /> <label for="malla">Malla de manos</label></li>
-                    <li><input type="checkbox" id="muñequeras" /> <label for="malla">Muñequeras</label></li>
-                    <li><input type="checkbox" id="anillos" /> <label for="anillos">Anillos</label></li>
+                    <li><input type="checkbox" data-id="1" class="category-filter" /> <label>Bucket hat</label></li>
+                    <li><input type="checkbox" data-id="2" class="category-filter" /> <label>Gorras</label></li>
+                    <li><input type="checkbox" data-id="3" class="category-filter" /> <label>Lentes</label></li>
+                    <li><input type="checkbox" data-id="4" class="category-filter" /> <label>Correa</label></li>
+                    <li><input type="checkbox" data-id="5" class="category-filter" /> <label>Cinturones</label></li>
+                    <li><input type="checkbox" data-id="6" class="category-filter" /> <label>Cadenas</label></li>
+                    <li><input type="checkbox" data-id="7" class="category-filter" /> <label>Tirantes</label></li>
+                    <li><input type="checkbox" data-id="8" class="category-filter" /> <label>Chokers</label></li>
+                    <li><input type="checkbox" data-id="9" class="category-filter" /> <label>Gargantillas</label></li>
+                    <li><input type="checkbox" data-id="10" class="category-filter" /> <label>Collares</label></li>
+                    <li><input type="checkbox" data-id="11" class="category-filter" /> <label>Aretes anime</label></li>
+                    <li><input type="checkbox" data-id="12" class="category-filter" /> <label>Aretes cute</label></li>
+                    <li><input type="checkbox" data-id="13" class="category-filter" /> <label>Aretes</label></li>
+                    <li><input type="checkbox" data-id="14" class="category-filter" /> <label>Arnés</label></li>
+                    <li><input type="checkbox" data-id="15" class="category-filter" /> <label>Ligeros</label></li>
+                    <li><input type="checkbox" data-id="16" class="category-filter" /> <label>Vinchas</label></li>
+                    <li><input type="checkbox" data-id="17" class="category-filter" /> <label>Ganchos</label></li>
+                    <li><input type="checkbox" data-id="18" class="category-filter" /> <label>Lazos</label></li>
+                    <li><input type="checkbox" data-id="19" class="category-filter" /> <label>Pines</label></li>
+                    <li><input type="checkbox" data-id="20" class="category-filter" /> <label>Malla de manos</label></li>
+                    <li><input type="checkbox" data-id="21" class="category-filter" /> <label>Muñequeras</label></li>
+                    <li><input type="checkbox" data-id="22" class="category-filter" /> <label>Anillos</label></li>
                 </ul>
             </div>
         </aside>
-            <!-- Contenido principal (lado derecho) -->
-        <main class="main-content">
-            <h1 class="page-title">ACCESORIOS</h1> <!-- Ajuste de estilo aplicado para que el título sea similar a "ZAPATOS" -->
-            <br><br>
+
+        <!-- Productos de faldas -->
+        <main class="w-full md:w-4/5 p-4">
+        <h1 class="page-title">ACCESORIOS</h1>
             <div class="cards-container">
-                    <!-- Generación de tarjetas de productos -->
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <!-- Repetir para mostrar más productos -->
-                </div>
-            </main>
+                {filteredProducts.length > 0 ? (
+                    filteredProducts.map((product: Product) => (
+                        <div class="card">
+                            <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
+                            <div class="card-content">
+                                <h2 class="card-title">{product.nombre_producto}</h2>
+                                <p class="card-price">Precio: S/ {Number(product.precio).toFixed(2)}</p>
+                                <a href="#" class="card-button">Comprar</a>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p class="text-center">No hay productos disponibles.</p>
+                )}
+            </div>
+        </main>
+    </div>
+
+    <!-- Botón de filtro visible solo en dispositivos móviles -->
+    <button class="filter-button flex items-center md:hidden" id="filterToggleMobile">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 12h18M3 19h18"></path>
+        </svg>
+        Filtros
+    </button>
+
+    <!-- Panel de filtros visible solo en dispositivos móviles -->
+    <div class="overlay" id="filterSidebarMobile">
+        <div class="overlay-content">
+            <button class="text-gray-600 hover:text-gray-800 focus:outline-none" id="closeFilterMobile">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <h2 class="font-bold text-xl mb-4">Filtros</h2>
+            <div class="mb-6">
+                <h3 class="font-semibold">Descuento</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="descuento30-mobile" /> <label for="descuento30-mobile">Hasta 30%</label></li>
+                    <li><input type="checkbox" id="descuento40-mobile" /> <label for="descuento40-mobile">30% - 40%</label></li>
+                    <li><input type="checkbox" id="descuento50-mobile" /> <label for="descuento50-mobile">40% - 50%</label></li>
+                    <li><input type="checkbox" id="descuento60-mobile" /> <label for="descuento60-mobile">50% - 60%</label></li>
+                    <li><input type="checkbox" id="mas60-mobile" /> <label for="mas60-mobile">Más de 60%</label></li>
+                </ul>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="font-semibold">Color</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="colorAmarillo-mobile" /> <label for="colorAmarillo-mobile">Amarillo</label></li>
+                    <li><input type="checkbox" id="colorAzul-mobile" /> <label for="colorAzul-mobile">Azul</label></li>
+                    <li><input type="checkbox" id="colorBlanco-mobile" /> <label for="colorBlanco-mobile">Blanco</label></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="font-semibold">Precio</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="precio20-mobile" /> <label for="precio20-mobile">Hasta S/ 20.00</label></li>
+                    <li><input type="checkbox" id="precio40-mobile" /> <label for="precio40-mobile">S/ 20.00 - S/ 40.00</label></li>
+                    <li><input type="checkbox" id="precio60-mobile" /> <label for="precio60-mobile">S/ 40.00 - S/ 60.00</label></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-semibold">Categorias</h3>
+                    <ul class="space-y-2 mt-2">
+                        <li><input type="checkbox" data-id="1" class="category-filter" /> <label>Bucket hat</label></li>
+                        <li><input type="checkbox" data-id="2" class="category-filter" /> <label>Gorras</label></li>
+                        <li><input type="checkbox" data-id="3" class="category-filter" /> <label>Lentes</label></li>
+                        <li><input type="checkbox" data-id="4" class="category-filter" /> <label>Correa</label></li>
+                        <li><input type="checkbox" data-id="5" class="category-filter" /> <label>Cinturones</label></li>
+                        <li><input type="checkbox" data-id="6" class="category-filter" /> <label>Cadenas</label></li>
+                        <li><input type="checkbox" data-id="7" class="category-filter" /> <label>Tirantes</label></li>
+                        <li><input type="checkbox" data-id="8" class="category-filter" /> <label>Chokers</label></li>
+                        <li><input type="checkbox" data-id="9" class="category-filter" /> <label>Gargantillas</label></li>
+                        <li><input type="checkbox" data-id="10" class="category-filter" /> <label>Collares</label></li>
+                        <li><input type="checkbox" data-id="11" class="category-filter" /> <label>Aretes anime</label></li>
+                        <li><input type="checkbox" data-id="12" class="category-filter" /> <label>Aretes cute</label></li>
+                        <li><input type="checkbox" data-id="13" class="category-filter" /> <label>Aretes</label></li>
+                        <li><input type="checkbox" data-id="14" class="category-filter" /> <label>Arnés</label></li>
+                        <li><input type="checkbox" data-id="15" class="category-filter" /> <label>Ligeros</label></li>
+                        <li><input type="checkbox" data-id="16" class="category-filter" /> <label>Vinchas</label></li>
+                        <li><input type="checkbox" data-id="17" class="category-filter" /> <label>Ganchos</label></li>
+                        <li><input type="checkbox" data-id="18" class="category-filter" /> <label>Lazos</label></li>
+                        <li><input type="checkbox" data-id="19" class="category-filter" /> <label>Pines</label></li>
+                        <li><input type="checkbox" data-id="20" class="category-filter" /> <label>Malla de manos</label></li>
+                        <li><input type="checkbox" data-id="21" class="category-filter" /> <label>Muñequeras</label></li>
+                        <li><input type="checkbox" data-id="22" class="category-filter" /> <label>Anillos</label></li>
+                    </ul>
+            </div>
         </div>
     </div>
 
     <Footer />
 
-    <!-- Script para manejar el panel de filtros en móviles -->
     <script type="module">
         // Mostrar y ocultar el panel de filtros en dispositivos móviles
         const filterToggleMobile = document.getElementById('filterToggleMobile');
@@ -276,6 +382,55 @@ import Footer from "../../components/footer.astro"
         closeFilterMobile.addEventListener('click', () => {
             filterSidebarMobile.classList.remove('show');
             body.classList.remove('no-scroll');
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            let products = JSON.parse('${JSON.stringify(products)}');
+            let filteredProducts = [...products].filter(product => product.id_cat_accesorio !== null);
+            const selectedSubcategories = new Set();
+            const container = document.querySelector('.cards-container');
+
+            function renderProducts(productsToRender) {
+                container.innerHTML = '';
+                if (productsToRender.length > 0) {
+                    productsToRender.forEach(product => {
+                        container.innerHTML += `
+                            <div class="card">
+                                <img src="${product.img1}" alt="Imagen de ${product.nombre_producto}" />
+                                <div class="card-content">
+                                    <h2 class="card-title">${product.nombre_producto}</h2>
+                                    <p class="card-price">Precio: S/ ${Number(product.precio).toFixed(2)}</p>
+                                    <a href="#" class="card-button">Comprar</a>
+                                </div>
+                            </div>`;
+                    });
+                } else {
+                    container.innerHTML = '<p>No hay productos disponibles.</p>';
+                }
+            }
+
+            document.querySelectorAll('.category-filter').forEach(filter => {
+                filter.addEventListener('change', event => {
+                    const id = Number(event.target.getAttribute('data-id'));
+                    if (event.target.checked) {
+                        selectedSubcategories.add(id);
+                    } else {
+                        selectedSubcategories.delete(id);
+                    }
+
+                    if (selectedSubcategories.size > 0) {
+                        filteredProducts = products.filter(product =>
+                            product.id_cat_accesorio !== null && selectedSubcategories.has(product.id_cat_accesorio)
+                        );
+                    } else {
+                        filteredProducts = products.filter(product => product.id_cat_accesorio !== null);
+                    }
+
+                    renderProducts(filteredProducts);
+                });
+            });
+
+            renderProducts(filteredProducts);
         });
     </script>
 </body>
