@@ -17,7 +17,16 @@ if (!response.ok) {
   throw new Error(`Error al obtener productos: ${errorText}`);
 }
 
-const products = await response.json(); // Intenta parsear solo si todo está bien
+const products = response.ok ? await response.json() : [];
+
+const bannersResponse = await fetch('http://localhost:3000/api/banners');
+
+if (!bannersResponse.ok) {
+  console.error('Error al obtener banners:', bannersResponse.statusText);
+  throw new Error(`Error al obtener banners: ${await bannersResponse.text()}`);
+}
+
+const banners = await bannersResponse.json();
 ---
 
 <Layout title="MYU WEB">
@@ -38,10 +47,10 @@ const products = await response.json(); // Intenta parsear solo si todo está bi
         <Header />
         <br>
         <br>    
-        <Seccion />
+        <Seccion banners={banners} />
         <main>
         <Categorias />
-        <Forsale />
+        <Forsale products={products} />
         <New />
         <Productos products={products} />      
         </main>
