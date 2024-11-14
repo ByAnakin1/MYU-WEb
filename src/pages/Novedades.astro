@@ -1,7 +1,27 @@
 ---
 import Header from "../components/header.astro";
-import Card from "../components/Card.astro";
 import Footer from "../components/footer.astro";
+
+interface Banner {
+  id_banner: number;
+  tipo: string;
+  img1: string;
+  img2: string;
+  img3: string;
+  img1cell: string;
+  img2cell: string;
+  img3cell: string;
+}
+
+// Fetch de banners desde la API
+const bannersResponse = await fetch('http://localhost:3000/api/banners');
+
+if (!bannersResponse.ok) {
+  console.error('Error al obtener banners:', bannersResponse.statusText);
+  throw new Error(`Error al obtener banners: ${await bannersResponse.text()}`);
+}
+
+const banners: Banner[] = await bannersResponse.json();
 ---
 
 <!doctype html>
@@ -146,26 +166,40 @@ import Footer from "../components/footer.astro";
       .section-item:hover {
         background-color: #ddd;
       }
+
+      .banner img {
+        width: 100%;
+        height: auto; /* Mantén la proporción de la imagen */
+        display: block;
+      }
+
+
+
     </style>
   </head>
   <body>
     <Header />
     <br>
-    <br>
-    <br>
-    <div class="container">
-      <div
-        class="banner"
-        style="background-image: url('/public/img/banner_novedades.jpeg');"
-      >
-      </div>
-    </div>
 
+    <div class="container">
+      {banners.length > 0 ? (
+        <div class="banner">
+          <img 
+            src={banners[0].img1} 
+            srcset={`${banners[0].img1cell} 768w, ${banners[0].img1} 1024w`} 
+            sizes="(max-width: 768px) 100vw, 1024px" 
+            alt={`Banner ${banners[0].id_banner}`} 
+          />
+        </div>
+      ) : (
+        <p>No hay banners disponibles</p>
+      )}
+    </div>
+    
     
     <!-- Secciones de Hombre, Mujer, Niños -->
 <div class="container my-6">
   <!-- Cambia my-12 por my-6 aquí -->
-  <h2 class="section-title">Categorías</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
     <a href="/Novedades/Mujer" class="section-item bg-gray-200 h-40 flex items-center justify-center">
       Mujer

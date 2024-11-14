@@ -1,5 +1,12 @@
 ---
-import Card from "./Card.astro"
+interface Product {
+  id_producto: number;
+  nombre_producto: string;
+  precio: number;
+  img1: string;
+}
+
+const { products = [] }: { products?: Product[] } = Astro.props;
 ---
 <head>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -46,52 +53,28 @@ import Card from "./Card.astro"
 </head>
 
 <body>
-  <!-- Swiper -->
-  <h2 class="text-2xl font-bold text-center mb-4 bg-[#f6bbd0] py-3 text-white mt-8">NOVEDADES</h2> <!-- Ajusta mt-8 para mover el título hacia arriba -->
-  <section class="py-6 mt-4"> <!-- Ajusta mt-4 para mover el slider hacia arriba -->
+  <h2 class="text-2xl font-bold text-center mb-4 bg-[#f6bbd0] py-3 text-white">NOVEDADES</h2>
+  <section class="py-4">
     <div class="swiper-container mt-4">
       <div class="swiper mySwiper">
         <div class="swiper-wrapper">
-          <!-- Sliders... -->
-          <div class="swiper-slide">
-            <Card />
-          </div>
-          <div class="swiper-slide">
-            <Card />
-          </div>
-          <div class="swiper-slide">
-            <Card />
-          </div>
-          <div class="swiper-slide">
-            <Card />
-          </div>
-          <div class="swiper-slide">
-            <Card />
-          </div>
-          <div class="swiper-slide">
-            <Card />
-          </div>
-          <div class="swiper-slide">
-            <Card />
-          </div>
-          <div class="swiper-slide">
-            <Card />
-          </div>
-          <div class="swiper-slide">
-            <Card />
-          </div>
-          <div class="swiper-slide">
-            <Card />
-          </div>
-          <div class="swiper-slide">
-            <Card />
-          </div>
-          
-          <!-- Otros sliders -->
+          {products.length > 0 ? (
+            products.map((product) => (
+              <div class="swiper-slide">
+                <div class="card">
+                  <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
+                  <div class="card-content">
+                    <h2 class="card-title">{product.nombre_producto}</h2>
+                    <p class="card-price">Precio: S/ {Number(product.precio).toFixed(2)}</p>
+                    <a href="#" class="card-button">Comprar</a>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p class="text-center">No hay productos disponibles.</p>
+          )}
         </div>
-        <br>
-        <div class="swiper-pagination"></div>
-        <br>
       </div>
     </div>
   </section>

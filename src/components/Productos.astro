@@ -1,23 +1,34 @@
 ---
-// Importar el componente Card y obtener datos dinámicos
-import Card from "./Card.astro";
-
+// Define la interfaz para productos
 interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
+  id_producto: number;
+  nombre_producto: string;
+  precio: number;
+  img1: string;
+  id_categoria: number; // Agrega esta propiedad para filtrar
 }
 
-let products: Product[] = []; // Aplicar el tipado aquí
-try {
-  const response = await fetch('http://localhost:3000/api/products');
-  products = await response.json();
-} catch (err) {
-  console.error(err);
+// Realizar la solicitud para obtener todos los productos
+const response = await fetch('http://localhost:3000/api/productos');
+
+if (!response.ok) {
+  console.error('Error al obtener productos:', response.statusText);
+  const errorText = await response.text();
+  throw new Error(`Error al obtener productos: ${errorText}`);
 }
+
+let products: Product[] = [];
+try {
+  products = await response.json(); // Obtener todos los productos
+} catch (error) {
+  console.error('Error al parsear productos:', error);
+  throw new Error('La respuesta del servidor no es válida.');
+}
+
+// Filtrar 20 productos aleatorios
+const randomProducts = products.sort(() => Math.random() - 0.5).slice(0, 20);
 ---
+
 
 <style>
   .container {
@@ -26,9 +37,10 @@ try {
     padding: 0 1rem;
   }
 
-  .product-grid {
+  .cards-container {
     display: grid;
     gap: 1rem;
+    grid-template-columns: repeat(5, 1fr);
   }
 
   .section-title {
@@ -42,36 +54,95 @@ try {
   }
 
   @media (max-width: 767px) {
-    .product-grid {
+    .cards-container {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
   @media (min-width: 768px) and (max-width: 1023px) {
-    .product-grid {
+    .cards-container {
       grid-template-columns: repeat(3, 1fr);
     }
   }
 
   @media (min-width: 1024px) {
-    .product-grid {
+    .cards-container {
       grid-template-columns: repeat(5, 1fr);
     }
+  }
+
+  .card {
+    background: white;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  }
+
+  .card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .card-content {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-transform: capitalize;
+  }
+
+  .card-price {
+    color: #f56565;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .card-button {
+    display: inline-block;
+    background: #f6bbd0;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+
+  .card-button:hover {
+    background: #f56565;
   }
 </style>
 
 <body>
   <h2 class="section-title">PRODUCTOS</h2>
   <div class="container">
-    <section class="product-grid">
-      {products.map((product: Product) => (
-        <div class="card">
-          <img src={product.image} alt={product.name} />
-          <h3>{product.name}</h3>
-          <p>{product.description}</p>
-          <span>{product.price}</span>
-        </div>
-      ))}
-    </section>
+    <div class="cards-container">
+      {randomProducts.length > 0 ? (
+        randomProducts.map((product: Product) => (
+          <div class="card">
+            <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
+            <div class="card-content">
+              <h2 class="card-title">{product.nombre_producto}</h2>
+              <p class="card-price">Precio: S/ {Number(product.precio).toFixed(2)}</p>
+              <a href="#" class="card-button">Comprar</a>
+            </div>
+          </div>
+        ))
+      ) : (
+        <p class="text-center">No hay productos disponibles.</p>
+      )}
+      
+    </div>
   </div>
 </body>

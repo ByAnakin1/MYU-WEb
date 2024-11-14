@@ -1,7 +1,18 @@
 ---
 import Header from "../components/header.astro";
 import Footer from "../components/footer.astro";
+
+// Fetch de videos TikTok desde la API
+const tiktoksResponse = await fetch('http://localhost:3000/api/tiktoks');
+
+if (!tiktoksResponse.ok) {
+  console.error('Error al obtener TikToks:', tiktoksResponse.statusText);
+  throw new Error(`Error al obtener TikToks: ${await tiktoksResponse.text()}`);
+}
+
+const tiktoks = await tiktoksResponse.json();
 ---
+
 
 <!doctype html>
 <html lang="es">
@@ -450,63 +461,37 @@ import Footer from "../components/footer.astro";
             <!-- Sección TikTok -->
             <section class="text-center my-8 fade-in">
                 <h2 class="text-2xl font-bold text-pink-600 mb-6 bounce">
-                    Nuestro TikTok
+                Nuestro TikTok
                 </h2>
                 <div
-                    class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-full"
+                class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-full"
                 >
-                    <!-- Primer TikTok -->
+                {tiktoks.length > 0 ? (
+                    tiktoks.map((tiktok) => (
                     <blockquote
                         class="tiktok-embed tiktok-block scale-up"
-                        cite="https://www.tiktok.com/@myu.fashionshop/video/7168904062405053701"
-                        data-video-id="7168904062405053701"
+                        cite={tiktok.url}
+                        data-video-id={tiktok.url.split('/').pop()} // Extrae el ID del video desde la URL
                         style="width: 100%; max-width: 300px; height: auto; display: block;"
                     >
                         <section>
-                            <a
-                                target="_blank"
-                                title="@myu.fashionshop"
-                                href="https://www.tiktok.com/@myu.fashionshop/video/7168904062405053701"
-                                style="color: #F6BBD0;">@myu.fashionshop</a
-                            >
+                        <a
+                            target="_blank"
+                            title="@myu.fashionshop"
+                            href={tiktok.url}
+                            style="color: #F6BBD0;"
+                        >
+                            @myu.fashionshop
+                        </a>
                         </section>
                     </blockquote>
-                    <!-- Segundo TikTok -->
-                    <blockquote
-                        class="tiktok-embed tiktok-block scale-up"
-                        cite="https://www.tiktok.com/@myu.fashionshop/video/7400469883097681158"
-                        data-video-id="7400469883097681158"
-                        style="width: 100%; max-width: 300px; height: auto; display: block;"
-                    >
-                        <section>
-                            <a
-                                target="_blank"
-                                title="@myu.fashionshop"
-                                href="https://www.tiktok.com/@myu.fashionshop/video/7400469883097681158"
-                                style="color: #F6BBD0;">@myu.fashionshop</a
-                            >
-                        </section>
-                    </blockquote>
-                    <!-- Tercer TikTok -->
-                    <blockquote
-                        class="tiktok-embed tiktok-block scale-up"
-                        cite="https://www.tiktok.com/@myu.fashionshop/video/7418807152246000901"
-                        data-video-id="7418807152246000901"
-                        style="width: 100%; max-width: 300px; height: auto; display: block;"
-                    >
-                        <section>
-                            <a
-                                target="_blank"
-                                title="@myu.fashionshop"
-                                href="https://www.tiktok.com/@myu.fashionshop/video/7418807152246000901"
-                                style="color: #F6BBD0;">@myu.fashionshop</a
-                            >
-                        </section>
-                    </blockquote>
+                    ))
+                ) : (
+                    <p>No hay videos disponibles</p>
+                )}
                 </div>
                 <script async src="https://www.tiktok.com/embed.js"></script>
             </section>
-
             <!-- Sección Redes Sociales -->
             <section
                 class="bg-white rounded-lg shadow-lg p-6 md:p-10 mx-auto my-8 fade-in max-w-full"

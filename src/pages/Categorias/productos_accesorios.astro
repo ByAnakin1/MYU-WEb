@@ -16,15 +16,17 @@ let products: Product[] = [];
 let filteredProducts: Product[] = [];
 
 // Cargar productos del servidor al renderizado inicial
-const fetchedProducts = await fetch('http://localhost:3000/api/productos')
-  .then(res => res.ok ? res.json() : [])
-  .catch(err => {
-    console.error('Error al obtener productos:', err);
-    return [];
-  });
-
-products = fetchedProducts;
-filteredProducts = products.filter(product => product.id_cat_accesorio !== null);
+try {
+  const response = await fetch('http://localhost:3000/api/productos');
+  if (response.ok) {
+    products = await response.json();
+    filteredProducts = products.filter(product => product.id_cat_accesorio !== null);
+  } else {
+    console.error('Error en la respuesta del servidor:', response.statusText);
+  }
+} catch (err) {
+  console.error('Error al obtener productos:', err);
+}
 ---
 
 <!DOCTYPE html>
@@ -384,52 +386,56 @@ filteredProducts = products.filter(product => product.id_cat_accesorio !== null)
             body.classList.remove('no-scroll');
         });
 
+         // Inicializar variables de productos en el cliente
+        const products = JSON.parse('${JSON.stringify(products)}');
+        let filteredProducts = products.filter(product => product.id_cat_accesorio !== null);
+
         document.addEventListener('DOMContentLoaded', () => {
-            let products = JSON.parse('${JSON.stringify(products)}');
-            let filteredProducts = [...products].filter(product => product.id_cat_accesorio !== null);
-            const selectedSubcategories = new Set();
             const container = document.querySelector('.cards-container');
+            const selectedFilters = { categories: new Set() };
 
             function renderProducts(productsToRender) {
-                container.innerHTML = '';
-                if (productsToRender.length > 0) {
-                    productsToRender.forEach(product => {
-                        container.innerHTML += `
-                            <div class="card">
-                                <img src="${product.img1}" alt="Imagen de ${product.nombre_producto}" />
-                                <div class="card-content">
-                                    <h2 class="card-title">${product.nombre_producto}</h2>
-                                    <p class="card-price">Precio: S/ ${Number(product.precio).toFixed(2)}</p>
-                                    <a href="#" class="card-button">Comprar</a>
-                                </div>
-                            </div>`;
-                    });
-                } else {
-                    container.innerHTML = '<p>No hay productos disponibles.</p>';
-                }
+            container.innerHTML = '';
+            if (productsToRender.length) {
+                productsToRender.forEach(product => {
+                container.innerHTML += `
+                    <div class="card">
+                    <img src="${product.img1}" alt="Imagen de ${product.nombre_producto}" />
+                    <div class="card-content">
+                        <h2 class="card-title">${product.nombre_producto}</h2>
+                        <p class="card-price">Precio: S/ ${product.precio.toFixed(2)}</p>
+                    </div>
+                    </div>`;
+                });
+            } else {
+                container.innerHTML = '<p class="text-center">No hay productos disponibles.</p>';
+            }
+            }
+
+            function applyFilters() {
+            let filtered = products;
+
+            if (selectedFilters.categories.size > 0) {
+                filtered = filtered.filter(product =>
+                selectedFilters.categories.has(product.id_cat_accesorio)
+                );
+            }
+            renderProducts(filtered);
             }
 
             document.querySelectorAll('.category-filter').forEach(filter => {
-                filter.addEventListener('change', event => {
-                    const id = Number(event.target.getAttribute('data-id'));
-                    if (event.target.checked) {
-                        selectedSubcategories.add(id);
-                    } else {
-                        selectedSubcategories.delete(id);
-                    }
-
-                    if (selectedSubcategories.size > 0) {
-                        filteredProducts = products.filter(product =>
-                            product.id_cat_accesorio !== null && selectedSubcategories.has(product.id_cat_accesorio)
-                        );
-                    } else {
-                        filteredProducts = products.filter(product => product.id_cat_accesorio !== null);
-                    }
-
-                    renderProducts(filteredProducts);
-                });
+            filter.addEventListener('change', event => {
+                const id = Number(event.target.getAttribute('data-id'));
+                if (event.target.checked) {
+                selectedFilters.categories.add(id);
+                } else {
+                selectedFilters.categories.delete(id);
+                }
+                applyFilters();
+            });
             });
 
+            // Inicializa la vista con todos los productos filtrados
             renderProducts(filteredProducts);
         });
     </script>

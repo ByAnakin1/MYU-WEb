@@ -1,11 +1,18 @@
 ---
-import Card from "./Card.astro"
+interface Product {
+  id_producto: number;
+  nombre_producto: string;
+  precio: number;
+  img1: string;
+}
+
+const { products = [] }: { products?: Product[] } = Astro.props;
 ---
+
 <head>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Demo styles -->
   <style>
     html,
     body {
@@ -15,7 +22,7 @@ import Card from "./Card.astro"
 
     body {
       background: #ffffff;
-      font-family: Arial, Helvetica, sans-serif, Helvetica, Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       font-size: 14px;
       margin: 0;
       padding: 0;
@@ -30,7 +37,7 @@ import Card from "./Card.astro"
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 30px 0px;
+      padding: 15px;
     }
 
     .mySwiper {
@@ -42,114 +49,118 @@ import Card from "./Card.astro"
       max-width: 1550px;
       margin: 0 auto;
     }
+
+    .card {
+      background: white;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      width: 100%;
+      max-width: 250px;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover; /* Aseguramos que la imagen no se recorte */
+    }
+
+    .card-content {
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-price {
+      color: #f56565;
+      font-weight: bold;
+    }
+
+    .card-button {
+      background: #f6bbd0;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .card-button:hover {
+      background: #f56565;
+    }
+
+    /* Responsividad: mostrar 5 productos por fila, 3 por fila en pantallas medianas y 2 en pantallas pequeñas */
+    @media (max-width: 767px) {
+      .swiper-container {
+        padding: 0 10px; /* Añadir espacio lateral en pantallas pequeñas */
+      }
+    }
   </style>
 </head>
 
-<body >
-  <!-- Swiper -->
+<body>
   <h2 class="text-2xl font-bold text-center mb-4 bg-[#f6bbd0] py-3 text-white">FOR SALE -%</h2>
-    <section class="py-"> 
+  <section class="py-4">
     <div class="swiper-container mt-4">
       <div class="swiper mySwiper">
-      <div class="swiper-wrapper">
-        <!-- Slider 1 -->
-        <div class="swiper-slide">
-          <Card />
+        <div class="swiper-wrapper">
+          {products.length > 0 ? (
+            products.map((product) => (
+              <div class="swiper-slide">
+                <div class="card">
+                  <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
+                  <div class="card-content">
+                    <h2 class="card-title">{product.nombre_producto}</h2>
+                    <p class="card-price">Precio: S/ {Number(product.precio).toFixed(2)}</p>
+                    <a href="#" class="card-button">Comprar</a>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p class="text-center">No hay productos disponibles.</p>
+          )}
         </div>
-
-        <!-- Slider 2 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 3 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 4 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 5 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 6 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 7 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 8 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 9 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 10 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 11 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 12 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 13 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 14 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Slider 15 -->
-        <div class="swiper-slide">
-          <Card />
-        </div>
-
-        <!-- Puedes seguir agregando más sliders aquí -->
       </div>
-      <br>
-      <div class="swiper-pagination"></div>
     </div>
-  </div>
-</section>
+  </section>
 
-  <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-  <!-- Initialize Swiper -->
   <script type="module">
     import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs';
     var swiper = new Swiper(".mySwiper", {
       slidesPerView: 5,
-      spaceBetween: 0,
+      spaceBetween: 20,
       pagination: {
         el: ".swiper-pagination",
         clickable: true,
       },
+      breakpoints: {
+        640: {
+          slidesPerView: 2, // Muestra 2 productos en pantallas pequeñas
+          spaceBetween: 10,
+        },
+        768: {
+          slidesPerView: 3, // Muestra 3 productos en pantallas medianas
+          spaceBetween: 15,
+        },
+        1024: {
+          slidesPerView: 5, // Muestra 5 productos en pantallas grandes
+          spaceBetween: 20,
+        },
+      },
     });
   </script>
 </body>
-
-</html>
