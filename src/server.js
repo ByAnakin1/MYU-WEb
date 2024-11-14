@@ -55,16 +55,40 @@ app.get('/api/banners', async (req, res) => {
   }
 });
 
-// server.js
 app.get('/api/tiktoks', async (req, res) => {
   try {
-    const [rows] = await db.query('SELECT * FROM tiktoks');
-    res.json(rows); // Devuelve un array de videos de TikTok
+    const [rows] = await db.query('SELECT * FROM tiktok');
+    if (!rows || rows.length === 0) {
+      return res.status(404).json({ error: 'No se encontraron videos de TikTok.' });
+    }
+    res.json(rows); // Devuelve los datos de TikTok
   } catch (err) {
     console.error('Error al obtener videos de TikTok:', err);
-    res.status(500).json({ error: 'Error al obtener videos de TikTok.' });
+    res.status(500).json({ error: `Error al obtener videos de TikTok: ${err.message}` });
   }
 });
+
+app.get('/api/productos/:id', async (req, res) => {
+  const { id } = req.params;
+  
+  if (isNaN(id)) {
+    return res.status(400).json({ error: 'El ID debe ser un número válido.' });
+  }
+  
+  try {
+    const [rows] = await db.query('SELECT * FROM productos WHERE id_producto = ?', [id]);
+    
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Producto no encontrado.' });
+    }
+    
+    res.json(rows[0]); // Devuelve el primer producto (solo uno por ID)
+  } catch (err) {
+    console.error('Error al obtener el producto:', err);
+    res.status(500).json({ error: 'Error al obtener el producto.' });
+  }
+});
+
 
 
 const PORT = 3000;

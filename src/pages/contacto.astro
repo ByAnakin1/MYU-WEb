@@ -2,7 +2,12 @@
 import Header from "../components/header.astro";
 import Footer from "../components/footer.astro";
 
-// Fetch de videos TikTok desde la API
+interface TikTok {
+  id: number;
+  link: string;         // El enlace completo al video de TikTok
+  videoID: string;      // El ID del video de TikTok
+}
+
 const tiktoksResponse = await fetch('http://localhost:3000/api/tiktoks');
 
 if (!tiktoksResponse.ok) {
@@ -10,8 +15,8 @@ if (!tiktoksResponse.ok) {
   throw new Error(`Error al obtener TikToks: ${await tiktoksResponse.text()}`);
 }
 
-const tiktoks = await tiktoksResponse.json();
----
+const tiktoks: TikTok[] = await tiktoksResponse.json();
+--- 
 
 
 <!doctype html>
@@ -458,40 +463,31 @@ const tiktoks = await tiktoksResponse.json();
                 </div>
             </section>
 
-            <!-- Sección TikTok -->
             <section class="text-center my-8 fade-in">
                 <h2 class="text-2xl font-bold text-pink-600 mb-6 bounce">
-                Nuestro TikTok
+                    Nuestro TikTok
                 </h2>
-                <div
-                class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-full"
-                >
-                {tiktoks.length > 0 ? (
-                    tiktoks.map((tiktok) => (
-                    <blockquote
-                        class="tiktok-embed tiktok-block scale-up"
-                        cite={tiktok.url}
-                        data-video-id={tiktok.url.split('/').pop()} // Extrae el ID del video desde la URL
-                        style="width: 100%; max-width: 300px; height: auto; display: block;"
-                    >
-                        <section>
-                        <a
-                            target="_blank"
-                            title="@myu.fashionshop"
-                            href={tiktok.url}
-                            style="color: #F6BBD0;"
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-full">
+                    {tiktoks.map((tiktok) => (
+                        <blockquote
+                            class="tiktok-embed tiktok-block scale-up"
+                            cite={tiktok.link}  
+                            data-video-id={tiktok.videoID}
+                            style="width: 100%; max-width: 300px; height: auto; display: block;"
                         >
-                            @myu.fashionshop
-                        </a>
-                        </section>
-                    </blockquote>
-                    ))
-                ) : (
-                    <p>No hay videos disponibles</p>
-                )}
+                            <section>
+                                <a
+                                    target="_blank"
+                                    title="@myu.fashionshop"
+                                    href={tiktok.link}
+                                    style="color: #F6BBD0;">@myu.fashionshop</a>
+                            </section>
+                        </blockquote>
+                    ))}
                 </div>
                 <script async src="https://www.tiktok.com/embed.js"></script>
             </section>
+
             <!-- Sección Redes Sociales -->
             <section
                 class="bg-white rounded-lg shadow-lg p-6 md:p-10 mx-auto my-8 fade-in max-w-full"
