@@ -2,89 +2,257 @@
 import Header from "../components/header.astro";
 import Footer from "../components/footer.astro";
 ---
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito de Compras</title>
-    <!-- Importar la fuente desde Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;600&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Importar Font Awesome para los íconos -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: 'Fira Sans', sans-serif;
         }
+
+        .size-box {
+            background-color: #f3f4f6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            color: #6b7280;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        .trash-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+        }
+
+        .container {
+            max-width: 100%;
+        }
+
+        .flex-grow {
+            flex-grow: 1;
+        }
+
+        .quantity-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f3f4f6;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+        }
+
+        .quantity-container button {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .quantity-container button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .quantity-container input {
+            width: 3rem;
+            text-align: center;
+            border: none;
+            background-color: transparent;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+            margin: 0 0.5rem;
+        }
+
+        .quantity-container input:focus {
+            outline: none;
+        }
+
+        @media (max-width: 768px) {
+            .lg:flex-row {
+                flex-direction: column;
+            }
+
+            .lg:w-2/3, .lg:w-1/3 {
+                width: 100%;
+            }
+
+            .lg:space-x-8 {
+                gap: 0;
+            }
+
+            .lg:mb-0 {
+                margin-bottom: 1rem;
+            }
+
+            .p-6 {
+                padding: 1rem;
+            }
+
+            .shadow-lg {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .bg-white {
+                margin-bottom: 1rem;
+            }
+
+            .grid-cols-1 {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .items-center {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .flex {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .product-card img {
+                max-width: 100px;
+                margin-bottom: 1rem;
+            }
+
+            .product-details {
+                margin-left: 0;
+            }
+
+            .space-x-2 {
+                gap: 0.5rem;
+            }
+
+            .w-24 {
+                width: 80px;
+                height: 80px;
+            }
+        }
     </style>
 </head>
 <body class="bg-pink-200 flex flex-col min-h-screen">
-    <!-- Header -->
     <Header />
-    <br><br><br><br><br>
-    <main class="flex-grow container mx-auto bg-white p-4 lg:p-8 shadow-lg rounded-lg flex flex-col lg:flex-row lg:space-x-12">
+    <br><br><br><br>
+    <main class="flex-grow container mx-auto p-4 lg:p-8 flex flex-col lg:flex-row lg:space-x-8">
         <!-- Productos a la izquierda -->
         <div class="lg:w-2/3 w-full">
-            <div class="bg-white p-4 lg:p-8 shadow-lg rounded-lg mb-4 lg:mb-8 relative">
-                <div class="flex flex-col lg:flex-row items-center">
-                    <img src="public/img/4.jpg" alt="Blusa Ember Off White" class="w-24 h-24 lg:w-32 lg:h-32 rounded-md mb-4 lg:mb-0">
-                    <div class="text-left lg:ml-12">
-                        <h3 class="text-md lg:text-lg font-semibold">Blusa Ember Off White</h3>
-                        <p class="text-gray-500">Small</p>
-                    </div>
-                    <div class="flex flex-col lg:flex-row items-center lg:space-x-8 lg:ml-auto mt-4 lg:mt-0">
-                        <span class="text-gray-600">S/. 129.00</span>
-                        <div class="flex items-center border border-gray-300 rounded mt-2 lg:mt-0">
-                            <button class="px-2 py-1 lg:px-3 lg:py-2">-</button>
-                            <input type="text" value="2" class="w-10 lg:w-12 text-center border-none focus:ring-0">
-                            <button class="px-2 py-1 lg:px-3 lg:py-2">+</button>
-                        </div>
-                        <span class="text-gray-600 mt-2 lg:mt-0">S/. 258.00</span>
-                    </div>
-                </div>
-                <!-- Botón de eliminar en la esquina inferior derecha -->
-                <button class="absolute top-4 right-4 bg-transparent border-none p-1 rounded-full hover:bg-gray-100">
-                    <img src="img/Tacho-basura.png" alt="Eliminar" class="w-8 h-8">
-                </button>
+            <h2 class="text-xl font-semibold mb-4" id="cartHeader">Productos</h2>
+            <div class="grid grid-cols-1 gap-4" id="product-container">
+                <!-- Los productos se insertan aquí con JS -->
             </div>
         </div>
-
         <!-- Resumen a la derecha -->
-        <div id="summary-container" class="lg:w-1/3 w-full bg-white p-4 lg:p-10 shadow-lg rounded-lg lg:mt-0 mt-8">
-            <h2 class="text-lg font-semibold mb-4">Resumen de compra</h2>
-            <div class="flex justify-between items-center mb-4">
-                <span class="text-gray-600">Subtotal</span>
-                <span class="font-semibold text-lg">S/. 77.94</span>
+        <div class="lg:w-1/3 w-full bg-white p-6 shadow-lg rounded-lg">
+            <h2 class="text-lg font-semibold mb-4">Resumen del Carrito</h2>
+            <div id="cartItems" class="space-y-4">
+                <!-- Productos del carrito se insertan aquí -->
             </div>
             <hr class="my-2">
             <div class="flex justify-between items-center mb-4">
-                <span class="text-gray-600">Total</span>
-                <span class="font-semibold text-lg text-red-600">S/. 77.94</span>
+                <span class="text-gray-600">Subtotal</span>
+                <span class="font-semibold text-lg" id="summarySubtotal">S/ 0.00</span>
             </div>
-            <button class="bg-green-600 text-white w-full py-4 rounded hover:bg-green-500 text-lg mt-4 flex items-center justify-center">
-                Ir a comprar
-                <img src="img/whatsap-icono.png" class="w-8 h-8 ml-2">
-            </button>
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-gray-600">Total</span>
+                <span class="font-semibold text-xl text-red-600" id="summaryTotal">S/ 0.00</span>
+            </div>
+            <button class="bg-green-600 text-white w-full py-3 rounded hover:bg-green-500 text-lg mt-4">Ir a comprar</button>
         </div>
     </main>
-
-    <!-- Footer -->
     <Footer />
+    <script type="module">
+        const productsContainer = document.getElementById("product-container");
+        const cartItemsContainer = document.getElementById("cartItems");
+        const summarySubtotal = document.getElementById("summarySubtotal");
+        const summaryTotal = document.getElementById("summaryTotal");
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Fetch products dynamically
+        async function fetchProducts() {
+            const res = await fetch('/api/products'); // Cambiar a tu ruta API
+            const products = await res.json();
+            products.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.classList.add("p-4", "bg-white", "shadow", "rounded-lg");
+                productElement.innerHTML = `
+                    <h3 class="font-semibold">${product.name}</h3>
+                    <p class="text-gray-600">S/ ${product.price}</p>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded mt-2 hover:bg-blue-400"
+                        onclick="addToCart(${product.id}, '${product.name}', ${product.price})">
+                        Agregar al carrito
+                    </button>
+                `;
+                productsContainer.appendChild(productElement);
+            });
+        }
+
+        // Add to cart
+        function addToCart(productId, name, price) {
+            const existingProduct = cart.find(item => item.id === productId);
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cart.push({ id: productId, name, price, quantity: 1 });
+            }
+            updateCart();
+        }
+
+        // Remove from cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+        }
+
+        // Update cart and summary
+        function updateCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+            calculateSummary();
+        }
+
+        // Render cart items
+        function renderCart() {
+            cartItemsContainer.innerHTML = '';
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add("flex", "justify-between", "items-center", "border-b", "pb-2");
+                cartItem.innerHTML = `
+                    <div>
+                        <h4 class="font-semibold">${item.name}</h4>
+                        <p>Cantidad: ${item.quantity}</p>
+                    </div>
+                    <div>
+                        <button class="text-red-500 hover:text-red-700"
+                            onclick="removeFromCart(${item.id})">Eliminar</button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartItem);
+            });
+        }
+
+        // Calculate summary
+        function calculateSummary() {
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            summarySubtotal.textContent = `S/ ${subtotal.toFixed(2)}`;
+            summaryTotal.textContent = `S/ ${(subtotal * 1.18).toFixed(2)}`; // Incluye IGV si aplica
+        }
+
+        // Initial load
+        fetchProducts();
+        updateCart();
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
