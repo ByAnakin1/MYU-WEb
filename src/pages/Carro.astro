@@ -13,6 +13,10 @@ import Footer from "../components/footer.astro";
         body {
             font-family: 'Fira Sans', sans-serif;
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> f0835b42a15858fc137b8dd09870605343831951
         .size-box {
             background-color: #f3f4f6;
             padding: 0.25rem 0.5rem;
@@ -22,6 +26,10 @@ import Footer from "../components/footer.astro";
             display: inline-block;
             margin-top: 0.5rem;
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> f0835b42a15858fc137b8dd09870605343831951
         .trash-icon {
             width: 24px;
             height: 24px;
@@ -30,15 +38,127 @@ import Footer from "../components/footer.astro";
             top: 8px;
             right: 8px;
         }
+<<<<<<< HEAD
+=======
+
+        .container {
+            max-width: 100%;
+        }
+
+        .flex-grow {
+            flex-grow: 1;
+        }
+
+        .quantity-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f3f4f6;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+        }
+
+        .quantity-container button {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .quantity-container button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .quantity-container input {
+            width: 3rem;
+            text-align: center;
+            border: none;
+            background-color: transparent;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+            margin: 0 0.5rem;
+        }
+
+        .quantity-container input:focus {
+            outline: none;
+        }
+
+        @media (max-width: 768px) {
+            .lg:flex-row {
+                flex-direction: column;
+            }
+
+            .lg:w-2/3, .lg:w-1/3 {
+                width: 100%;
+            }
+
+            .lg:space-x-8 {
+                gap: 0;
+            }
+
+            .lg:mb-0 {
+                margin-bottom: 1rem;
+            }
+
+            .p-6 {
+                padding: 1rem;
+            }
+
+            .shadow-lg {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .bg-white {
+                margin-bottom: 1rem;
+            }
+
+            .grid-cols-1 {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .items-center {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .flex {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .product-card img {
+                max-width: 100px;
+                margin-bottom: 1rem;
+            }
+
+            .product-details {
+                margin-left: 0;
+            }
+
+            .space-x-2 {
+                gap: 0.5rem;
+            }
+
+            .w-24 {
+                width: 80px;
+                height: 80px;
+            }
+        }
+>>>>>>> f0835b42a15858fc137b8dd09870605343831951
     </style>
 </head>
 <body class="bg-pink-200 flex flex-col min-h-screen">
-    <!-- Header -->
     <Header />
     <br><br><br><br>
     <main class="flex-grow container mx-auto p-4 lg:p-8 flex flex-col lg:flex-row lg:space-x-8">
         <!-- Productos a la izquierda -->
         <div class="lg:w-2/3 w-full">
+<<<<<<< HEAD
             <h2 class="text-xl font-semibold mb-4" id="cartHeader">Carrito de Compras (3 productos)</h2>
             <div class="grid grid-cols-1 gap-4">
                 
@@ -96,11 +216,16 @@ import Footer from "../components/footer.astro";
                     <img src="public/img/Tacho-basura.png" alt="Eliminar producto" class="trash-icon" onclick="removeProduct()">
                 </div>
                 
+=======
+            <h2 class="text-xl font-semibold mb-4" id="cartHeader">Productos</h2>
+            <div class="grid grid-cols-1 gap-4" id="product-container">
+                <!-- Los productos se insertan aquí con JS -->
+>>>>>>> f0835b42a15858fc137b8dd09870605343831951
             </div>
         </div>
-
         <!-- Resumen a la derecha -->
         <div class="lg:w-1/3 w-full bg-white p-6 shadow-lg rounded-lg">
+<<<<<<< HEAD
             <h2 class="text-lg font-semibold mb-4">Resumen</h2>
             <div class="flex justify-between items-center mb-4">
                 <span class="text-gray-600">Subtotal</span>
@@ -111,12 +236,26 @@ import Footer from "../components/footer.astro";
                 <span class="text-gray-600">Total</span>
                 <span class="font-semibold text-xl text-red-600" id="summaryTotal">S/ 387.00</span>
             </div>
+=======
+            <h2 class="text-lg font-semibold mb-4">Resumen del Carrito</h2>
+            <div id="cartItems" class="space-y-4">
+                <!-- Productos del carrito se insertan aquí -->
+            </div>
+            <hr class="my-2">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-gray-600">Subtotal</span>
+                <span class="font-semibold text-lg" id="summarySubtotal">S/ 0.00</span>
+            </div>
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-gray-600">Total</span>
+                <span class="font-semibold text-xl text-red-600" id="summaryTotal">S/ 0.00</span>
+            </div>
+>>>>>>> f0835b42a15858fc137b8dd09870605343831951
             <button class="bg-green-600 text-white w-full py-3 rounded hover:bg-green-500 text-lg mt-4">Ir a comprar</button>
         </div>
     </main>
-
-    <!-- Footer -->
     <Footer />
+<<<<<<< HEAD
 
     <script type="module">
         const products = [
@@ -180,6 +319,88 @@ import Footer from "../components/footer.astro";
 
 
         renderProducts();
+=======
+    <script type="module">
+        const productsContainer = document.getElementById("product-container");
+        const cartItemsContainer = document.getElementById("cartItems");
+        const summarySubtotal = document.getElementById("summarySubtotal");
+        const summaryTotal = document.getElementById("summaryTotal");
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Fetch products dynamically
+        async function fetchProducts() {
+            const res = await fetch('/api/products'); // Cambiar a tu ruta API
+            const products = await res.json();
+            products.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.classList.add("p-4", "bg-white", "shadow", "rounded-lg");
+                productElement.innerHTML = `
+                    <h3 class="font-semibold">${product.name}</h3>
+                    <p class="text-gray-600">S/ ${product.price}</p>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded mt-2 hover:bg-blue-400"
+                        onclick="addToCart(${product.id}, '${product.name}', ${product.price})">
+                        Agregar al carrito
+                    </button>
+                `;
+                productsContainer.appendChild(productElement);
+            });
+        }
+
+        // Add to cart
+        function addToCart(productId, name, price) {
+            const existingProduct = cart.find(item => item.id === productId);
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cart.push({ id: productId, name, price, quantity: 1 });
+            }
+            updateCart();
+        }
+
+        // Remove from cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+        }
+
+        // Update cart and summary
+        function updateCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+            calculateSummary();
+        }
+
+        // Render cart items
+        function renderCart() {
+            cartItemsContainer.innerHTML = '';
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add("flex", "justify-between", "items-center", "border-b", "pb-2");
+                cartItem.innerHTML = `
+                    <div>
+                        <h4 class="font-semibold">${item.name}</h4>
+                        <p>Cantidad: ${item.quantity}</p>
+                    </div>
+                    <div>
+                        <button class="text-red-500 hover:text-red-700"
+                            onclick="removeFromCart(${item.id})">Eliminar</button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartItem);
+            });
+        }
+
+        // Calculate summary
+        function calculateSummary() {
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            summarySubtotal.textContent = `S/ ${subtotal.toFixed(2)}`;
+            summaryTotal.textContent = `S/ ${(subtotal * 1.18).toFixed(2)}`; // Incluye IGV si aplica
+        }
+
+        // Initial load
+        fetchProducts();
+        updateCart();
+>>>>>>> f0835b42a15858fc137b8dd09870605343831951
     </script>
 </body>
 </html>

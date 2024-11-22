@@ -256,7 +256,7 @@ const filteredProducts = products.filter(product => product.id_categoria === 3);
                             <div class="card-content">
                                 <h2 class="card-title">{product.nombre_producto}</h2>
                                 <p class="card-price">Precio: S/ {Number(product.precio).toFixed(2)}</p>
-                                <a href="#" class="card-button">Comprar</a>
+                                <a href={`/detalle/${product.id_producto}`} class="card-button">Comprar</a>
                             </div>
                         </div>
                     ))
