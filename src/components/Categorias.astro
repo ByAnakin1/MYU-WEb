@@ -1,51 +1,140 @@
 <section class="py-10">
     <h2 class="text-2xl font-bold text-center mb-4 bg-[#f6bbd0] py-3 text-white">CATEGORÍAS</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 px-4 mx-auto">
-        <a href="/Categorias/productos_vestidos" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
-            <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_6.png?v=638596431281830000" alt="Vestidos" class="w-full h-64 sm:h-80 md:h-96 lg:h-[550px] object-cover">
-            <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">VESTIDOS</p>
-        </a>
-        <a href="/Categorias/productos_faldas" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
-            <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000" alt="Faldas" class="w-full h-64 sm:h-80 md:h-96 lg:h-[550px] object-cover">
-            <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">FALDAS</p>
-        </a>
-        <a href="/Categorias/productos_pantalones" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
-            <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_7.png?v=638596431277930000" alt="Pantalones" class="w-full h-64 sm:h-80 md:h-96 lg:h-[550px] object-cover">
-            <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">PANTALONES</p>
-        </a>
-        <a href="/Categorias/productos_polos" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
-            <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_12.png?v=638596431283570000" alt="Polos" class="w-full h-64 sm:h-80 md:h-96 lg:h-[550px] object-cover">
-            <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">POLOS</p>
-        </a>
-        <a href="/Categorias/productos_poleras" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
-            <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_6.png?v=638596431281830000" alt="Poleras" class="w-full h-64 sm:h-80 md:h-96 lg:h-[550px] object-cover">
-            <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">POLERAS</p>
-        </a>
-        <a href="/Categorias/productos_zapatos" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
-            <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000" alt="Zapatos" class="w-full h-64 sm:h-80 md:h-96 lg:h-[550px] object-cover">
-            <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">ZAPATOS</p>
-        </a>
-        <a href="/Categorias/productos_accesorios" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
-            <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000" alt="Accesorios" class="w-full h-64 sm:h-80 md:h-96 lg:h-[550px] object-cover">
-            <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">ACCESORIOS</p>
-        </a>
-    </div> 
+    <div class="relative overflow-hidden max-w-[1200px] mx-auto">
+        <!-- Botones de navegación -->
+        <button id="prev-btn" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-[#f6bbd0] text-white p-2 rounded-full shadow-lg z-10">
+            &#8249;
+        </button>
+        <button id="next-btn" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-[#f6bbd0] text-white p-2 rounded-full shadow-lg z-10">
+            &#8250;
+        </button>
+
+        <!-- Contenedor del slider -->
+        <div class="slider-container overflow-x-auto scroll-smooth">
+            <div class="categories flex gap-4 px-4">
+                <a href="/Categorias/productos_vestidos" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
+                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_6.png?v=638596431281830000" alt="Vestidos" class="w-full h-full object-cover">
+                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">VESTIDOS</p>
+                </a>
+                <a href="/Categorias/productos_faldas" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
+                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000" alt="Faldas" class="w-full h-full object-cover">
+                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">FALDAS</p>
+                </a>
+                <a href="/Categorias/productos_pantalones" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
+                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_7.png?v=638596431277930000" alt="Pantalones" class="w-full h-full object-cover">
+                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">PANTALONES-SHORTS</p>
+                </a>
+                <a href="/Categorias/productos_polos" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
+                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_12.png?v=638596431283570000" alt="Polos" class="w-full h-full object-cover">
+                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">POLOS-TOPS</p>
+                </a>
+                <a href="/Categorias/productos_poleras" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
+                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_6.png?v=638596431281830000" alt="Poleras" class="w-full h-full object-cover">
+                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">POLERAS-CASACAS</p>
+                </a>
+                <a href="/Categorias/productos_zapatos" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
+                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000" alt="Zapatos" class="w-full h-full object-cover">
+                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">ZAPATOS-ZAPATILLAS</p>
+                </a>
+                <a href="/Categorias/productos_mochilas" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
+                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000" alt="Accesorios" class="w-full h-full object-cover">
+                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">CARTERAS-MOCHILAS</p>
+                </a>
+                <a href="/Categorias/productos_pantys" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
+                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000" alt="Accesorios" class="w-full h-full object-cover">
+                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">MEDIAS-PANTYS</p>
+                </a>
+                <a href="/Categorias/productos_accesorios" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
+                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000" alt="Accesorios" class="w-full h-full object-cover">
+                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">ACCESORIOS</p>
+                </a>
+            </div>
+        </div>
+    </div>
 </section>
 
 <style>
+/* ============================ DESKTOP ============================ */
+
+/* Contenedor principal del slider */
+.slider-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+/* Configuración de las categorías para escritorio */
 .category-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex-shrink: 0;
+    width: calc((100% - 8rem) / 5); /* 5 categorías visibles con espacio */
+    height: 600px; /* Mantener altura original */
 }
 
-.category-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+/* Espaciado entre categorías */
+.categories {
+    display: flex;
+    gap: 2rem; /* Espacio entre categorías */
 }
 
-@media (max-width: 640px) {
-    .category-card:hover {
-        transform: none;
-        box-shadow: none;
+/* Botones de navegación */
+button {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ============================ MOBILE ============================ */
+
+/* Ajustes para móvil */
+@media (max-width: 768px) {
+    /* Configuración de las categorías para móvil */
+    .category-card {
+        width: 100%; /* Una categoría por vez */
+        height: 450px; /* Ajustar altura si es necesario */
+    }
+
+    /* El contenedor de las categorías ahora usa todo el ancho */
+    .slider-container {
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        padding: 0;
+        display: flex;
+    }
+
+    /* Espaciado entre categorías reducido para móvil */
+    .categories {
+        display: flex;
+        flex-direction: row; /* Asegura que las categorías estén en fila horizontal */
+        gap: 0; /* No espacio entre categorías */
+    }
+
+    /* Ajustar los botones de navegación */
+    button {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
     }
 }
 </style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const sliderContainer = document.querySelector(".slider-container");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+
+    const scrollAmount = sliderContainer.clientWidth; // Desplazamiento equivalente al ancho visible
+
+    prevBtn.addEventListener("click", () => {
+        sliderContainer.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+    });
+
+    nextBtn.addEventListener("click", () => {
+        sliderContainer.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    });
+});
+</script>

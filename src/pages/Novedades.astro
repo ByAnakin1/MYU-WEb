@@ -198,20 +198,23 @@ const banners: Banner[] = await bannersResponse.json();
     
     
     <!-- Secciones de Hombre, Mujer, Niños -->
-<div class="container my-6">
-  <!-- Cambia my-12 por my-6 aquí -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-    <a href="/Novedades/Mujer" class="section-item bg-gray-200 h-40 flex items-center justify-center">
-      Mujer
-    </a>
-    <a href="/Novedades/Hombre" class="section-item bg-gray-200 h-40 flex items-center justify-center">
-      Hombre
-    </a>
-    <a href="/Novedades/niño" class="section-item bg-gray-200 h-40 flex items-center justify-center">
-      Niños
-    </a>
-  </div>
-</div>
+    <div class="container my-6">
+      <h2 class="section-title">ESPECIALES</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+        <a href="/Novedades/Mujer" class="section-item bg-gray-200 h-40 flex items-center justify-center relative">
+          <img src="/public/img/vestidos.png" alt="Imagen Mujer" class="absolute inset-0 w-full h-full object-cover opacity-50" />
+          <span class="relative z-10">DESCUENTO</span>
+        </a>
+        <a href="/Novedades/Hombre" class="section-item bg-gray-200 h-40 flex items-center justify-center relative">
+          <img src="/public/img/zapatos.png" alt="Imagen Hombre" class="absolute inset-0 w-full h-full object-cover opacity-50" />
+          <span class="relative z-10">NOVEDADES</span>
+        </a>
+        <a href="/Novedades/niño" class="section-item bg-gray-200 h-40 flex items-center justify-center relative">
+          <img src="/public/img/polos.png" alt="Imagen Niños" class="absolute inset-0 w-full h-full object-cover opacity-50" />
+          <span class="relative z-10">ACCESORIOS</span>
+        </a>
+      </div>
+    </div>
 
 
       </div>

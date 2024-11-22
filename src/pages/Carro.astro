@@ -2,89 +2,184 @@
 import Header from "../components/header.astro";
 import Footer from "../components/footer.astro";
 ---
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito de Compras</title>
-    <!-- Importar la fuente desde Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;600&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Importar Font Awesome para los íconos -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: 'Fira Sans', sans-serif;
+        }
+        .size-box {
+            background-color: #f3f4f6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            color: #6b7280;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        .trash-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            position: absolute;
+            top: 8px;
+            right: 8px;
         }
     </style>
 </head>
 <body class="bg-pink-200 flex flex-col min-h-screen">
     <!-- Header -->
     <Header />
-    <br><br><br><br><br>
-    <main class="flex-grow container mx-auto bg-white p-4 lg:p-8 shadow-lg rounded-lg flex flex-col lg:flex-row lg:space-x-12">
+    <br><br><br><br>
+    <main class="flex-grow container mx-auto p-4 lg:p-8 flex flex-col lg:flex-row lg:space-x-8">
         <!-- Productos a la izquierda -->
         <div class="lg:w-2/3 w-full">
-            <div class="bg-white p-4 lg:p-8 shadow-lg rounded-lg mb-4 lg:mb-8 relative">
-                <div class="flex flex-col lg:flex-row items-center">
-                    <img src="public/img/4.jpg" alt="Blusa Ember Off White" class="w-24 h-24 lg:w-32 lg:h-32 rounded-md mb-4 lg:mb-0">
-                    <div class="text-left lg:ml-12">
-                        <h3 class="text-md lg:text-lg font-semibold">Blusa Ember Off White</h3>
-                        <p class="text-gray-500">Small</p>
+            <h2 class="text-xl font-semibold mb-4" id="cartHeader">Carrito de Compras (3 productos)</h2>
+            <div class="grid grid-cols-1 gap-4">
+                
+                <!-- Producto 1 -->
+                <div class="bg-white p-4 shadow-lg rounded-lg flex items-center justify-between relative">
+                    <img src="public/img/4.jpg" alt="Blusa Ember Off White" class="w-24 h-24 rounded-md mb-4 lg:mb-0">
+                    <div class="flex-1 ml-4">
+                        <h3 class="text-lg font-semibold">Blusa Ember Off White</h3>
+                        <p class="size-box">Small</p>
+                        <p class="size-box">Talla: XL</p>
+                        <p class="text-gray-500">Precio: S/ 129.00</p>
                     </div>
-                    <div class="flex flex-col lg:flex-row items-center lg:space-x-8 lg:ml-auto mt-4 lg:mt-0">
-                        <span class="text-gray-600">S/. 129.00</span>
-                        <div class="flex items-center border border-gray-300 rounded mt-2 lg:mt-0">
-                            <button class="px-2 py-1 lg:px-3 lg:py-2">-</button>
-                            <input type="text" value="2" class="w-10 lg:w-12 text-center border-none focus:ring-0">
-                            <button class="px-2 py-1 lg:px-3 lg:py-2">+</button>
-                        </div>
-                        <span class="text-gray-600 mt-2 lg:mt-0">S/. 258.00</span>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="updateQuantity(-1)" class="px-3 py-1 border border-gray-300 rounded">-</button>
+                        <input type="text" id="quantity" value="1" class="w-10 text-center border-none focus:ring-0 mx-2" readonly>
+                        <button onclick="updateQuantity(1)" class="px-3 py-1 border border-gray-300 rounded">+</button>
                     </div>
+                    <span class="font-semibold text-lg text-gray-700" id="totalPrice">S/ 129.00</span>
+                    <img src="public/img/Tacho-basura.png" alt="Eliminar producto" class="trash-icon" onclick="removeProduct()">
                 </div>
-                <!-- Botón de eliminar en la esquina inferior derecha -->
-                <button class="absolute top-4 right-4 bg-transparent border-none p-1 rounded-full hover:bg-gray-100">
-                    <img src="img/Tacho-basura.png" alt="Eliminar" class="w-8 h-8">
-                </button>
+
+                <!-- Producto 2 -->
+                <div class="bg-white p-4 shadow-lg rounded-lg flex items-center justify-between relative">
+                    <img src="public/img/4.jpg" alt="Blusa Ember Off White" class="w-24 h-24 rounded-md mb-4 lg:mb-0">
+                    <div class="flex-1 ml-4">
+                        <h3 class="text-lg font-semibold">Blusa Ember Off White</h3>
+                        <p class="size-box">Medium</p>
+                        <p class="size-box">Talla: L</p>
+                        <p class="text-gray-500">Precio: S/ 129.00</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="updateQuantity(-1)" class="px-3 py-1 border border-gray-300 rounded">-</button>
+                        <input type="text" id="quantity" value="1" class="w-10 text-center border-none focus:ring-0 mx-2" readonly>
+                        <button onclick="updateQuantity(1)" class="px-3 py-1 border border-gray-300 rounded">+</button>
+                    </div>
+                    <span class="font-semibold text-lg text-gray-700" id="totalPrice">S/ 129.00</span>
+                    <img src="public/img/Tacho-basura.png" alt="Eliminar producto" class="trash-icon" onclick="removeProduct()">
+                </div>
+
+                <!-- Producto 3 -->
+                <div class="bg-white p-4 shadow-lg rounded-lg flex items-center justify-between relative">
+                    <img src="public/img/4.jpg" alt="Blusa Ember Off White" class="w-24 h-24 rounded-md mb-4 lg:mb-0">
+                    <div class="flex-1 ml-4">
+                        <h3 class="text-lg font-semibold">Blusa Ember Off White</h3>
+                        <p class="size-box">Large</p>
+                        <p class="size-box">Talla: M</p>
+                        <p class="text-gray-500">Precio: S/ 129.00</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="updateQuantity(-1)" class="px-3 py-1 border border-gray-300 rounded">-</button>
+                        <input type="text" id="quantity" value="1" class="w-10 text-center border-none focus:ring-0 mx-2" readonly>
+                        <button onclick="updateQuantity(1)" class="px-3 py-1 border border-gray-300 rounded">+</button>
+                    </div>
+                    <span class="font-semibold text-lg text-gray-700" id="totalPrice">S/ 129.00</span>
+                    <img src="public/img/Tacho-basura.png" alt="Eliminar producto" class="trash-icon" onclick="removeProduct()">
+                </div>
+                
             </div>
         </div>
 
         <!-- Resumen a la derecha -->
-        <div id="summary-container" class="lg:w-1/3 w-full bg-white p-4 lg:p-10 shadow-lg rounded-lg lg:mt-0 mt-8">
-            <h2 class="text-lg font-semibold mb-4">Resumen de compra</h2>
+        <div class="lg:w-1/3 w-full bg-white p-6 shadow-lg rounded-lg">
+            <h2 class="text-lg font-semibold mb-4">Resumen</h2>
             <div class="flex justify-between items-center mb-4">
                 <span class="text-gray-600">Subtotal</span>
-                <span class="font-semibold text-lg">S/. 77.94</span>
+                <span class="font-semibold text-lg" id="summarySubtotal">S/ 387.00</span>
             </div>
             <hr class="my-2">
             <div class="flex justify-between items-center mb-4">
                 <span class="text-gray-600">Total</span>
-                <span class="font-semibold text-lg text-red-600">S/. 77.94</span>
+                <span class="font-semibold text-xl text-red-600" id="summaryTotal">S/ 387.00</span>
             </div>
-            <button class="bg-green-600 text-white w-full py-4 rounded hover:bg-green-500 text-lg mt-4 flex items-center justify-center">
-                Ir a comprar
-                <img src="img/whatsap-icono.png" class="w-8 h-8 ml-2">
-            </button>
+            <button class="bg-green-600 text-white w-full py-3 rounded hover:bg-green-500 text-lg mt-4">Ir a comprar</button>
         </div>
     </main>
 
     <!-- Footer -->
     <Footer />
+
+    <script type="module">
+        const products = [
+            { id: 1, name: "Blusa Ember Off White", size: "Small", talla: "XL", price: 129.00, quantity: 1, image: "public/img/4.jpg" },
+            { id: 2, name: "Blusa Ember Off White", size: "Medium", talla: "L", price: 129.00, quantity: 1, image: "public/img/4.jpg" },
+            { id: 3, name: "Blusa Ember Off White", size: "Large", talla: "M", price: 129.00, quantity: 1, image: "public/img/4.jpg" }
+        ];
+
+        function renderProducts() {
+            const productList = document.getElementById("productList");
+            productList.innerHTML = "";
+
+            products.forEach(product => {
+                const productCard = document.createElement("div");
+                productCard.classList.add("product-card");
+
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-details">
+                        <span class="product-name">${product.name}</span>
+                        <span class="size-box">${product.size}</span>
+                        <span class="size-box">Talla: ${product.talla}</span>
+                        <p class="product-price">Precio: S/ ${product.price.toFixed(2)}</p>
+                    </div>
+                    <div class="product-actions">
+                        <button onclick="updateQuantity(${product.id}, -1)">-</button>
+                        <input type="text" class="quantity-input" value="${product.quantity}" readonly>
+                        <button onclick="updateQuantity(${product.id}, 1)">+</button>
+                    </div>
+                    <span>S/ ${(product.price * product.quantity).toFixed(2)}</span>
+                    <img src="public/img/Tacho-basura.png" alt="Eliminar producto" class="trash-icon" onclick="removeProduct(${product.id})">
+                `;
+                productList.appendChild(productCard);
+            });
+
+            updateSummary();
+        }
+
+        window.updateQuantity = (id, change) => {
+            const product = products.find(p => p.id === id);
+            if (product) {
+                product.quantity = Math.max(1, product.quantity + change);
+                renderProducts();
+            }
+        }
+
+        window.removeProduct = (id) => {
+            const index = products.findIndex(p => p.id === id);
+            if (index !== -1) {
+                products.splice(index, 1);
+                renderProducts();
+            }
+        }
+
+        function updateSummary() {
+    const subtotal = products.reduce((acc, product) => acc + product.price * product.quantity, 0);
+    document.getElementById("summarySubtotal").innerText = `S/ ${subtotal.toFixed(2)}`;
+    document.getElementById("summaryTotal").innerText = `S/ ${subtotal.toFixed(2)}`;
+    document.getElementById("cartHeader").innerText = `Carrito de Compras (${products.length} productos)`;
+}
+
+
+        renderProducts();
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
