@@ -1,5 +1,7 @@
 <footer>
-  <p class="text-center text-white bg-black pt-2 pb-2 w-full fixed z-10">Envios a todo el país 📍🎁🇵🇪</p>
+  <p class="text-center text-white bg-black pt-2 pb-2 w-full fixed z-10">
+    Envios a todo el país 📍🎁🇵🇪
+  </p>
 </footer>
 
 <div id="overlay"></div>
@@ -7,133 +9,167 @@
 <style>
   /* Estilo de botones personalizados */
   .custom-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 5px;
-      border-radius: 50%; /* Borde redondeado */
-      font-weight: bold;
-      width: 50px;
-      height: 50px;
-      background-color: rgba(255, 255, 255, 0.6);
-      margin-top: -5px;
-      margin-left: 5px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 50%;
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.6);
+    margin-top: -5px;
+    margin-left: 5px;
+    transition: transform 0.3s ease;
   }
 
-  /* Efecto hover para los botones personalizados */
   .custom-button:hover {
-      transform: translate(0px, -2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translate(0px, -2px);
   }
 
-  /* Ajuste de tamaño y centrado de los iconos */
   .whatsapp-icon,
   .cart-icon {
-      width: 28px;
-      height: 28px;
-  }
-
-  /* Ajuste de grosor del texto en la barra de navegación */
-  .nav-text {
-      font-size: 1rem;
-      font-weight: 300;
+    width: 28px;
+    height: 28px;
   }
 
   footer p {
-      font-size: 1.1rem;
-      padding-top: 8px;
-      padding-bottom: 8px;
+    font-size: 1.1rem;
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
 
   #landing-header {
-      margin-top: 35px;
-      top: 0;
+    margin-top: 35px;
+    top: 0;
+    font-family: "Arial", sans-serif;
   }
 
   #landing-header .nav-text a {
-      font-weight: 800;
-  }
-
-  #landing-header .nav-text .group ul li a {
-      font-weight: 400;
+    font-weight: 800;
   }
 
   #mobile-menu {
-      z-index: 100;
-      background-color: #f6bbd0;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 250px;
-      height: 100%;
-      display: none;
-      padding-top: 3rem;
-      box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    background-color: #f6bbd0; /* Fondo rosado */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80%; /* Ajuste de tamaño del menú para no cubrir todo */
+    height: 100%;
+    display: none;
+    padding-top: 3rem;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3); /* Sombra para destacar el menú */
   }
 
-  /* Opciones del menú móvil con bordes */
+  #mobile-menu ul {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    padding-top: 4rem; /* Subir los botones */
+  }
+
   #mobile-menu ul li a {
-      padding: 1rem;
-      font-size: 1.2rem;
-      color: #4A3E4C;
-      display: block;
-      text-decoration: none;
-      font-weight: bold;
-      border: 1px solid #ffd7e5; /* Borde diferenciado */
-      margin: 5px; /* Separación entre las opciones */
-      border-radius: 8px;
-      background-color: #ffffff;
+    padding: 1.2rem;
+    font-size: 1.1rem;
+    color: #ffffff;
+    background-color: #f2a0c2;
+    display: block;
+    text-decoration: none;
+    font-weight: bold;
+    width: 100%;
+    max-width: 320px; /* Controlar la anchura para que el texto quede en una línea */
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 15px;
   }
 
   #mobile-menu ul li a:hover {
-      background-color: #ffd7e5;
-      color: #4A3E4C;
+    background-color: #ffd7e5;
+  }
+
+  #mobile-menu ul li:not(:last-child) a {
+    border-bottom: none;
   }
 
   .submenu {
-      display: none;
-      padding-left: 20px;
+    display: none;
+    padding-left: 20px;
   }
 
   .submenu.show {
-      display: block;
-  }
-
-  .submenu li a:hover {
-      background-color: #ffd7e5;
-      color: #4A3E4C;
+    display: block;
   }
 
   #mobile-menu.show {
-      display: block;
+    display: block;
   }
 
   @media (min-width: 1024px) {
-      #mobile-menu {
-          display: none !important;
-      }
+    #mobile-menu {
+      display: none !important;
+    }
   }
 
   #overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 99;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Sombreado que cubre parcialmente */
+    z-index: 99;
   }
 
   #overlay.show {
-      display: block;
+    display: block;
   }
 
   body.no-scroll {
-      overflow: hidden;
+    overflow: hidden;
   }
 
+  #close-menu {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  /* Estilos para dispositivos móviles */
+  @media (max-width: 768px) {
+    footer p {
+      font-size: 0.9rem;
+    }
+
+    .custom-button {
+      width: 40px;
+      height: 40px;
+    }
+
+    .whatsapp-icon,
+    .cart-icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    #mobile-menu ul li a {
+      padding: 1rem;
+      font-size: 1rem;
+      max-width: 280px; /* Ajuste para reducir el ancho */
+    }
+
+    #mobile-menu ul {
+      padding-top: 2rem; /* Ajuste adicional para subir botones */
+    }
+  }
 </style>
 
 <header id="landing-header" class="py-2 px-10 flex items-center fixed top-5 w-full justify-between z-40 text-white bg-[#f6bbd0]">
@@ -186,38 +222,38 @@
     </ul>
   </nav>
 </header>
-
-<!-- Responsive de Celular -->
+<!-- Menú móvil -->
 <div id="mobile-menu" class="hidden">
-  <ul class="flex flex-col items-start py-4">
-    <!-- Botón Regresar -->
-    <li>
-      <a id="close-menu" href="javascript:void(0);" class="py-2 px-4 text-xl font-bold text-white">Regresar</a>
-    </li>
+  <!-- Botón de cierre -->
+  <span id="close-menu">&times;</span>
 
-    <!-- Opciones del menú -->
-    <li><a href="/" class="py-2 px-4 text-xl">INICIO</a></li>
-    <li><a href="#" class="py-2 px-4 text-xl">TIENDA</a></li>
-    <li><a href="/contacto" class="py-2 px-4 text-xl">SOBRE NOSOTROS</a></li>
-    <li><a href="/Novedades" class="py-2 px-4 text-xl">NOVEDADES</a></li>
+  <ul>
+    <li><a href="/">INICIO</a></li>
+    <li><a href="#">TIENDA ▼</a></li>
+    <li><a href="/contacto">SOBRE NOSOTROS</a></li>
+    <li><a href="/Novedades">NOVEDADES</a></li>
   </ul>
 </div>
 
-<!-- Script para mobile -->
 <script>
-  // Toggle de menú en móviles
   const menuToggle = document.getElementById("menu-toggle");
   const mobileMenu = document.getElementById("mobile-menu");
   const overlay = document.getElementById("overlay");
+  const closeMenu = document.getElementById("close-menu");
 
-  menuToggle.addEventListener("click", function() {
+  menuToggle.addEventListener("click", function () {
     mobileMenu.classList.toggle("show");
     overlay.classList.toggle("show");
     document.body.classList.toggle("no-scroll");
   });
 
-  // Cerrar menú al hacer clic en el overlay  
-  overlay.addEventListener("click", function() {
+  closeMenu.addEventListener("click", function () {
+    mobileMenu.classList.remove("show");
+    overlay.classList.remove("show");
+    document.body.classList.remove("no-scroll");
+  });
+
+  overlay.addEventListener("click", function () {
     mobileMenu.classList.remove("show");
     overlay.classList.remove("show");
     document.body.classList.remove("no-scroll");

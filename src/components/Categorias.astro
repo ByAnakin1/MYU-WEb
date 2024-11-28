@@ -55,8 +55,6 @@
 
 <style>
 /* ============================ DESKTOP ============================ */
-
-/* Contenedor principal del slider */
 .slider-container {
     display: flex;
     overflow-x: auto;
@@ -65,20 +63,17 @@
     max-width: 100%;
 }
 
-/* Configuración de las categorías para escritorio */
 .category-card {
     flex-shrink: 0;
-    width: calc((100% - 8rem) / 5); /* 5 categorías visibles con espacio */
-    height: 600px; /* Mantener altura original */
+    width: calc((100% - 6rem) / 4); /* Más ancho: 4 categorías visibles */
+    height: 600px;
 }
 
-/* Espaciado entre categorías */
 .categories {
     display: flex;
-    gap: 2rem; /* Espacio entre categorías */
+    gap: 2rem;
 }
 
-/* Botones de navegación */
 button {
     width: 50px;
     height: 50px;
@@ -88,16 +83,12 @@ button {
 }
 
 /* ============================ MOBILE ============================ */
-
-/* Ajustes para móvil */
 @media (max-width: 768px) {
-    /* Configuración de las categorías para móvil */
     .category-card {
-        width: 100%; /* Una categoría por vez */
-        height: 450px; /* Ajustar altura si es necesario */
+        width: 100%;
+        height: 450px;
     }
 
-    /* El contenedor de las categorías ahora usa todo el ancho */
     .slider-container {
         overflow-x: auto;
         scroll-behavior: smooth;
@@ -105,14 +96,12 @@ button {
         display: flex;
     }
 
-    /* Espaciado entre categorías reducido para móvil */
     .categories {
         display: flex;
-        flex-direction: row; /* Asegura que las categorías estén en fila horizontal */
-        gap: 0; /* No espacio entre categorías */
+        flex-direction: row;
+        gap: 1rem; /* Más espaciado */
     }
 
-    /* Ajustar los botones de navegación */
     button {
         width: 40px;
         height: 40px;
