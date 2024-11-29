@@ -4,163 +4,132 @@ interface Product {
   nombre_producto: string;
   precio: number;
   img1: string;
+  descuento?: number;
 }
 
 const { products = [] }: { products?: Product[] } = Astro.props;
 ---
 
-<head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <script src="https://cdn.tailwindcss.com"></script>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For Sale</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
 
-  <style>
-    html,
-    body {
-      position: relative;
-      height: 100%;
-    }
+  <body>
+    <h2 class="text-center text-lg font-bold bg-pink-300 text-white py-3 mb-4">
+      FOR SALE -%
+    </h2>
 
-    body {
-      background: #ffffff;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 14px;
-      margin: 0;
-      padding: 0;
-    }
-
-    .swiper {
-      width: 100%;
-      height: 100%;
-    }
-
-    .swiper-slide {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 15px;
-    }
-
-    .mySwiper {
-      padding-top: 0px;
-      padding-bottom: 0px;
-    }
-
-    .swiper-container {
-      max-width: 1550px;
-      margin: 0 auto;
-    }
-
-    .card {
-      background: white;
-      border-radius: 0.75rem;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-      width: 100%;
-      max-width: 250px;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-    }
-
-    .card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover; /* Aseguramos que la imagen no se recorte */
-    }
-
-    .card-content {
-      padding: 1rem;
-      text-align: center;
-    }
-
-    .card-title {
-      font-size: 1.25rem;
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-    }
-
-    .card-price {
-      color: #f56565;
-      font-weight: bold;
-    }
-
-    .card-button {
-      background: #f6bbd0;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-
-    .card-button:hover {
-      background: #f56565;
-    }
-
-    /* Responsividad: mostrar 5 productos por fila, 3 por fila en pantallas medianas y 2 en pantallas pequeñas */
-    @media (max-width: 767px) {
-      .swiper-container {
-        padding: 0 10px; /* Añadir espacio lateral en pantallas pequeñas */
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <h2 class="text-2xl font-bold text-center mb-4 bg-[#f6bbd0] py-3 text-white">FOR SALE -%</h2>
-  <section class="py-4">
-    <div class="swiper-container mt-4">
-      <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-          {products.length > 0 ? (
-            products.map((product) => (
-              <div class="swiper-slide">
-                <div class="card">
-                  <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
-                  <div class="card-content">
-                    <h2 class="card-title">{product.nombre_producto}</h2>
-                    <p class="card-price">Precio: S/ {Number(product.precio).toFixed(2)}</p>
-                    <a href={`/detalle/${product.id_producto}`} class="card-button">Comprar</a>
-                  </div>
+    <section class="relative container mx-auto overflow-hidden">
+      <!-- Contenedor del carrusel -->
+      <div
+        id="carousel"
+        class="flex gap-4 transition-transform duration-300 ease-in-out"
+        style="transform: translateX(0);"
+      >
+        {products.length > 0 ? (
+          products.map((product) => (
+            <div class="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/5 bg-white rounded-lg shadow-md overflow-hidden max-w-[220px]">
+              <img
+                src={product.img1}
+                alt={`Imagen de ${product.nombre_producto}`}
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-2 text-center">
+                <h2 class="text-xs font-bold truncate">
+                  {product.nombre_producto}
+                </h2>
+                <div class="text-red-600 font-bold text-sm">
+                  {product.descuento && product.descuento > 0 ? (
+                    <>
+                      <span class="line-through text-gray-500 text-xs">
+                        S/ {Number(product.precio).toFixed(2)}
+                      </span>
+                      <br />
+                      <span>
+                        S/{" "}
+                        {(
+                          Number(product.precio) *
+                          (1 - product.descuento / 100)
+                        ).toFixed(2)}
+                      </span>
+                    </>
+                  ) : (
+                    <span>S/ {Number(product.precio).toFixed(2)}</span>
+                  )}
                 </div>
+                <a
+                  href={`/detalle/${product.id_producto}`}
+                  class="mt-1 inline-block bg-pink-500 text-white px-2 py-1 text-xs rounded-lg hover:bg-pink-600"
+                >
+                  Comprar
+                </a>
               </div>
-            ))
-          ) : (
-            <p class="text-center">No hay productos disponibles.</p>
-          )}
-        </div>
+            </div>
+          ))
+        ) : (
+          <p class="text-center w-full">No hay productos disponibles.</p>
+        )}
       </div>
-    </div>
-  </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script type="module">
-    import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs';
-    var swiper = new Swiper(".mySwiper", {
-      slidesPerView: 5,
-      spaceBetween: 20,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-      breakpoints: {
-        640: {
-          slidesPerView: 2, // Muestra 2 productos en pantallas pequeñas
-          spaceBetween: 10,
-        },
-        768: {
-          slidesPerView: 3, // Muestra 3 productos en pantallas medianas
-          spaceBetween: 15,
-        },
-        1024: {
-          slidesPerView: 5, // Muestra 5 productos en pantallas grandes
-          spaceBetween: 20,
-        },
-      },
-    });
-  </script>
-</body>
+      <!-- Botones de navegación -->
+      <button
+        id="prev"
+        class="absolute top-1/2 left-2 -translate-y-1/2 bg-gray-200 rounded-full p-2 shadow-md hover:bg-gray-300"
+      >
+        ◀
+      </button>
+      <button
+        id="next"
+        class="absolute top-1/2 right-2 -translate-y-1/2 bg-gray-200 rounded-full p-2 shadow-md hover:bg-gray-300"
+      >
+        ▶
+      </button>
+    </section>
+
+    <script>
+      const carousel = document.getElementById("carousel");
+      const prevButton = document.getElementById("prev");
+      const nextButton = document.getElementById("next");
+
+      let currentTranslate = 0;
+
+      // Detectar el tamaño de las tarjetas basado en el ancho del viewport
+      function getCardWidth() {
+        const screenWidth = window.innerWidth;
+        if (screenWidth >= 1024) return carousel.offsetWidth / 5; // 5 tarjetas en pantallas grandes
+        return carousel.offsetWidth / 2; // 2 tarjetas en celulares
+      }
+
+      let cardWidth = getCardWidth(); // Calcular ancho inicial
+
+      // Calcular el máximo desplazamiento
+      function getMaxTranslate() {
+        return -(carousel.children.length * cardWidth - carousel.offsetWidth);
+      }
+
+      // Actualizar dimensiones cuando se cambia el tamaño de la ventana
+      window.addEventListener("resize", () => {
+        cardWidth = getCardWidth();
+        currentTranslate = Math.min(0, Math.max(currentTranslate, getMaxTranslate()));
+        carousel.style.transform = `translateX(${currentTranslate}px)`;
+      });
+
+      prevButton.addEventListener("click", () => {
+        currentTranslate += cardWidth;
+        if (currentTranslate > 0) currentTranslate = 0;
+        carousel.style.transform = `translateX(${currentTranslate}px)`;
+      });
+
+      nextButton.addEventListener("click", () => {
+        currentTranslate -= cardWidth;
+        if (currentTranslate < getMaxTranslate()) currentTranslate = getMaxTranslate();
+        carousel.style.transform = `translateX(${currentTranslate}px)`;
+      });
+    </script>
+  </body>
+</html>
