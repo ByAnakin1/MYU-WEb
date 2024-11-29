@@ -31,6 +31,7 @@ interface Product {
   img1: string;
   id_categoria: number; // Agrega esta propiedad para filtrar
   descuento?: number;
+  id_cat_accesorio?: number | null;
 }
 
 // Llamada al backend para obtener los productos
@@ -50,8 +51,20 @@ try {
   throw new Error('La respuesta del servidor no es válida.');
 }
 
-// Filtrar los productos con id_categoria = 3
-const filteredProducts = products.filter(product => product.id_categoria === 3);
+let filteredProducts: Product[] = [];
+
+// Cargar productos del servidor al renderizado inicial
+try {
+  const response = await fetch('http://localhost:3000/api/productos');
+  if (response.ok) {
+    products = await response.json();
+    filteredProducts = products.filter(product => product.id_cat_accesorio !== null);
+  } else {
+    console.error('Error en la respuesta del servidor:', response.statusText);
+  }
+} catch (err) {
+  console.error('Error al obtener productos:', err);
+}
 ---
 
 <!doctype html>
