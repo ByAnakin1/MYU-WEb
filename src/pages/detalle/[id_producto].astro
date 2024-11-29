@@ -26,15 +26,7 @@ interface Product {
   };
 }
 
-// Interface para el producto del carrito
-interface CartProduct {
-  id: number;
-  name: string;
-  size: string;
-  color: string;
-  price: number;
-  quantity: number;
-}
+
 
 // Realizar la solicitud para obtener todos los productos
 const response = await fetch('http://localhost:3000/api/productos');
@@ -119,7 +111,7 @@ function getBreadcrumbPath(product: Product): { name: string; path: string }[] {
   return paths;
 }
 
-type Color = 'rojo' | 'azul' | 'verde' | 'amarillo' | 'blanco' | 'negro' | 'gris' | 'naranja' | 'rosa';
+type Color = 'rojo' | 'azul' | 'verde' | 'amarillo' | 'blanco' | 'negro' | 'gris' | 'naranja' | 'rosa' | 'blanco' | 'gris' | 'rosadobebe' | 'palorosa' | 'vino' | 'marron' | 'perla' | 'lilabebe' | 'beige' | 'azulmarino';
 
 const colorMap: Record<Color, string> = {
     rojo: '#FF0000',
@@ -131,15 +123,16 @@ const colorMap: Record<Color, string> = {
     gris: '#808080',
     naranja: '#FFA500',
     rosa: '#FFC0CB',
+    rosadobebe: '#ffccda',
+    palorosa: '#FFD1DC',
+    vino: '#800020',
+    marron: '#8B4513',
+    perla: '#EAE0C8',
+    lilabebe: '#e8b5ff',
+    beige: '#F5F5DC',
+    azulmarino: '#162b4f',
 };
 
-function handleProduct(product: CartProduct): void {
-    console.log(product.name);
-}
-
-function showMessage(message: string): void {
-    console.log(message);
-}
 ---
 
 <!DOCTYPE html>
@@ -560,7 +553,7 @@ function showMessage(message: string): void {
         </div>
     </div>
 
-    <h2 class="section-title">PRODUCTOS</h2>
+    <h2 class="section-title">PRODUCTOS RELACIONADOS</h2>
   <div class="container">
     <div class="cards-container">
       {randomProducts.length > 0 ? (

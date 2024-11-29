@@ -3,7 +3,9 @@ import cors from 'cors';
 import db from './db.js'; // Archivo de conexión a la base de datos
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'http://myufashion.com', // Reemplaza con la URL de tu frontend
+}));
 app.use(express.json());
 
 /**
