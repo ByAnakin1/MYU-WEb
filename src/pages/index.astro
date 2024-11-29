@@ -33,7 +33,7 @@ const banners = await bannersResponse.json();
         <style>
             body {
                 margin: 0;
-                background-color: #fffcf6;
+                background-color: #cac9c7;
             }
 
             /* Agregamos padding al body en pantallas móviles */
@@ -51,7 +51,9 @@ const banners = await bannersResponse.json();
         <main>
         <Categorias />
         <Forsale products={products} />
-        <New />
+        <br>
+        <New products={products} />
+        <br>
         <Productos products={products} />      
         </main>
         <Footer />

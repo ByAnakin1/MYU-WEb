@@ -8,7 +8,8 @@ interface Product {
   nombre_producto: string;
   precio: number;
   img1: string;
-  id_categoria: number; // Agrega esta propiedad para filtrar
+  id_categoria: number;
+  descuento?: number;
 }
 
 // Llamada al backend para obtener los productos
@@ -251,14 +252,40 @@ const filteredProducts = products.filter(product => product.id_categoria === 4);
             <div class="cards-container">
                 {filteredProducts.length > 0 ? (
                     filteredProducts.map((product: Product) => (
-                        <div class="card">
-                            <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
-                            <div class="card-content">
-                                <h2 class="card-title">{product.nombre_producto}</h2>
-                                <p class="card-price">Precio: S/ {Number(product.precio).toFixed(2)}</p>
-                                <a href={`/detalle/${product.id_producto}`} class="card-button">Comprar</a>
+                    <div class="card">
+                        <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
+                        <div class="card-content">
+                        <h2 class="card-title">{product.nombre_producto}</h2>
+                        
+                        <div class="price-section">
+                            {product.descuento && product.descuento > 0 ? (
+                            <>
+                                <div class="flex justify-center items-center gap-2 mt-2">
+                                <span class="original-price text-sm line-through text-gray-500">
+                                    S/ {Number(product.precio).toFixed(2)}
+                                </span>
+                                <span class="discount-badge text-sm text-white bg-red-600 px-2 py-1 rounded-md">
+                                    -{Math.round(product.descuento)}%
+                                </span>
+                                </div>
+                                <div class="flex justify-center mt-2">
+                                <span class="price-tag text-xl font-bold text-red-600">
+                                    S/ {(Number(product.precio) * (1 - product.descuento / 100)).toFixed(2)}
+                                </span>
+                                </div>
+                            </>
+                            ) : (
+                            <div class="flex justify-center mt-2">
+                                <span class="price-tag text-xl font-bold">
+                                S/ {Number(product.precio).toFixed(2)}
+                                </span>
                             </div>
+                            )}
                         </div>
+            
+                        <a href={`/detalle/${product.id_producto}`} class="card-button">Comprar</a>
+                        </div>
+                    </div>
                     ))
                 ) : (
                     <p class="text-center">No hay productos disponibles.</p>
