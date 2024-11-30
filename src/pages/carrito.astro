@@ -1,0 +1,234 @@
+---
+import Header from "../components/header.astro";
+import Footer from "../components/footer.astro";
+
+interface CartProduct {
+    id_producto: string;
+    nombre_producto: string;
+    precio: number;
+    cantidad: number;
+    talla?: string;
+    color?: string;
+    img1?: string;
+}
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <Header />
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-6">Tu Carrito de Compras</h1>
+        
+        <div id="carrito-vacio" class="text-center text-xl text-gray-600 hidden">
+            Tu carrito está vacío. <a href="/" class="text-red-500 underline">Continúa comprando</a>
+        </div>
+        
+        <div id="carrito-contenido">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Columna de productos -->
+                <div class="md:col-span-2 space-y-4">
+                    <div id="lista-productos" class="bg-white shadow-md rounded-lg overflow-hidden">
+                        <table class="w-full">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="p-4 text-left">Producto</th>
+                                    <th class="p-4 text-center">Precio</th>
+                                    <th class="p-4 text-center">Cantidad</th>
+                                    <th class="p-4 text-center">Subtotal</th>
+                                    <th class="p-4 text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productos-tbody">
+                                <!-- Los productos se insertarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Resumen de compra -->
+                <div class="md:col-span-1">
+                    <div class="bg-white shadow-md rounded-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4">Resumen de Compra</h2>
+                        <div class="space-y-4">
+                            <div class="flex justify-between">
+                                <span>Subtotal</span>
+                                <span id="subtotal">S/ 0.00</span>
+                            </div>
+                            <hr>
+                            <div class="flex justify-between font-bold text-xl">
+                                <span>Total</span>
+                                <span id="total">S/ 0.00</span>
+                            </div>
+                        </div>
+                        <button id="finalizar-compra" class="w-full bg-red-500 text-white py-3 rounded-lg mt-6 hover:bg-red-600 transition">
+                            Finalizar Compra
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <Footer />
+
+    <script>
+        export interface CartProduct {
+            id_producto: string;
+            nombre_producto: string;
+            precio: number;
+            cantidad: number;
+            talla?: string;
+            color?: string;
+            img1?: string;
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const carritoVacio = document.getElementById('carrito-vacio');
+            const carritoContenido = document.getElementById('carrito-contenido');
+            const productosTbody = document.getElementById('productos-tbody');
+            const subtotalElement = document.getElementById('subtotal');
+            const totalElement = document.getElementById('total');
+            const finalizarCompraBtn = document.getElementById('finalizar-compra');
+
+            let cart: CartProduct[] = JSON.parse(localStorage.getItem('cart') || '[]');
+
+            function renderCarrito() {
+                if (cart.length === 0) {
+                    carritoVacio.classList.remove('hidden');
+                    carritoContenido.classList.add('hidden');
+                    return;
+                }
+
+                productosTbody.innerHTML = '';
+                let subtotal = 0;
+
+                cart.forEach((producto, index) => {
+                    const subtotalProducto = producto.precio * producto.cantidad;
+                    subtotal += subtotalProducto;
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="p-4 flex items-center space-x-4">
+                            <img src="${producto.img1}" alt="${producto.nombre_producto}" class="w-20 h-20 object-cover rounded">
+                            <div>
+                                <p class="font-bold">${producto.nombre_producto}</p>
+                                <p class="text-sm text-gray-500">${producto.talla ? `Talla: ${producto.talla}` : ''} ${producto.color ? `Color: ${producto.color}` : ''}</p>
+                            </div>
+                        </td>
+                        <td class="p-4 text-center">S/ ${producto.precio.toFixed(2)}</td>
+                        <td class="p-4 text-center">
+                            <div class="flex justify-center items-center">
+                                <button data-index="${index}" class="decrease-qty bg-gray-200 px-2 py-1 rounded-l">-</button>
+                                <input type="number" value="${producto.cantidad}" min="1" class="w-16 text-center qty-input" data-index="${index}">
+                                <button data-index="${index}" class="increase-qty bg-gray-200 px-2 py-1 rounded-r">+</button>
+                            </div>
+                        </td>
+                        <td class="p-4 text-center">S/ ${subtotalProducto.toFixed(2)}</td>
+                        <td class="p-4 text-center">
+                            <button data-index="${index}" class="remove-producto text-red-500 hover:text-red-700">
+                                🗑️
+                            </button>
+                        </td>
+                    `;
+                    productosTbody.appendChild(row);
+                });
+
+                subtotalElement.textContent = `S/ ${subtotal.toFixed(2)}`;
+                totalElement.textContent = `S/ ${(subtotal + 10).toFixed(2)}`;
+
+                // Agregar event listeners
+                document.querySelectorAll('.decrease-qty').forEach(button => {
+                    button.addEventListener('click', decreaseQuantity);
+                });
+
+                document.querySelectorAll('.increase-qty').forEach(button => {
+                    button.addEventListener('click', increaseQuantity);
+                });
+
+                document.querySelectorAll('.qty-input').forEach(input => {
+                    input.addEventListener('change', updateQuantityManual);
+                });
+
+                document.querySelectorAll('.remove-producto').forEach(button => {
+                    button.addEventListener('click', removeProducto);
+                });
+            }
+
+            function decreaseQuantity(event: Event) {
+                const index = (event.target as HTMLButtonElement).dataset.index;
+                if (index !== undefined && cart[parseInt(index)].cantidad > 1) {
+                    cart[parseInt(index)].cantidad--;
+                    updateCart();
+                }
+            }
+
+            function increaseQuantity(event: Event) {
+                const index = (event.target as HTMLButtonElement).dataset.index;
+                if (index !== undefined) {
+                    cart[parseInt(index)].cantidad++;
+                    updateCart();
+                }
+            }
+
+            function updateQuantityManual(event: Event) {
+                const input = event.target as HTMLInputElement;
+                const index = input.dataset.index;
+                if (index !== undefined) {
+                    const newQuantity = parseInt(input.value);
+                    cart[parseInt(index)].cantidad = newQuantity > 0 ? newQuantity : 1;
+                    updateCart();
+                }
+            }
+
+            function removeProducto(event: Event) {
+                const index = (event.target as HTMLButtonElement).dataset.index;
+                if (index !== undefined) {
+                    cart.splice(parseInt(index), 1);
+                    updateCart();
+                }
+            }
+
+            function updateCart() {
+                localStorage.setItem('cart', JSON.stringify(cart));
+                renderCarrito();
+            }
+
+            finalizarCompraBtn.addEventListener('click', () => {
+                if (cart.length > 0) {
+                    alert('Próximamente: Proceso de pago');
+                    // Aquí implementarías la lógica de checkout
+                }
+            });
+
+            renderCarrito();
+        });
+    </script>
+</body>
+</html>

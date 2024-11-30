@@ -10,6 +10,7 @@ interface Product {
   img1: string;
   id_categoria: number;
   id_cat_accesorio: number | null;
+  descuento?: number;
 }
 
 let products: Product[] = [];
@@ -27,6 +28,7 @@ try {
 } catch (err) {
   console.error('Error al obtener productos:', err);
 }
+
 ---
 
 <!DOCTYPE html>
@@ -201,6 +203,82 @@ try {
         .card {
             width: 100%;
         }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 15px;
+            width: 15px;
+            border-radius: 50%;
+            background: #f56565;
+            cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 5px;
+            background: #f6bbd0;
+            border-radius: 5px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            color: #333;
+            appearance: none;
+            outline: none;
+            transition: border-color 0.3s ease;
+            height: auto;
+            min-height: 50px;
+            overflow-y: auto;
+        }
+
+        select:focus {
+            border-color: #007BFF;
+            background-color: #fff;
+        }
+
+        option {
+            padding: 8px;
+        }
+
+        /* Estilo para las opciones seleccionadas */
+        option:checked {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        /* Estilos para mejorar la visualización en dispositivos móviles */
+        @media (max-width: 400px) {
+            .container {
+                width: 250px;
+            }
+        }
+
+        /* Estilo para el contenedor */
+        .select-container {
+            position: relative;
+        }
+
+        /* Estilo del icono de selección (desplegable) */
+        select::-ms-expand {
+            display: none;
+        }
+
+        .dropdown-arrow {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
     </style>
 </head>
 <body>
@@ -212,62 +290,115 @@ try {
         <!-- Panel de filtros -->
         <aside class="filters w-full md:w-1/5 p-4 bg-white shadow-md mt-10 filter-container mr-6">
             <h2 class="font-bold text-xl mb-4">Filtros</h2>
-            <div class="mb-6">
-                <h3 class="font-semibold">Descuento</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
-                    <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
-                    <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
-                    <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
-                    <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
-                </ul>
-            </div>
+                <div class="mb-6">
+                    <div class="mt-2">
+                        <label for="price-range">Rango de precios</label>
+                        <input type="range" id="price-range" min="1" max="500" step="1" value="500">
+                        <span id="min-price">S/ 1.00</span> - <span id="max-price">S/ 500.00</span>
+                    </div>
+                </div>
 
-            <div class="mb-6">
-                <h3 class="font-semibold">Color</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
-                    <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
-                    <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
-                </ul>
-            </div>
+                <div class="mb-6">
+                    <h3 class="font-semibold">Descuento</h3>
+                    <div class="mt-2">
+                        <div class="flex justify-between items-center">
+                            <span id="discount-value">0%</span>
+                        </div>
+                        <input type="range" id="discount-range" class="w-full" min="0" max="100" step="1" value="0" />
+                    </div>
+                </div>
 
-            <div>
-                <h3 class="font-semibold">Precio</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
-                    <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
-                    <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
-                </ul>
-            </div>
+                <div class="mb-6">
+                    <h3 class="font-semibold">Color</h3>
+                    <ul class="space-y-2 mt-2">
+                        <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
+                        <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
+                        <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
+                    </ul>
+                </div>
             <br>
             <div>
-                <h3 class="font-semibold">Categorias</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" data-id="1" class="category-filter" /> <label>Bucket hat</label></li>
-                    <li><input type="checkbox" data-id="2" class="category-filter" /> <label>Gorras</label></li>
-                    <li><input type="checkbox" data-id="3" class="category-filter" /> <label>Lentes</label></li>
-                    <li><input type="checkbox" data-id="4" class="category-filter" /> <label>Correa</label></li>
-                    <li><input type="checkbox" data-id="5" class="category-filter" /> <label>Cinturones</label></li>
-                    <li><input type="checkbox" data-id="6" class="category-filter" /> <label>Cadenas</label></li>
-                    <li><input type="checkbox" data-id="7" class="category-filter" /> <label>Tirantes</label></li>
-                    <li><input type="checkbox" data-id="8" class="category-filter" /> <label>Chokers</label></li>
-                    <li><input type="checkbox" data-id="9" class="category-filter" /> <label>Gargantillas</label></li>
-                    <li><input type="checkbox" data-id="10" class="category-filter" /> <label>Collares</label></li>
-                    <li><input type="checkbox" data-id="11" class="category-filter" /> <label>Aretes anime</label></li>
-                    <li><input type="checkbox" data-id="12" class="category-filter" /> <label>Aretes cute</label></li>
-                    <li><input type="checkbox" data-id="13" class="category-filter" /> <label>Aretes</label></li>
-                    <li><input type="checkbox" data-id="14" class="category-filter" /> <label>Arnés</label></li>
-                    <li><input type="checkbox" data-id="15" class="category-filter" /> <label>Ligeros</label></li>
-                    <li><input type="checkbox" data-id="16" class="category-filter" /> <label>Vinchas</label></li>
-                    <li><input type="checkbox" data-id="17" class="category-filter" /> <label>Ganchos</label></li>
-                    <li><input type="checkbox" data-id="18" class="category-filter" /> <label>Lazos</label></li>
-                    <li><input type="checkbox" data-id="19" class="category-filter" /> <label>Pines</label></li>
-                    <li><input type="checkbox" data-id="20" class="category-filter" /> <label>Malla de manos</label></li>
-                    <li><input type="checkbox" data-id="21" class="category-filter" /> <label>Muñequeras</label></li>
-                    <li><input type="checkbox" data-id="22" class="category-filter" /> <label>Anillos</label></li>
-                </ul>
-            </div>
+                <h3 class="font-semibold text-gray-700 mb-2">Categorías</h3>
+                    <div class="relative">
+                        <input
+                            id="search-box"
+                            type="text"
+                            placeholder="Buscar por:"
+                            class="w-full px-4 py-2 text-sm border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            oninput="filterCategories()"
+                        />
+                        <div class="h-60 overflow-y-auto mt-2 border rounded-lg bg-white shadow-sm">
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="1" class="mr-2"> Bucket hat
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="2" class="mr-2"> Gorras
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="3" class="mr-2"> Lentes
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="4" class="mr-2"> Correa
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="5" class="mr-2"> Cinturones
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="6" class="mr-2"> Cadenas
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="7" class="mr-2"> Tirantes
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="8" class="mr-2"> Chokers
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="9" class="mr-2"> Gargantillas
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="10" class="mr-2"> Collares
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="11" class="mr-2"> Aretes anime
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="12" class="mr-2"> Aretes cute
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="13" class="mr-2"> Aretes
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="14" class="mr-2"> Arnés
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="15" class="mr-2"> Ligeros
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="16" class="mr-2"> Vinchas
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="17" class="mr-2"> Ganchos
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="18" class="mr-2"> Lazos
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="19" class="mr-2"> Pines
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="20" class="mr-2"> Malla de manos
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="21" class="mr-2"> Muñequeras
+                            </label>
+                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                <input type="checkbox" value="22" class="mr-2"> Anillos
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                
         </aside>
 
         <!-- Productos de faldas -->
@@ -276,14 +407,40 @@ try {
             <div class="cards-container">
                 {filteredProducts.length > 0 ? (
                     filteredProducts.map((product: Product) => (
-                        <div class="card">
-                            <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
-                            <div class="card-content">
-                                <h2 class="card-title">{product.nombre_producto}</h2>
-                                <p class="card-price">Precio: S/ {Number(product.precio).toFixed(2)}</p>
-                                <a href={`/detalle/${product.id_producto}`} class="card-button">Comprar</a>
+                    <div class="card">
+                        <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
+                        <div class="card-content">
+                        <h2 class="card-title">{product.nombre_producto}</h2>
+                        
+                        <div class="price-section">
+                            {product.descuento && product.descuento > 0 ? (
+                            <>
+                                <div class="flex justify-center items-center gap-2 mt-2">
+                                <span class="original-price text-sm line-through text-gray-500">
+                                    S/ {Number(product.precio).toFixed(2)}
+                                </span>
+                                <span class="discount-badge text-sm text-white bg-red-600 px-2 py-1 rounded-md">
+                                    -{Math.round(product.descuento)}%
+                                </span>
+                                </div>
+                                <div class="flex justify-center mt-2">
+                                <span class="price-tag text-xl font-bold text-red-600">
+                                    S/ {(Number(product.precio) * (1 - product.descuento / 100)).toFixed(2)}
+                                </span>
+                                </div>
+                            </>
+                            ) : (
+                            <div class="flex justify-center mt-2">
+                                <span class="price-tag text-xl font-bold">
+                                S/ {Number(product.precio).toFixed(2)}
+                                </span>
                             </div>
+                            )}
                         </div>
+            
+                        <a href={`/detalle/${product.id_producto}`} class="card-button">Comprar</a>
+                        </div>
+                    </div>
                     ))
                 ) : (
                     <p class="text-center">No hay productos disponibles.</p>
@@ -310,31 +467,29 @@ try {
             </button>
             <h2 class="font-bold text-xl mb-4">Filtros</h2>
             <div class="mb-6">
+                <div class="mt-2">
+                    <label for="price-range">Rango de precios</label>
+                    <input type="range" id="price-range" min="1" max="500" step="1" value="500">
+                    <span id="min-price">S/ 1.00</span> - <span id="max-price">S/ 500.00</span>
+                </div>
+            </div>
+
+            <div class="mb-6">
                 <h3 class="font-semibold">Descuento</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="descuento30-mobile" /> <label for="descuento30-mobile">Hasta 30%</label></li>
-                    <li><input type="checkbox" id="descuento40-mobile" /> <label for="descuento40-mobile">30% - 40%</label></li>
-                    <li><input type="checkbox" id="descuento50-mobile" /> <label for="descuento50-mobile">40% - 50%</label></li>
-                    <li><input type="checkbox" id="descuento60-mobile" /> <label for="descuento60-mobile">50% - 60%</label></li>
-                    <li><input type="checkbox" id="mas60-mobile" /> <label for="mas60-mobile">Más de 60%</label></li>
-                </ul>
+                <div class="mt-2">
+                    <div class="flex justify-between items-center">
+                        <span id="discount-value">0%</span>
+                    </div>
+                    <input type="range" id="discount-range" class="w-full" min="0" max="100" step="1" value="0" />
+                </div>
             </div>
 
             <div class="mb-6">
                 <h3 class="font-semibold">Color</h3>
                 <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="colorAmarillo-mobile" /> <label for="colorAmarillo-mobile">Amarillo</label></li>
-                    <li><input type="checkbox" id="colorAzul-mobile" /> <label for="colorAzul-mobile">Azul</label></li>
-                    <li><input type="checkbox" id="colorBlanco-mobile" /> <label for="colorBlanco-mobile">Blanco</label></li>
-                </ul>
-            </div>
-
-            <div>
-                <h3 class="font-semibold">Precio</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="precio20-mobile" /> <label for="precio20-mobile">Hasta S/ 20.00</label></li>
-                    <li><input type="checkbox" id="precio40-mobile" /> <label for="precio40-mobile">S/ 20.00 - S/ 40.00</label></li>
-                    <li><input type="checkbox" id="precio60-mobile" /> <label for="precio60-mobile">S/ 40.00 - S/ 60.00</label></li>
+                    <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
+                    <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
+                    <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
                 </ul>
             </div>
             <div>
@@ -369,6 +524,8 @@ try {
 
     <Footer />
 
+    
+
     <script type="module">
         // Mostrar y ocultar el panel de filtros en dispositivos móviles
         const filterToggleMobile = document.getElementById('filterToggleMobile');
@@ -386,57 +543,109 @@ try {
             body.classList.remove('no-scroll');
         });
 
-         // Inicializar variables de productos en el cliente
-        const products = JSON.parse('${JSON.stringify(products)}');
-        let filteredProducts = products.filter(product => product.id_cat_accesorio !== null);
-
         document.addEventListener('DOMContentLoaded', () => {
-            const container = document.querySelector('.cards-container');
-            const selectedFilters = { categories: new Set() };
+            // Obtener referencias a los elementos del DOM
+            const priceRange = document.getElementById('price-range');
+            const minPriceLabel = document.getElementById('min-price');
+            const maxPriceLabel = document.getElementById('max-price');
+            const discountRange = document.getElementById('discount-range');
+            const discountLabel = document.getElementById('discount-value');
+            const cardsContainer = document.querySelector('.cards-container');
 
-            function renderProducts(productsToRender) {
-            container.innerHTML = '';
-            if (productsToRender.length) {
-                productsToRender.forEach(product => {
-                container.innerHTML += `
-                    <div class="card">
-                    <img src="${product.img1}" alt="Imagen de ${product.nombre_producto}" />
-                    <div class="card-content">
-                        <h2 class="card-title">${product.nombre_producto}</h2>
-                        <p class="card-price">Precio: S/ ${product.precio.toFixed(2)}</p>
-                    </div>
-                    </div>`;
+            // Función para actualizar los valores del rango de precios
+            const updatePriceLabels = () => {
+                const priceValue = priceRange.value;
+                minPriceLabel.textContent = "S/ 1.00"; // Mínimo fijo
+                maxPriceLabel.textContent = `S/ ${parseFloat(priceValue).toFixed(2)}`; // Máximo dinámico
+            };
+
+            // Función para actualizar el valor del descuento
+            const updateDiscountLabel = () => {
+                const discountValue = discountRange.value;
+                discountLabel.textContent = `${discountValue}%`;
+            };
+
+            // Función para filtrar productos dinámicamente
+            const filterProducts = () => {
+                const maxPrice = parseFloat(priceRange.value);
+                const maxDiscount = parseInt(discountRange.value);
+
+                // Filtrar los productos
+                const filtered = products.filter(product => {
+                    const finalPrice = product.descuento
+                        ? product.precio * (1 - product.descuento / 100)
+                        : product.precio;
+
+                    // Comprobar si cumple con el rango de precio y descuento
+                    return finalPrice <= maxPrice && product.descuento <= maxDiscount;
                 });
-            } else {
-                container.innerHTML = '<p class="text-center">No hay productos disponibles.</p>';
-            }
-            }
 
-            function applyFilters() {
-            let filtered = products;
+                // Renderizar los productos filtrados
+                renderProducts(filtered);
+            };
 
-            if (selectedFilters.categories.size > 0) {
-                filtered = filtered.filter(product =>
-                selectedFilters.categories.has(product.id_cat_accesorio)
-                );
-            }
-            renderProducts(filtered);
-            }
+            // Función para renderizar los productos
+            const renderProducts = (products) => {
+                cardsContainer.innerHTML = ''; // Limpiar los productos actuales
 
-            document.querySelectorAll('.category-filter').forEach(filter => {
-            filter.addEventListener('change', event => {
-                const id = Number(event.target.getAttribute('data-id'));
-                if (event.target.checked) {
-                selectedFilters.categories.add(id);
-                } else {
-                selectedFilters.categories.delete(id);
+                if (products.length === 0) {
+                    cardsContainer.innerHTML = '<p class="text-center">No hay productos disponibles.</p>';
+                    return;
                 }
-                applyFilters();
-            });
+
+                products.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+
+                    card.innerHTML = `
+                        <img src="${product.img1}" alt="Imagen de ${product.nombre_producto}" />
+                        <div class="card-content">
+                            <h2 class="card-title">${product.nombre_producto}</h2>
+                            <div class="price-section">
+                                ${product.descuento && product.descuento > 0
+                                    ? `
+                                    <div class="flex justify-center items-center gap-2 mt-2">
+                                        <span class="original-price text-sm line-through text-gray-500">
+                                            S/ ${product.precio.toFixed(2)}
+                                        </span>
+                                        <span class="discount-badge">
+                                            -${Math.round(product.descuento)}%
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-center mt-2">
+                                        <span class="price-tag text-xl font-bold text-red-600">
+                                            S/ ${(product.precio * (1 - product.descuento / 100)).toFixed(2)}
+                                        </span>
+                                    </div>`
+                                    : `<div class="flex justify-center mt-2">
+                                        <span class="price-tag text-xl font-bold">
+                                            S/ ${product.precio.toFixed(2)}
+                                        </span>
+                                    </div>`}
+                            </div>
+                            <a href="/detalle/${product.id_producto}" class="card-button">Comprar</a>
+                        </div>
+                    `;
+
+                    cardsContainer.appendChild(card);
+                });
+            };
+
+            // Eventos para actualizar y filtrar
+            priceRange.addEventListener('input', () => {
+                updatePriceLabels();
+                filterProducts();
             });
 
-            // Inicializa la vista con todos los productos filtrados
-            renderProducts(filteredProducts);
+            discountRange.addEventListener('input', () => {
+                updateDiscountLabel();
+                filterProducts();
+            });
+
+            // Inicializar los valores
+            updatePriceLabels();
+            updateDiscountLabel();
+            renderProducts(products); // Mostrar todos los productos al inicio
         });
     </script>
 </body>

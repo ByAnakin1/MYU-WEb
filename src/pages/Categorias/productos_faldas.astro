@@ -9,6 +9,7 @@ interface Product {
   precio: number;
   img1: string;
   id_categoria: number; // Agrega esta propiedad para filtrar
+  descuento?: number;
 }
 
 // Llamada al backend para obtener los productos
@@ -204,6 +205,26 @@ const filteredProducts = products.filter(product => product.id_categoria === 3);
         .card {
             width: 100%;
         }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 15px;
+            width: 15px;
+            border-radius: 50%;
+            background: #f56565;
+            cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 5px;
+            background: #f6bbd0;
+            border-radius: 5px;
+        }
+
     </style>
 </head>
 <body>
@@ -216,14 +237,21 @@ const filteredProducts = products.filter(product => product.id_categoria === 3);
         <aside class="filters w-full md:w-1/5 p-4 bg-white shadow-md mt-10 filter-container mr-6">
             <h2 class="font-bold text-xl mb-4">Filtros</h2>
             <div class="mb-6">
+                <div class="mt-2">
+                    <label for="price-range">Rango de precios</label>
+                    <input type="range" id="price-range" min="1" max="500" step="1" value="500">
+                    <span id="min-price">S/ 1.00</span> - <span id="max-price">S/ 500.00</span>
+                </div>
+            </div>
+
+            <div class="mb-6">
                 <h3 class="font-semibold">Descuento</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
-                    <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
-                    <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
-                    <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
-                    <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
-                </ul>
+                <div class="mt-2">
+                    <div class="flex justify-between items-center">
+                        <span id="discount-value">0%</span>
+                    </div>
+                    <input type="range" id="discount-range" class="w-full" min="0" max="100" step="1" value="0" />
+                </div>
             </div>
 
             <div class="mb-6">
@@ -234,15 +262,6 @@ const filteredProducts = products.filter(product => product.id_categoria === 3);
                     <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
                 </ul>
             </div>
-
-            <div>
-                <h3 class="font-semibold">Precio</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
-                    <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
-                    <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
-                </ul>
-            </div>
         </aside>
 
         <!-- Productos de faldas -->
@@ -251,14 +270,40 @@ const filteredProducts = products.filter(product => product.id_categoria === 3);
             <div class="cards-container">
                 {filteredProducts.length > 0 ? (
                     filteredProducts.map((product: Product) => (
-                        <div class="card">
-                            <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
-                            <div class="card-content">
-                                <h2 class="card-title">{product.nombre_producto}</h2>
-                                <p class="card-price">Precio: S/ {Number(product.precio).toFixed(2)}</p>
-                                <a href={`/detalle/${product.id_producto}`} class="card-button">Comprar</a>
+                    <div class="card">
+                        <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
+                        <div class="card-content">
+                        <h2 class="card-title">{product.nombre_producto}</h2>
+                        
+                        <div class="price-section">
+                            {product.descuento && product.descuento > 0 ? (
+                            <>
+                                <div class="flex justify-center items-center gap-2 mt-2">
+                                <span class="original-price text-sm line-through text-gray-500">
+                                    S/ {Number(product.precio).toFixed(2)}
+                                </span>
+                                <span class="discount-badge text-sm text-white bg-red-600 px-2 py-1 rounded-md">
+                                    -{Math.round(product.descuento)}%
+                                </span>
+                                </div>
+                                <div class="flex justify-center mt-2">
+                                <span class="price-tag text-xl font-bold text-red-600">
+                                    S/ {(Number(product.precio) * (1 - product.descuento / 100)).toFixed(2)}
+                                </span>
+                                </div>
+                            </>
+                            ) : (
+                            <div class="flex justify-center mt-2">
+                                <span class="price-tag text-xl font-bold">
+                                S/ {Number(product.precio).toFixed(2)}
+                                </span>
                             </div>
+                            )}
                         </div>
+            
+                        <a href={`/detalle/${product.id_producto}`} class="card-button">Comprar</a>
+                        </div>
+                    </div>
                     ))
                 ) : (
                     <p class="text-center">No hay productos disponibles.</p>
@@ -285,14 +330,23 @@ const filteredProducts = products.filter(product => product.id_categoria === 3);
             </button>
             <h2 class="font-bold text-xl mb-4">Filtros</h2>
             <div class="mb-6">
+                <h3 class="font-semibold">Precio</h3>
+                <div class="mt-2">
+                    <div class="flex justify-between items-center">
+                        <span>S/ <span id="max-price-mobile">4000.00</span></span>
+                    </div>
+                    <input type="range" id="price-range-mobile" class="w-full" min="1" max="4000" step="1" value="0,4000" />
+                </div>
+            </div>
+
+            <div class="mb-6">
                 <h3 class="font-semibold">Descuento</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="descuento30-mobile" /> <label for="descuento30-mobile">Hasta 30%</label></li>
-                    <li><input type="checkbox" id="descuento40-mobile" /> <label for="descuento40-mobile">30% - 40%</label></li>
-                    <li><input type="checkbox" id="descuento50-mobile" /> <label for="descuento50-mobile">40% - 50%</label></li>
-                    <li><input type="checkbox" id="descuento60-mobile" /> <label for="descuento60-mobile">50% - 60%</label></li>
-                    <li><input type="checkbox" id="mas60-mobile" /> <label for="mas60-mobile">Más de 60%</label></li>
-                </ul>
+                <div class="mt-2">
+                    <div class="flex justify-between items-center">
+                        <span><span id="discount-range-mobile">0</span>%</span>
+                    </div>
+                    <input type="range" id="discount-range-mobile" class="w-full" min="0" max="100" step="1" value="0" />
+                </div>
             </div>
 
             <div class="mb-6">
@@ -303,35 +357,115 @@ const filteredProducts = products.filter(product => product.id_categoria === 3);
                     <li><input type="checkbox" id="colorBlanco-mobile" /> <label for="colorBlanco-mobile">Blanco</label></li>
                 </ul>
             </div>
-
-            <div>
-                <h3 class="font-semibold">Precio</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="precio20-mobile" /> <label for="precio20-mobile">Hasta S/ 20.00</label></li>
-                    <li><input type="checkbox" id="precio40-mobile" /> <label for="precio40-mobile">S/ 20.00 - S/ 40.00</label></li>
-                    <li><input type="checkbox" id="precio60-mobile" /> <label for="precio60-mobile">S/ 40.00 - S/ 60.00</label></li>
-                </ul>
-            </div>
         </div>
     </div>
 
     <Footer />
 
     <script type="module">
-        // Mostrar y ocultar el panel de filtros en dispositivos móviles
-        const filterToggleMobile = document.getElementById('filterToggleMobile');
-        const filterSidebarMobile = document.getElementById('filterSidebarMobile');
-        const closeFilterMobile = document.getElementById('closeFilterMobile');
-        const body = document.body;
+        document.addEventListener('DOMContentLoaded', () => {
+            // Obtener referencias a los elementos del DOM
+            const priceRange = document.getElementById('price-range');
+            const minPriceLabel = document.getElementById('min-price');
+            const maxPriceLabel = document.getElementById('max-price');
+            const discountRange = document.getElementById('discount-range');
+            const discountLabel = document.getElementById('discount-value');
+            const cardsContainer = document.querySelector('.cards-container');
 
-        filterToggleMobile.addEventListener('click', () => {
-            filterSidebarMobile.classList.add('show');
-            body.classList.add('no-scroll');
-        });
+            // Función para actualizar los valores del rango de precios
+            const updatePriceLabels = () => {
+                const priceValue = priceRange.value;
+                minPriceLabel.textContent = "S/ 1.00"; // Mínimo fijo
+                maxPriceLabel.textContent = `S/ ${parseFloat(priceValue).toFixed(2)}`; // Máximo dinámico
+            };
 
-        closeFilterMobile.addEventListener('click', () => {
-            filterSidebarMobile.classList.remove('show');
-            body.classList.remove('no-scroll');
+            // Función para actualizar el valor del descuento
+            const updateDiscountLabel = () => {
+                const discountValue = discountRange.value;
+                discountLabel.textContent = `${discountValue}%`;
+            };
+
+            // Función para filtrar productos dinámicamente
+            const filterProducts = () => {
+                const maxPrice = parseFloat(priceRange.value);
+                const maxDiscount = parseInt(discountRange.value);
+
+                // Filtrar los productos
+                const filtered = products.filter(product => {
+                    const finalPrice = product.descuento
+                        ? product.precio * (1 - product.descuento / 100)
+                        : product.precio;
+
+                    // Comprobar si cumple con el rango de precio y descuento
+                    return finalPrice <= maxPrice && product.descuento <= maxDiscount;
+                });
+
+                // Renderizar los productos filtrados
+                renderProducts(filtered);
+            };
+
+            // Función para renderizar los productos
+            const renderProducts = (products) => {
+                cardsContainer.innerHTML = ''; // Limpiar los productos actuales
+
+                if (products.length === 0) {
+                    cardsContainer.innerHTML = '<p class="text-center">No hay productos disponibles.</p>';
+                    return;
+                }
+
+                products.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+
+                    card.innerHTML = `
+                        <img src="${product.img1}" alt="Imagen de ${product.nombre_producto}" />
+                        <div class="card-content">
+                            <h2 class="card-title">${product.nombre_producto}</h2>
+                            <div class="price-section">
+                                ${product.descuento && product.descuento > 0
+                                    ? `
+                                    <div class="flex justify-center items-center gap-2 mt-2">
+                                        <span class="original-price text-sm line-through text-gray-500">
+                                            S/ ${product.precio.toFixed(2)}
+                                        </span>
+                                        <span class="discount-badge">
+                                            -${Math.round(product.descuento)}%
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-center mt-2">
+                                        <span class="price-tag text-xl font-bold text-red-600">
+                                            S/ ${(product.precio * (1 - product.descuento / 100)).toFixed(2)}
+                                        </span>
+                                    </div>`
+                                    : `<div class="flex justify-center mt-2">
+                                        <span class="price-tag text-xl font-bold">
+                                            S/ ${product.precio.toFixed(2)}
+                                        </span>
+                                    </div>`}
+                            </div>
+                            <a href="/detalle/${product.id_producto}" class="card-button">Comprar</a>
+                        </div>
+                    `;
+
+                    cardsContainer.appendChild(card);
+                });
+            };
+
+            // Eventos para actualizar y filtrar
+            priceRange.addEventListener('input', () => {
+                updatePriceLabels();
+                filterProducts();
+            });
+
+            discountRange.addEventListener('input', () => {
+                updateDiscountLabel();
+                filterProducts();
+            });
+
+            // Inicializar los valores
+            updatePriceLabels();
+            updateDiscountLabel();
+            renderProducts(products); // Mostrar todos los productos al inicio
         });
     </script>
 </body>

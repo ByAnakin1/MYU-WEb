@@ -2,9 +2,9 @@
 import Header from "../../components/header.astro";
 import Footer from "../../components/footer.astro";
 
-// Actualiza la interfaz Product para incluir la información de categoría
+// Interface unificada de Product
 interface Product {
-  id_producto?: string;
+  id_producto?: number;
   nombre_producto?: string;
   descripcion_producto?: string;
   precio?: number | string;
@@ -26,7 +26,30 @@ interface Product {
   };
 }
 
-// Modifica getStaticPaths para incluir la información de categoría
+
+
+// Realizar la solicitud para obtener todos los productos
+const response = await fetch('http://localhost:3000/api/productos');
+
+if (!response.ok) {
+  console.error('Error al obtener productos:', response.statusText);
+  const errorText = await response.text();
+  throw new Error(`Error al obtener productos: ${errorText}`);
+}
+
+let products: Product[] = [];
+try {
+  products = await response.json(); // Obtener todos los productos
+} catch (error) {
+  console.error('Error al parsear productos:', error);
+  throw new Error('La respuesta del servidor no es válida.');
+}
+
+// Filtrar 20 productos aleatorios
+const randomProducts = products.sort(() => Math.random() - 0.5).slice(0, 5);
+
+
+
 export async function getStaticPaths() {
   const response = await fetch('http://localhost:3000/api/productos');
   if (!response.ok) throw new Error('No se pudieron obtener los productos');
@@ -38,19 +61,29 @@ export async function getStaticPaths() {
 }
 
 const { id_producto } = Astro.params;
-let product: Product = { error: '' };
+let product: Product = {
+  id_producto: 0,
+  nombre_producto: '',
+  descripcion_producto: '',
+  precio: 0,
+  error: ''
+};
 
 try {
-  // Modifica la consulta para incluir JOIN con las tablas de categorías
   const response = await fetch(`http://localhost:3000/api/productos/${id_producto}`);
   if (!response.ok) throw new Error('No se pudo obtener el producto');
   product = await response.json();
 } catch (error) {
   console.error(error);
-  product = { error: 'No se pudieron cargar los detalles del producto' };
+  product = {
+    id_producto: 0,
+    nombre_producto: '',
+    descripcion_producto: '',
+    precio: 0,
+    error: 'No se pudieron cargar los detalles del producto'
+  };
 }
 
-// Función auxiliar para construir el breadcrumb
 function getBreadcrumbPath(product: Product): { name: string; path: string }[] {
   const paths = [
     { name: 'Inicio', path: '/' },
@@ -68,7 +101,6 @@ function getBreadcrumbPath(product: Product): { name: string; path: string }[] {
     });
   }
 
-  // Añadir información de accesorios si está disponible
   if (product.id_cat_accesorio) {
     paths.push({
       name: product.cat_accesorio?.nombre_cat_accesorio || 'Accesorio',
@@ -79,7 +111,7 @@ function getBreadcrumbPath(product: Product): { name: string; path: string }[] {
   return paths;
 }
 
-type Color = 'rojo' | 'azul' | 'verde' | 'amarillo' | 'blanco' | 'negro' | 'gris' | 'naranja' | 'rosa';
+type Color = 'rojo' | 'azul' | 'verde' | 'amarillo' | 'blanco' | 'negro' | 'gris' | 'naranja' | 'rosa' | 'blanco' | 'gris' | 'rosadobebe' | 'palorosa' | 'vino' | 'marron' | 'perla' | 'lilabebe' | 'beige' | 'azulmarino';
 
 const colorMap: Record<Color, string> = {
     rojo: '#FF0000',
@@ -91,14 +123,14 @@ const colorMap: Record<Color, string> = {
     gris: '#808080',
     naranja: '#FFA500',
     rosa: '#FFC0CB',
-};
-
-const handleTallaSeleccionada = (talla: string): void => {
-    console.log(`Talla seleccionada: ${talla}`);
-};
-
-const handleColorSeleccionado = (color: string): void => {
-    console.log(`Color seleccionado: ${color}`);
+    rosadobebe: '#ffccda',
+    palorosa: '#FFD1DC',
+    vino: '#800020',
+    marron: '#8B4513',
+    perla: '#EAE0C8',
+    lilabebe: '#e8b5ff',
+    beige: '#F5F5DC',
+    azulmarino: '#162b4f',
 };
 
 ---
@@ -111,6 +143,97 @@ const handleColorSeleccionado = (color: string): void => {
     <title>{product?.nombre_producto || 'Producto no encontrado'}</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
+        .container {
+            max-width: 1370px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .cards-container {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(5, 1fr);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background-color: #f6bbd0;
+            color: white;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 767px) {
+            .cards-container {
+            grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .cards-container {
+            grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .cards-container {
+            grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-transform: capitalize;
+        }
+
+        .card-price {
+            color: #f56565;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .card-button {
+            display: inline-block;
+            background: #f6bbd0;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .card-button:hover {
+            background: #f56565;
+        }
         .breadcrumb {
             padding: 0.5rem 0;
             font-size: 14px;
@@ -282,6 +405,14 @@ const handleColorSeleccionado = (color: string): void => {
         input[type="number"] {
             -moz-appearance: textfield;
         }
+
+        #notification {
+            display: none;
+            transition: opacity 0.3s ease-in-out;
+        }
+        #notification.visible {
+        display: flex !important;
+        }
     </style>
 </head>
 <body>
@@ -368,9 +499,16 @@ const handleColorSeleccionado = (color: string): void => {
                 </div>
                 
                 <div class="actions">
-                    <button class="btn-cart">AGREGAR AL CARRITO</button>
+                    <button id="addToCartButton" class="btn-cart">AGREGAR AL CARRITO</button>
                     <button class="btn-buy">COMPRAR AHORA</button>
                 </div>
+
+                <div id="notification" class="fixed bottom-5 right-5 bg-green-500 text-white p-4 rounded shadow-lg items-center hidden">
+                    <span id="notificationMessage"></span>
+                    <button id="closeNotification" class="ml-4 text-lg">✖</button>
+                    <a href="/carrito" id="cartLink" class="ml-4 bg-white text-green-500 px-2 py-1 rounded">Ver carrito</a>
+                </div>
+                
                 
 
                 <div class="delivery-options">
@@ -415,45 +553,223 @@ const handleColorSeleccionado = (color: string): void => {
         </div>
     </div>
 
+    <h2 class="section-title">PRODUCTOS RELACIONADOS</h2>
+  <div class="container">
+    <div class="cards-container">
+      {randomProducts.length > 0 ? (
+        randomProducts.map((product: Product) => (
+          <div class="card">
+            <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
+            <div class="card-content">
+              <h2 class="card-title">{product.nombre_producto}</h2>
+              
+              <div class="price-section">
+                {product.descuento && product.descuento > 0 ? (
+                  <>
+                    <div class="flex justify-center items-center gap-2 mt-2">
+                      <span class="original-price text-sm line-through text-gray-500">
+                        S/ {Number(product.precio).toFixed(2)}
+                      </span>
+                      <span class="discount-badge text-sm text-white bg-red-600 px-2 py-1 rounded-md">
+                        -{Math.round(product.descuento)}%
+                      </span>
+                    </div>
+                    <div class="flex justify-center mt-2">
+                      <span class="price-tag text-xl font-bold text-red-600">
+                        S/ {(Number(product.precio) * (1 - product.descuento / 100)).toFixed(2)}
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <div class="flex justify-center mt-2">
+                    <span class="price-tag text-xl font-bold">
+                      S/ {Number(product.precio).toFixed(2)}
+                    </span>
+                  </div>
+                )}
+              </div>
+  
+              <a href={`/detalle/${product.id_producto}`} class="card-button">Comprar</a>
+            </div>
+          </div>
+        ))
+      ) : (
+        <p class="text-center">No hay productos disponibles.</p>
+      )}
+    </div>
+  </div>
+
+  <br>
+  <br>
+  <br>
+
     <Footer />
 
+    <script define:vars={{productId: product.id_producto}}>
+        window.productId = productId;
+    </script>
+
     <script>
-
+        interface CartProduct {
+            id_producto: number;
+            nombre_producto: string;
+            precio: number;
+            cantidad: number;
+            img1?: string;
+        }
+    
         let quantity = 1;
-
-        // Actualizar la cantidad al presionar + o -
-        function updateQuantity(change: number) {
+        // Inicializar carrito desde localStorage
+        let cart: CartProduct[] = JSON.parse(localStorage.getItem("cart") || "[]");
+    
+        // Función para actualizar cantidad
+        function updateQuantity(change: number): void {
             const input = document.getElementById('quantityInput') as HTMLInputElement;
             let newQuantity = quantity + change;
-
+    
             if (newQuantity < 1) {
-                newQuantity = 1; // No permitir cantidades menores a 1
+                newQuantity = 1;
             }
-
-            quantity = newQuantity;
-            input.value = quantity.toString(); // Actualizar el valor del input
-        }
-
-        // Validar la cantidad introducida manualmente
-        function validateQuantity() {
-            const input = document.getElementById('quantityInput') as HTMLInputElement;
-            const newQuantity = parseInt(input.value, 10);
-            if (isNaN(newQuantity) || newQuantity < 1) input.value = '1';
-
-
+    
             quantity = newQuantity;
             input.value = quantity.toString();
         }
-
-        // Asegurarse de que el DOM está cargado
+    
+        // Función para validar cantidad
+        function validateQuantity(): void {
+            const input = document.getElementById('quantityInput') as HTMLInputElement;
+            const newQuantity = parseInt(input.value, 10);
+    
+            if (isNaN(newQuantity) || newQuantity < 1) {
+                input.value = '1';
+                quantity = 1;
+            } else {
+                quantity = newQuantity;
+                input.value = quantity.toString();
+            }
+        }
+    
+        // Función para agregar al carrito
+        function addToCart(product: CartProduct): void {
+            const selectedQuantity = quantity;
+    
+            const cartProduct: CartProduct = {
+                id_producto: product.id_producto,
+                nombre_producto: product.nombre_producto,
+                precio: product.precio,
+                cantidad: selectedQuantity,
+                img1: product.img1
+            };
+    
+            console.log('Producto a agregar:', {
+                id_producto: cartProduct.id_producto,
+                nombre_producto: cartProduct.nombre_producto,
+                precio: cartProduct.precio,
+                cantidad: cartProduct.cantidad,
+            });
+    
+            const existingProductIndex = cart.findIndex(item =>
+                item.id_producto === cartProduct.id_producto
+            );
+    
+            console.log('Índice de producto existente:', existingProductIndex);
+    
+            if (existingProductIndex >= 0) {
+                // Actualizar cantidad si el producto ya existe
+                cart[existingProductIndex].cantidad += selectedQuantity;
+            } else {
+                // Agregar nuevo producto si no existe
+                cart.push(cartProduct);
+            }
+    
+            // Guardar en localStorage
+            localStorage.setItem("cart", JSON.stringify(cart));
+            showNotification("Producto agregado al carrito");
+        }
+    
+        // Función para mostrar notificación
+        function showNotification(message: string): void {
+            const notification = document.getElementById("notification");
+            if (notification) {
+                const messageElement = notification.querySelector("#notificationMessage");
+                if (messageElement) {
+                    messageElement.textContent = message;
+                }
+                notification.classList.remove("hidden");
+                notification.classList.add("visible");
+    
+                // Auto ocultar después de 5 segundos
+                setTimeout(() => {
+                    hideNotification();
+                }, 5000);
+            }
+        }
+    
+        // Función para ocultar notificación
+        function hideNotification(): void {
+            const notification = document.getElementById("notification");
+            if (notification) {
+                notification.classList.remove("visible");
+                notification.classList.add("hidden");
+            }
+        }
+    
+        // Agregar event listeners cuando el DOM esté cargado
         document.addEventListener('DOMContentLoaded', () => {
+            // Obtener el ID del producto desde el contexto de Astro
+            const productId = (window as any).productId || 0;
+    
+            // Event listeners para los botones de cantidad
             const decreaseButton = document.getElementById('decreaseButton');
             const increaseButton = document.getElementById('increaseButton');
-
+            const addToCartButton = document.getElementById('addToCartButton');
+    
             decreaseButton?.addEventListener('click', () => updateQuantity(-1));
             increaseButton?.addEventListener('click', () => updateQuantity(1));
+    
+            // Event listener para el botón de agregar al carrito
+            addToCartButton?.addEventListener('click', () => {
+                // Verificar si el producto existe y tiene un ID válido
+                if (!productId || productId === 0) {
+                    console.error('ID de producto no válido');
+                    showNotification('Error: No se puede agregar el producto');
+                    return;
+                }
+    
+                // Obtener los datos del producto actual de la página
+                const currentProduct: CartProduct = {
+                    id_producto: productId,
+                    nombre_producto: document.querySelector('h1')?.textContent || 'Producto sin nombre',
+                    precio: Number(document.querySelector('.price-tag')?.textContent?.replace('S/ ', '') || '0'),
+                    cantidad: quantity,
+                    img1: document.querySelector('#mainImage')?.getAttribute('src') || ''
+                };
+    
+                // Agregar al carrito
+                addToCart(currentProduct);
+            });
+    
+            // Event listeners para selección de talla y color
+            const tallaButtons = document.querySelectorAll('.talla-button');
+            const colorButtons = document.querySelectorAll('.color-button');
+    
+            tallaButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    tallaButtons.forEach(b => b.classList.remove('talla-selected'));
+                    (e.target as HTMLElement).classList.add('talla-selected');
+                });
+            });
+    
+            colorButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    colorButtons.forEach(b => b.classList.remove('color-selected'));
+                    (e.target as HTMLElement).classList.add('color-selected');
+                });
+            });
+    
+            // Event listener para cerrar notificación
+            document.getElementById("closeNotification")?.addEventListener("click", hideNotification);
         });
-
 
         document.addEventListener('DOMContentLoaded', () => {
             const mainImage = document.getElementById('mainImage') as HTMLImageElement;
@@ -511,6 +827,22 @@ const handleColorSeleccionado = (color: string): void => {
         });
     </script>
     
-    <script src="/path/to/changeImage.js" type="module"></script>
+        <style>
+            .talla-button {
+                @apply border border-gray-400 text-gray-800 px-3 py-2 rounded-md hover:bg-gray-200 active:bg-gray-300 transition;
+            }
+            
+            .talla-selected {
+                @apply bg-gray-300 border-gray-600;
+            }
+            
+            .color-button {
+                @apply w-8 h-8 rounded-md border-2 border-gray-400 hover:opacity-75 active:scale-95 transition;
+            }
+            
+            .color-selected {
+                @apply border-gray-800 ring-2 ring-offset-2 ring-gray-500;
+            }
+        </style>
 </body>
 </html>

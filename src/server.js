@@ -3,7 +3,9 @@ import cors from 'cors';
 import db from './db.js'; // Archivo de conexión a la base de datos
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'http://myufashion.com', // Reemplaza con la URL de tu frontend
+}));
 app.use(express.json());
 
 /**
@@ -18,6 +20,36 @@ app.get('/api/productos', async (req, res) => {
     res.status(500).json({ error: 'Error al obtener productos.' });
   }
 });
+
+// Endpoint para obtener un producto por su ID
+app.get('/api/productos/:id_producto', async (req, res) => {
+  const { id_producto } = req.params;
+
+  // Validar si el parámetro es un número válido
+  if (isNaN(Number(id_producto))) {
+    return res.status(400).json({ error: 'El ID debe ser un número válido.' });
+  }
+
+  try {
+    // Realizar la consulta en la base de datos
+    const [rows] = await db.query(
+      'SELECT * FROM productos WHERE id_producto = ?',
+      [id_producto]
+    );
+
+    // Verificar si se encontró el producto
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Producto no encontrado.' });
+    }
+
+    // Devolver el producto encontrado
+    res.json(rows[0]); // Se devuelve el primer (y único) producto encontrado
+  } catch (err) {
+    console.error('Error al obtener el producto:', err);
+    res.status(500).json({ error: 'Error al obtener el producto.' });
+  }
+});
+
 
 /**
  * Endpoint para obtener productos por categoría
@@ -89,42 +121,95 @@ app.get('/api/productos/:id', async (req, res) => {
   }
 });
 
+
+// Endpoint para agregar un producto al carrito
 app.post('/api/cart/add', (req, res) => {
   const { productId, quantity } = req.body;
-  if (!productId || !quantity || isNaN(quantity) || quantity <= 0) {
-    return res.status(400).json({ error: 'Cantidad inválida o faltante.' });
-  }
-  const userId = req.cookies.userId; // Verificar si el usuario tiene un ID
+  const userId = req.cookies.userId;
+
   if (!userId) {
-    return res.status(400).json({ error: 'Usuario no autenticado.' });
+    return res.status(401).json({ error: 'Usuario no autenticado.' });
   }
-  const timestamp = Date.now();
-  db.query('INSERT INTO cart (user_id, product_id, quantity, timestamp) VALUES (?, ?, ?, ?)', 
-  [userId, productId, quantity, timestamp], (err, result) => {
+
+  if (!productId || !quantity) {
+    return res.status(400).json({ error: 'Faltan datos del producto.' });
+  }
+
+  // Buscar si el producto ya está en el carrito del usuario
+  const querySelect = `
+    SELECT * FROM cart WHERE user_id = ? AND product_id = ?
+  `;
+
+  db.query(querySelect, [userId, productId], (err, results) => {
     if (err) {
-      console.error('Error al agregar producto al carrito:', err);
-      return res.status(500).json({ error: 'Error al agregar el producto al carrito.' });
+      console.error('Error al consultar el carrito:', err);
+      return res.status(500).json({ error: 'Error al consultar el carrito.' });
     }
-    res.status(200).json({ message: 'Producto agregado al carrito' });
+
+    if (results.length > 0) {
+      // Si ya existe, actualizar la cantidad
+      const queryUpdate = `
+        UPDATE cart SET quantity = quantity + ? WHERE user_id = ? AND product_id = ?
+      `;
+      db.query(queryUpdate, [quantity, userId, productId], (err) => {
+        if (err) {
+          console.error('Error al actualizar el carrito:', err);
+          return res.status(500).json({ error: 'Error al actualizar el carrito.' });
+        }
+        res.json({ success: true, message: 'Cantidad actualizada en el carrito.' });
+      });
+    } else {
+      // Si no existe, insertar el nuevo producto
+      const queryInsert = `
+        INSERT INTO cart (user_id, product_id, quantity, timestamp)
+        VALUES (?, ?, ?, ?)
+      `;
+      db.query(queryInsert, [userId, productId, quantity, Date.now()], (err) => {
+        if (err) {
+          console.error('Error al agregar el producto al carrito:', err);
+          return res.status(500).json({ error: 'Error al agregar el producto al carrito.' });
+        }
+        res.json({ success: true, message: 'Producto agregado al carrito.' });
+      });
+    }
   });
 });
 
+// Endpoint para eliminar productos del carrito
 app.delete('/api/cart/remove', (req, res) => {
   const { productId } = req.body;
-  const userId = req.cookies.userId; // Puedes gestionar usuarios con cookies
-  db.query('DELETE FROM cart WHERE user_id = ? AND product_id = ?', [userId, productId], (err, result) => {
-    if (err) throw err;
-    res.status(200).json({ message: 'Product removed from cart' });
+  const userId = req.cookies.userId;
+
+  if (!userId) {
+    return res.status(401).json({ error: 'Usuario no autenticado.' });
+  }
+
+  const queryDelete = `
+    DELETE FROM cart WHERE user_id = ? AND product_id = ?
+  `;
+
+  db.query(queryDelete, [userId, productId], (err, result) => {
+    if (err) {
+      console.error('Error al eliminar el producto del carrito:', err);
+      return res.status(500).json({ error: 'Error al eliminar el producto del carrito.' });
+    }
+    res.json({ success: true, message: 'Producto eliminado del carrito.' });
   });
 });
 
 // Endpoint para obtener los productos del carrito
 app.get('/api/cart', (req, res) => {
   const userId = req.cookies.userId;
+
   if (!userId) {
     return res.status(400).json({ error: 'Usuario no autenticado.' });
   }
-  db.query('SELECT * FROM cart WHERE user_id = ?', [userId], (err, results) => {
+
+  const querySelect = `
+    SELECT product_id, quantity, timestamp FROM cart WHERE user_id = ?
+  `;
+
+  db.query(querySelect, [userId], (err, results) => {
     if (err) {
       console.error('Error al obtener los productos del carrito:', err);
       return res.status(500).json({ error: 'Error al obtener los productos del carrito.' });
@@ -140,11 +225,20 @@ app.get('/api/cart', (req, res) => {
 app.get('/api/cart/clean', (req, res) => {
   const userId = req.cookies.userId;
   const expirationTime = Date.now() - 24 * 60 * 60 * 1000; // 24 horas atrás
-  db.query('DELETE FROM cart WHERE user_id = ? AND timestamp < ?', [userId, expirationTime], (err, result) => {
-    if (err) throw err;
-    res.status(200).json({ message: 'Expired products removed from cart' });
+
+  const queryDeleteExpired = `
+    DELETE FROM cart WHERE user_id = ? AND timestamp < ?
+  `;
+
+  db.query(queryDeleteExpired, [userId, expirationTime], (err, result) => {
+    if (err) {
+      console.error('Error al limpiar el carrito:', err);
+      return res.status(500).json({ error: 'Error al limpiar el carrito.' });
+    }
+    res.json({ success: true, message: 'Productos expirados eliminados del carrito.' });
   });
 });
+
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
