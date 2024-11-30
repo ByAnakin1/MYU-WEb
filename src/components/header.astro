@@ -1,6 +1,6 @@
 <footer>
   <p class="text-center text-white bg-black pt-2 pb-2 w-full fixed z-10">
-    Envios a todo el país 📍🎁🇵🇪
+    Envíos a todo el país 📍🎁🇵🇪
   </p>
 </footer>
 
@@ -49,69 +49,52 @@
     font-weight: 800;
   }
 
-  #mobile-menu {
+  /* Menú móvil */
+  #mobile-menu,
+  #mobile-menu-categories {
     z-index: 100;
     background-color: #f6bbd0; /* Fondo rosado */
     position: fixed;
     top: 0;
     left: 0;
-    width: 80%; /* Ajuste de tamaño del menú para no cubrir todo */
+    width: 80%;
     height: 100%;
     display: none;
     padding-top: 3rem;
     box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3); /* Sombra para destacar el menú */
   }
 
-  #mobile-menu ul {
+  #mobile-menu ul,
+  #mobile-menu-categories ul {
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: 100%;
-    padding-top: 4rem; /* Subir los botones */
-  }
-
-  #mobile-menu ul li a {
-    padding: 1.2rem;
-    font-size: 1.1rem;
-    color: #ffffff;
-    background-color: #f2a0c2;
-    display: block;
-    text-decoration: none;
-    font-weight: bold;
-    width: 100%;
-    max-width: 320px; /* Controlar la anchura para que el texto quede en una línea */
-    text-align: center;
-    border-radius: 10px;
-    margin-bottom: 15px;
-  }
-
-  #mobile-menu ul li a:hover {
-    background-color: #ffd7e5;
-  }
-
-  #mobile-menu ul li:not(:last-child) a {
-    border-bottom: none;
-  }
-
-  .submenu {
-    display: none;
+    align-items: flex-start;
+    padding-top: 2rem;
     padding-left: 20px;
   }
 
-  .submenu.show {
+  #mobile-menu ul li a,
+  #mobile-menu-categories ul li a {
+    width: 100%;
+    padding: 1rem 0;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+    border-bottom: 1px solid black; /* Línea negra de separación */
     display: block;
+    text-align: left;
   }
 
-  #mobile-menu.show {
-    display: block;
+  #mobile-menu ul li a:hover,
+  #mobile-menu-categories ul li a:hover {
+    background-color: #ffd7e5;
   }
 
-  @media (min-width: 1024px) {
-    #mobile-menu {
-      display: none !important;
-    }
+  #mobile-menu.show,
+  #mobile-menu-categories.show {
+    display: block;
   }
 
   #overlay {
@@ -121,7 +104,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Sombreado que cubre parcialmente */
+    background-color: rgba(0, 0, 0, 0.5); /* Sombra externa */
     z-index: 99;
   }
 
@@ -133,7 +116,8 @@
     overflow: hidden;
   }
 
-  #close-menu {
+  #close-menu,
+  #close-menu-categories {
     position: absolute;
     top: 15px;
     right: 15px;
@@ -143,12 +127,7 @@
     color: #fff;
   }
 
-  /* Estilos para dispositivos móviles */
   @media (max-width: 768px) {
-    footer p {
-      font-size: 0.9rem;
-    }
-
     .custom-button {
       width: 40px;
       height: 40px;
@@ -159,20 +138,10 @@
       width: 22px;
       height: 22px;
     }
-
-    #mobile-menu ul li a {
-      padding: 1rem;
-      font-size: 1rem;
-      max-width: 280px; /* Ajuste para reducir el ancho */
-    }
-
-    #mobile-menu ul {
-      padding-top: 2rem; /* Ajuste adicional para subir botones */
-    }
   }
 </style>
 
-<header id="landing-header" class="py-2 px-10 flex items-center fixed top-5 w-full justify-between z-40 text-white bg-[#f6bbd0]">
+<header id="landing-header" class="py-2 px-5 flex items-center fixed top-5 w-full justify-between z-40 text-white bg-[#f6bbd0]">
   <div class="flex items-center">
     <button id="menu-toggle" class="text-3xl focus:outline-none mr-4 lg:hidden">
       ☰
@@ -182,31 +151,7 @@
     </a>
   </div>
 
-  <nav class="hidden lg:flex justify-center w-full">
-    <ul class="flex nav-text [&>li>a]:transition-colors [&>li>a]:duration-500 [&>li>a]:text-current [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2">
-      <li><a class="hover:bg-pink-400 rounded-xl" href="/">INICIO</a></li>
-      <li class="relative group">
-        <a href="#" class="cursor-pointer flex items-center hover:bg-pink-400 rounded-xl">
-          TIENDA
-          <span class="ml-1 transition-transform group-hover:rotate-180">▼</span>
-        </a>
-        <ul class="absolute opacity-0 invisible group-hover:opacity-100 group-hover:visible bg-[#f6bbd0] text-white mt-2 w-48 shadow-lg rounded-lg transition-all duration-300 ease-in-out z-50">
-          <li class="hover:bg-pink-400 px-4 py-2 rounded-lg"><a href="/Categorias/productos_zapatos">ZAPATOS Y ZAPATILLAS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2"><a href="/Categorias/productos_polos">POLOS Y TOPS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2"><a href="/Categorias/productos_poleras">POLERAS Y CASACAS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2"><a href="/Categorias/productos_faldas">FALDAS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2 rounded-lg"><a href="/Categorias/productos_vestidos">VESTIDOS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2"><a href="/Categorias/productos_pantalones">PANTALONES Y SHORTS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2 rounded-lg"><a href="/Categorias/productos_mochilas">CARTEAS Y MOCHILAS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2"><a href="/Categorias/productos_pantys">MEDIAS Y PANTYS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2"><a href="/Categorias/productos_accesorios">ACCESORIOS</a></li>
-        </ul>
-      </li>
-      <li><a class="hover:bg-pink-400 rounded-xl" href="/contacto">SOBRE NOSOTROS</a></li>
-      <li><a class="hover:bg-pink-400 rounded-xl" href="/Novedades">NOVEDADES</a></li>
-    </ul>
-  </nav>
-
+  <!-- Íconos de WhatsApp y Carrito -->
   <nav class="flex justify-end">
     <ul class="flex items-center nav-text">
       <li>
@@ -222,16 +167,31 @@
     </ul>
   </nav>
 </header>
-<!-- Menú móvil -->
-<div id="mobile-menu" class="hidden">
-  <!-- Botón de cierre -->
-  <span id="close-menu">&times;</span>
 
+<!-- Menú móvil principal -->
+<div id="mobile-menu" class="hidden">
+  <span id="close-menu">&times;</span>
   <ul>
     <li><a href="/">INICIO</a></li>
-    <li><a href="#">TIENDA ▼</a></li>
+    <li><a id="store-link" href="#">TIENDA ▼</a></li>
     <li><a href="/contacto">SOBRE NOSOTROS</a></li>
     <li><a href="/Novedades">NOVEDADES</a></li>
+  </ul>
+</div>
+
+<!-- Menú móvil secundario (Categorías) -->
+<div id="mobile-menu-categories" class="hidden">
+  <span id="close-menu-categories">&times;</span>
+  <ul>
+    <li><a href="/Categorias/productos_zapatos">ZAPATOS Y ZAPATILLAS</a></li>
+    <li><a href="/Categorias/productos_polos">POLOS Y TOPS</a></li>
+    <li><a href="/Categorias/productos_poleras">POLERAS Y CASACAS</a></li>
+    <li><a href="/Categorias/productos_faldas">FALDAS</a></li>
+    <li><a href="/Categorias/productos_vestidos">VESTIDOS</a></li>
+    <li><a href="/Categorias/productos_pantalones">PANTALONES Y SHORTS</a></li>
+    <li><a href="/Categorias/productos_mochilas">CARTERAS Y MOCHILAS</a></li>
+    <li><a href="/Categorias/productos_pantys">MEDIAS Y PANTYS</a></li>
+    <li><a href="/Categorias/productos_accesorios">ACCESORIOS</a></li>
   </ul>
 </div>
 
@@ -240,6 +200,10 @@
   const mobileMenu = document.getElementById("mobile-menu");
   const overlay = document.getElementById("overlay");
   const closeMenu = document.getElementById("close-menu");
+
+  const storeLink = document.getElementById("store-link");
+  const mobileMenuCategories = document.getElementById("mobile-menu-categories");
+  const closeMenuCategories = document.getElementById("close-menu-categories");
 
   menuToggle.addEventListener("click", function () {
     mobileMenu.classList.toggle("show");
@@ -253,8 +217,21 @@
     document.body.classList.remove("no-scroll");
   });
 
+  storeLink.addEventListener("click", function (e) {
+    e.preventDefault();
+    mobileMenu.classList.remove("show");
+    mobileMenuCategories.classList.add("show");
+  });
+
+  closeMenuCategories.addEventListener("click", function () {
+    mobileMenuCategories.classList.remove("show");
+    overlay.classList.remove("show");
+    document.body.classList.remove("no-scroll");
+  });
+
   overlay.addEventListener("click", function () {
     mobileMenu.classList.remove("show");
+    mobileMenuCategories.classList.remove("show");
     overlay.classList.remove("show");
     document.body.classList.remove("no-scroll");
   });

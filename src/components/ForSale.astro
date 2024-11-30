@@ -4,258 +4,203 @@ interface Product {
   nombre_producto: string;
   precio: number;
   img1: string;
+  descuento?: number;
 }
 
 const { products = [] }: { products?: Product[] } = Astro.props;
 ---
-<head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <script src="https://cdn.tailwindcss.com"></script>
 
-  <style>
-    /* =================== GLOBAL STYLES =================== */
-    html,
-    body {
-      position: relative;
-      height: 100%;
-    }
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For Sale</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
 
-    body {
-      background: #ffffff;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 14px;
-      margin: 0;
-      padding: 0;
-    }
+  <body>
+    <h2 class="text-center text-lg font-bold bg-pink-300 text-white py-3 mb-4">
+      FOR SALE -%
+    </h2>
 
-    .swiper {
-      width: 100%;
-      height: 100%;
-    }
-
-    .swiper-container {
-      max-width: 1550px;
-      margin: 0 auto;
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    .swiper-slide {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* =================== CARD DESIGN =================== */
-    .card {
-      background: white;
-      border-radius: 0.75rem;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-      width: 100%;
-      max-width: 300px;
-      height: 400px;
-      margin: 0 auto;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-    }
-
-    .card img {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
-    }
-
-    .card-content {
-      padding: 1rem;
-      text-align: center;
-    }
-
-    .card-title {
-      font-size: 1.25rem; /* Reducido ligeramente */
-      font-weight: 600; /* Peso ajustado */
-      margin-bottom: 0.5rem;
-    }
-
-    .card-price {
-      color: #f56565;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-
-    .card-button {
-      background: #f6bbd0;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background 0.3s;
-      margin-top: 1rem;
-    }
-
-    .card-button:hover {
-      background: #f56565;
-    }
-
-    /* =================== NAVIGATION BUTTONS =================== */
-    .swiper-button-next,
-    .swiper-button-prev {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: #f6bbd0;
-      color: #fff;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      transition: background 0.3s, transform 0.3s;
-    }
-
-    .swiper-button-next:hover,
-    .swiper-button-prev:hover {
-      background: #f56565;
-      transform: scale(1.1);
-    }
-
-    .swiper-button-next::after,
-    .swiper-button-prev::after {
-      font-size: 18px;
-    }
-
-    .swiper-button-next {
-      right: -20px;
-    }
-
-    .swiper-button-prev {
-      left: -20px;
-    }
-
-    /* =================== RESPONSIVE - MOBILE =================== */
-    @media (max-width: 768px) {
-      .swiper-slide {
-        width: auto;
-        flex-shrink: 0;
-      }
-
-      .card {
-        max-width: 90%;
-        height: 380px;
-        margin: 0 8px;
-      }
-
-      .card img {
-        height: 200px;
-      }
-    }
-
-    /* =================== RESPONSIVE - PC =================== */
-    @media (min-width: 1024px) {
-      .swiper-slide {
-        width: auto;
-        flex-shrink: 0;
-      }
-
-      .card {
-        max-width: 300px;
-        height: 400px;
-        margin: 0 12px;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <h2 class="text-2xl font-bold text-center mb-4 bg-[#f6bbd0] py-3 text-white">FOR SALE -%</h2>
-  <section class="py-4">
-    <div class="slider-container max-w-[1200px] mx-auto relative">
-      <button id="prev-btn" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-[#f6bbd0] text-white p-2 rounded-full shadow-lg z-10">
-        &#8249;
-      </button>
-      <button id="next-btn" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-[#f6bbd0] text-white p-2 rounded-full shadow-lg z-10">
-        &#8250;
-      </button>
-
-      <div class="swiper-container mt-4">
-        <div class="swiper mySwiper">
-          <div class="swiper-wrapper">
-            {products.length > 0 ? (
-              products.map((product) => (
-                <div class="swiper-slide">
-                  <div class="card">
-                    <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
-                    <div class="card-content">
-                      <h2 class="card-title">{product.nombre_producto}</h2>
-                      <p class="card-price">Precio: S/ {Number(product.precio).toFixed(2)}</p>
-                      <a href={`/detalle/${product.id_producto}`} class="card-button">Comprar</a>
-                    </div>
-                  </div>
+    <section class="relative container mx-auto overflow-hidden">
+      <!-- Contenedor del carrusel -->
+      <div
+        id="carousel"
+        class="flex gap-4 transition-transform duration-300 ease-in-out"
+        style="transform: translateX(0); cursor: pointer;"
+      >
+        {products.length > 0 ? (
+          products.map((product) => (
+            <div class="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/5 bg-white rounded-lg shadow-md overflow-hidden max-w-[220px]">
+              <img
+                src={product.img1}
+                alt={`Imagen de ${product.nombre_producto}`}
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-2 text-center">
+                <h2 class="text-xs font-bold truncate">
+                  {product.nombre_producto}
+                </h2>
+                <div class="text-red-600 font-bold text-sm">
+                  {product.descuento && product.descuento > 0 ? (
+                    <>
+                      <span class="line-through text-gray-500 text-xs">
+                        S/ {Number(product.precio).toFixed(2)}
+                      </span>
+                      <br />
+                      <span>
+                        S/{" "}
+                        {(
+                          Number(product.precio) *
+                          (1 - product.descuento / 100)
+                        ).toFixed(2)}
+                      </span>
+                    </>
+                  ) : (
+                    <span>S/ {Number(product.precio).toFixed(2)}</span>
+                  )}
                 </div>
-              ))
-            ) : (
-              <p class="text-center">No hay productos disponibles.</p>
-            )}
-          </div>
-        </div>
+                <a
+                  href={`/detalle/${product.id_producto}`}
+                  class="mt-1 inline-block bg-pink-500 text-white px-2 py-1 text-xs rounded-lg hover:bg-pink-600"
+                >
+                  Comprar
+                </a>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p class="text-center w-full">No hay productos disponibles.</p>
+        )}
       </div>
-    </div>
-  </section>
+    </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+      const carousel = document.getElementById("carousel");
 
-  <script type="module">
-    import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs';
+      let isDragging = false;
+      let startX = 0;
+      let currentTranslate = 0;
+      let previousTranslate = 0;
+      let velocity = 0;
+      let lastMouseMoveTime = 0;
 
-    var swiper = new Swiper(".mySwiper", {
-      slidesPerView: 5,
-      spaceBetween: 20,
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      breakpoints: {
-        640: {
-          slidesPerView: 1,
-          spaceBetween: 10,
-        },
-        768: {
-          slidesPerView: 2,
-          spaceBetween: 15,
-        },
-        1024: {
-          slidesPerView: 5,
-          spaceBetween: 20,
-        },
-      },
-    });
-  </script>
+      // Detectar si es un dispositivo móvil o de escritorio
+      const isMobile = window.innerWidth < 1024;
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const sliderContainer = document.querySelector(".slider-container");
-        const prevBtn = document.getElementById("prev-btn");
-        const nextBtn = document.getElementById("next-btn");
+      // Calcular el ancho de las tarjetas
+      function getCardWidth() {
+        const screenWidth = window.innerWidth;
+        return screenWidth >= 1024 ? carousel.offsetWidth / 5 : carousel.offsetWidth / 2;
+      }
 
-        const scrollAmount = sliderContainer.clientWidth;
+      let cardWidth = getCardWidth();
 
-        prevBtn.addEventListener("click", () => {
-            sliderContainer.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-        });
+      function getMaxTranslate() {
+        return -(carousel.children.length * cardWidth - carousel.offsetWidth);
+      }
 
-        nextBtn.addEventListener("click", () => {
-            sliderContainer.scrollBy({ left: scrollAmount, behavior: "smooth" });
-        });
-    });
-  </script>
-</body>
+      function startDrag(event) {
+        isDragging = true;
+        startX = event.type.includes("mouse")
+          ? event.pageX
+          : event.touches[0].clientX;
+        previousTranslate = currentTranslate;
+        velocity = 0;
+        lastMouseMoveTime = Date.now();
+        cancelAnimationFrame(animationID);
+        animationID = requestAnimationFrame(animation);
+      }
+
+      function drag(event) {
+        if (!isDragging) return;
+        const currentX = event.type.includes("mouse")
+          ? event.pageX
+          : event.touches[0].clientX;
+        const deltaX = currentX - startX;
+        currentTranslate = Math.min(
+          0,
+          Math.max(previousTranslate + deltaX, getMaxTranslate())
+        );
+
+        const now = Date.now();
+        const timeDelta = now - lastMouseMoveTime;
+        velocity = deltaX / timeDelta;
+        lastMouseMoveTime = now;
+      }
+
+      function endDrag() {
+        isDragging = false;
+        applyInertia();
+      }
+
+      function applyInertia() {
+        const friction = 0.95;
+        function inertia() {
+          if (Math.abs(velocity) > 0.1) {
+            currentTranslate = Math.min(
+              0,
+              Math.max(currentTranslate + velocity, getMaxTranslate())
+            );
+            carousel.style.transform = `translateX(${currentTranslate}px)`;
+            velocity *= friction;
+            requestAnimationFrame(inertia);
+          }
+        }
+        requestAnimationFrame(inertia);
+      }
+
+      function animation() {
+        if (isDragging) {
+          carousel.style.transform = `translateX(${currentTranslate}px)`;
+          requestAnimationFrame(animation);
+        }
+      }
+
+      // Mover carrusel al hacer clic en izquierda o derecha
+      function handleClick(event) {
+        const rect = carousel.getBoundingClientRect();
+        const clickX = event.clientX;
+
+        if (clickX < rect.width / 2) {
+          moveCarousel("prev");
+        } else {
+          moveCarousel("next");
+        }
+      }
+
+      function moveCarousel(direction) {
+        const maxTranslate = getMaxTranslate();
+        const targetTranslate =
+          direction === "next"
+            ? currentTranslate - cardWidth
+            : currentTranslate + cardWidth;
+
+        currentTranslate = Math.min(
+          0,
+          Math.max(targetTranslate, maxTranslate)
+        );
+        carousel.style.transform = `translateX(${currentTranslate}px)`;
+      }
+
+      if (isMobile) {
+        carousel.addEventListener("touchstart", startDrag);
+        carousel.addEventListener("touchmove", drag);
+        carousel.addEventListener("touchend", endDrag);
+      } else {
+        carousel.addEventListener("mousedown", handleClick);
+      }
+
+      window.addEventListener("resize", () => {
+        cardWidth = getCardWidth();
+        currentTranslate = Math.min(
+          0,
+          Math.max(currentTranslate, getMaxTranslate())
+        );
+        carousel.style.transform = `translateX(${currentTranslate}px)`;
+      });
+    </script>
+  </body>
+</html>
