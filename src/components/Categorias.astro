@@ -1,129 +1,96 @@
+---
+const categories = [
+{ link: "/Categorias/productos_vestidos", image: "https://www.topitop.pe/arquivos/240819_banner_desktop_6.png?v=638596431281830000", name: "VESTIDOS" },
+{ link: "/Categorias/productos_faldas", image: "https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000", name: "FALDAS" },
+{ link: "/Categorias/productos_pantalones", image: "https://www.topitop.pe/arquivos/240819_banner_desktop_7.png?v=638596431277930000", name: "PANTALONES-SHORTS" },
+{ link: "/Categorias/productos_polos", image: "https://www.topitop.pe/arquivos/240819_banner_desktop_12.png?v=638596431283570000", name: "POLOS-TOPS" },
+{ link: "/Categorias/productos_poleras", image: "https://www.topitop.pe/arquivos/240819_banner_desktop_6.png?v=638596431281830000", name: "POLERAS-CASACAS" },
+{ link: "/Categorias/productos_zapatos", image: "https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000", name: "ZAPATOS-ZAPATILLAS" },
+{ link: "/Categorias/productos_mochilas", image: "https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000", name: "CARTERAS-MOCHILAS" },
+{ link: "/Categorias/productos_pantys", image: "https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000", name: "MEDIAS-PANTYS" },
+{ link: "/Categorias/productos_accesorios", image: "https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000", name: "ACCESORIOS" },
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Categorías</title>
+<!-- Importar Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+</head>
+<body>
 <section class="py-10">
     <h2 class="text-2xl font-bold text-center mb-4 bg-[#f6bbd0] py-3 text-white">CATEGORÍAS</h2>
-    <div class="relative overflow-hidden max-w-[1200px] mx-auto">
-        <!-- Botones de navegación -->
-        <button id="prev-btn" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-[#f6bbd0] text-white p-2 rounded-full shadow-lg z-10">
-            &#8249;
-        </button>
-        <button id="next-btn" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-[#f6bbd0] text-white p-2 rounded-full shadow-lg z-10">
-            &#8250;
-        </button>
-
-        <!-- Contenedor del slider -->
-        <div class="slider-container overflow-x-auto scroll-smooth">
-            <div class="categories flex gap-4 px-4">
-                <a href="/Categorias/productos_vestidos" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
-                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_6.png?v=638596431281830000" alt="Vestidos" class="w-full h-full object-cover">
-                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">VESTIDOS</p>
-                </a>
-                <a href="/Categorias/productos_faldas" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
-                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000" alt="Faldas" class="w-full h-full object-cover">
-                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">FALDAS</p>
-                </a>
-                <a href="/Categorias/productos_pantalones" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
-                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_7.png?v=638596431277930000" alt="Pantalones" class="w-full h-full object-cover">
-                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">PANTALONES-SHORTS</p>
-                </a>
-                <a href="/Categorias/productos_polos" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
-                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_12.png?v=638596431283570000" alt="Polos" class="w-full h-full object-cover">
-                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">POLOS-TOPS</p>
-                </a>
-                <a href="/Categorias/productos_poleras" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
-                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_6.png?v=638596431281830000" alt="Poleras" class="w-full h-full object-cover">
-                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">POLERAS-CASACAS</p>
-                </a>
-                <a href="/Categorias/productos_zapatos" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
-                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000" alt="Zapatos" class="w-full h-full object-cover">
-                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">ZAPATOS-ZAPATILLAS</p>
-                </a>
-                <a href="/Categorias/productos_mochilas" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
-                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000" alt="Accesorios" class="w-full h-full object-cover">
-                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">CARTERAS-MOCHILAS</p>
-                </a>
-                <a href="/Categorias/productos_pantys" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
-                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000" alt="Accesorios" class="w-full h-full object-cover">
-                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">MEDIAS-PANTYS</p>
-                </a>
-                <a href="/Categorias/productos_accesorios" class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
-                    <img src="https://www.topitop.pe/arquivos/240819_banner_desktop_1.png?v=638596431272970000" alt="Accesorios" class="w-full h-full object-cover">
-                    <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">ACCESORIOS</p>
-                </a>
+    <div class="relative max-w-[1200px] mx-auto">
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+        {categories.map((category) => (
+            <div class="swiper-slide">
+            <a href={category.link} class="relative bg-white rounded-xl shadow-md cursor-pointer overflow-hidden category-card">
+                <img src={category.image} alt={category.name} class="w-full h-full object-cover">
+                <p class="absolute bottom-0 left-0 w-full text-center text-white bg-[#f6bbd0] bg-opacity-50 py-2 text-bold">
+                {category.name}
+                </p>
+            </a>
             </div>
+        ))}
         </div>
+    </div>
     </div>
 </section>
 
+<!-- Importar Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      new window.Swiper(".mySwiper", {
+        slidesPerView: 5, // Mostrar 5 tarjetas en PC
+        spaceBetween: 20,
+        loop: true, // Bucle infinito
+        autoplay: {
+          delay: 3000, // 3 segundos entre desplazamientos automáticos
+        disableOnInteraction: false,
+        },
+        breakpoints: {
+        1024: {
+            slidesPerView: 5, // 5 tarjetas en pantallas grandes
+        },
+        768: {
+            slidesPerView: 3, // 3 tarjetas en tablets
+        },
+        640: {
+            slidesPerView: 1, // 1 tarjeta en móviles
+        },
+        },
+    });
+    });
+</script>
+
 <style>
-/* ============================ DESKTOP ============================ */
-.slider-container {
-    display: flex;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    white-space: nowrap;
-    max-width: 100%;
-}
-
-.category-card {
-    flex-shrink: 0;
-    width: calc((100% - 6rem) / 4); /* Más ancho: 4 categorías visibles */
-    height: 600px;
-}
-
-.categories {
-    display: flex;
-    gap: 2rem;
-}
-
-button {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* ============================ MOBILE ============================ */
-@media (max-width: 768px) {
     .category-card {
-        width: 100%;
+    height: 600px;
+    }
+
+    .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
+    @media (max-width: 768px) {
+    .category-card {
         height: 450px;
     }
-
-    .slider-container {
-        overflow-x: auto;
-        scroll-behavior: smooth;
-        padding: 0;
-        display: flex;
     }
 
-    .categories {
-        display: flex;
-        flex-direction: row;
-        gap: 1rem; /* Más espaciado */
+    @media (max-width: 640px) {
+    .category-card {
+        width: 100vw; /* Ocupa todo el ancho de la pantalla */
     }
-
-    button {
-        width: 40px;
-        height: 40px;
-        font-size: 1.5rem;
     }
-}
 </style>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const sliderContainer = document.querySelector(".slider-container");
-    const prevBtn = document.getElementById("prev-btn");
-    const nextBtn = document.getElementById("next-btn");
-
-    const scrollAmount = sliderContainer.clientWidth; // Desplazamiento equivalente al ancho visible
-
-    prevBtn.addEventListener("click", () => {
-        sliderContainer.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-    });
-
-    nextBtn.addEventListener("click", () => {
-        sliderContainer.scrollBy({ left: scrollAmount, behavior: "smooth" });
-    });
-});
-</script>
+</body>
+</html>
