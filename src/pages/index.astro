@@ -7,6 +7,7 @@ import Forsale from '../components/ForSale.astro';
 import Footer from '../components/footer.astro';
 import New from '../components/New.astro';
 import Productos from '../components/Productos.astro';
+import WelcomePopup from '../components/WelcomePopup.astro';
 import '../styles/global.css';
 
 const response = await fetch('http://localhost:3000/api/productos');
@@ -33,9 +34,8 @@ const banners = await bannersResponse.json();
         <style>
             body {
                 margin: 0;
-                background-color: #a08c8c;
+                background-color: #e7e4e4;
             }
-
             /* Agregamos padding al body en pantallas móviles */
             @media (max-width: 768px) {
                 main {
@@ -44,6 +44,7 @@ const banners = await bannersResponse.json();
                 }
             }
         </style>
+        <WelcomePopup />
         <Header />
         <br>
         <br>    
