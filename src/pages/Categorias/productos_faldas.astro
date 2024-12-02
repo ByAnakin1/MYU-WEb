@@ -237,21 +237,25 @@ const filteredProducts = products.filter(product => product.id_categoria === 3);
         <aside class="filters w-full md:w-1/5 p-4 bg-white shadow-md mt-10 filter-container mr-6">
             <h2 class="font-bold text-xl mb-4">Filtros</h2>
             <div class="mb-6">
-                <div class="mt-2">
-                    <label for="price-range">Rango de precios</label>
-                    <input type="range" id="price-range" min="1" max="500" step="1" value="500">
-                    <span id="min-price">S/ 1.00</span> - <span id="max-price">S/ 500.00</span>
-                </div>
+                <h3 class="font-semibold">Rango de Precios</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="price-1-100" /> <label for="price-1-100">S/ 1 - S/ 100</label></li>
+                    <li><input type="checkbox" id="price-100-200" /> <label for="price-100-200">S/ 100 - S/ 200</label></li>
+                    <li><input type="checkbox" id="price-200-300" /> <label for="price-200-300">S/ 200 - S/ 300</label></li>
+                    <li><input type="checkbox" id="price-300-400" /> <label for="price-300-400">S/ 300 - S/ 400</label></li>
+                    <li><input type="checkbox" id="price-400-500" /> <label for="price-400-500">S/ 400 - S/ 500</label></li>
+                </ul>
             </div>
-
+            
             <div class="mb-6">
-                <h3 class="font-semibold">Descuento</h3>
-                <div class="mt-2">
-                    <div class="flex justify-between items-center">
-                        <span id="discount-value">0%</span>
-                    </div>
-                    <input type="range" id="discount-range" class="w-full" min="0" max="100" step="1" value="0" />
-                </div>
+                <h3 class="font-semibold">Descuentos</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="discount-0-20" /> <label for="discount-0-20">0% - 20%</label></li>
+                    <li><input type="checkbox" id="discount-20-40" /> <label for="discount-20-40">20% - 40%</label></li>
+                    <li><input type="checkbox" id="discount-40-60" /> <label for="discount-40-60">40% - 60%</label></li>
+                    <li><input type="checkbox" id="discount-60-80" /> <label for="discount-60-80">60% - 80%</label></li>
+                    <li><input type="checkbox" id="discount-80-90" /> <label for="discount-80-90">80% - 90%</label></li>
+                </ul>
             </div>
 
             <div class="mb-6">
@@ -330,23 +334,25 @@ const filteredProducts = products.filter(product => product.id_categoria === 3);
             </button>
             <h2 class="font-bold text-xl mb-4">Filtros</h2>
             <div class="mb-6">
-                <h3 class="font-semibold">Precio</h3>
-                <div class="mt-2">
-                    <div class="flex justify-between items-center">
-                        <span>S/ <span id="max-price-mobile">4000.00</span></span>
-                    </div>
-                    <input type="range" id="price-range-mobile" class="w-full" min="1" max="4000" step="1" value="0,4000" />
-                </div>
+                <h3 class="font-semibold">Rango de Precios</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="price-1-100" /> <label for="price-1-100">S/ 1 - S/ 100</label></li>
+                    <li><input type="checkbox" id="price-100-200" /> <label for="price-100-200">S/ 100 - S/ 200</label></li>
+                    <li><input type="checkbox" id="price-200-300" /> <label for="price-200-300">S/ 200 - S/ 300</label></li>
+                    <li><input type="checkbox" id="price-300-400" /> <label for="price-300-400">S/ 300 - S/ 400</label></li>
+                    <li><input type="checkbox" id="price-400-500" /> <label for="price-400-500">S/ 400 - S/ 500</label></li>
+                </ul>
             </div>
-
+            
             <div class="mb-6">
-                <h3 class="font-semibold">Descuento</h3>
-                <div class="mt-2">
-                    <div class="flex justify-between items-center">
-                        <span><span id="discount-range-mobile">0</span>%</span>
-                    </div>
-                    <input type="range" id="discount-range-mobile" class="w-full" min="0" max="100" step="1" value="0" />
-                </div>
+                <h3 class="font-semibold">Descuentos</h3>
+                <ul class="space-y-2 mt-2">
+                    <li><input type="checkbox" id="discount-0-20" /> <label for="discount-0-20">0% - 20%</label></li>
+                    <li><input type="checkbox" id="discount-20-40" /> <label for="discount-20-40">20% - 40%</label></li>
+                    <li><input type="checkbox" id="discount-40-60" /> <label for="discount-40-60">40% - 60%</label></li>
+                    <li><input type="checkbox" id="discount-60-80" /> <label for="discount-60-80">60% - 80%</label></li>
+                    <li><input type="checkbox" id="discount-80-90" /> <label for="discount-80-90">80% - 90%</label></li>
+                </ul>
             </div>
 
             <div class="mb-6">
@@ -363,60 +369,77 @@ const filteredProducts = products.filter(product => product.id_categoria === 3);
     <Footer />
 
     <script type="module">
+        let products = [];
+        
         document.addEventListener('DOMContentLoaded', () => {
-            // Obtener referencias a los elementos del DOM
-            const priceRange = document.getElementById('price-range');
-            const minPriceLabel = document.getElementById('min-price');
-            const maxPriceLabel = document.getElementById('max-price');
-            const discountRange = document.getElementById('discount-range');
-            const discountLabel = document.getElementById('discount-value');
+            const priceCheckboxes = document.querySelectorAll('input[id^="price-"]');
+            const discountCheckboxes = document.querySelectorAll('input[id^="discount-"]');
+            const colorCheckboxes = document.querySelectorAll('input[id^="color"]');
             const cardsContainer = document.querySelector('.cards-container');
-
-            // Función para actualizar los valores del rango de precios
-            const updatePriceLabels = () => {
-                const priceValue = priceRange.value;
-                minPriceLabel.textContent = "S/ 1.00"; // Mínimo fijo
-                maxPriceLabel.textContent = `S/ ${parseFloat(priceValue).toFixed(2)}`; // Máximo dinámico
-            };
-
-            // Función para actualizar el valor del descuento
-            const updateDiscountLabel = () => {
-                const discountValue = discountRange.value;
-                discountLabel.textContent = `${discountValue}%`;
-            };
-
-            // Función para filtrar productos dinámicamente
+            
+            // Función para filtrar productos
             const filterProducts = () => {
-                const maxPrice = parseFloat(priceRange.value);
-                const maxDiscount = parseInt(discountRange.value);
-
-                // Filtrar los productos
+                const selectedPriceRanges = Array.from(priceCheckboxes)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.id);
+    
+                const selectedDiscountRanges = Array.from(discountCheckboxes)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.id);
+    
+                const selectedColors = Array.from(colorCheckboxes)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.id.replace('color', '').toLowerCase());
+    
                 const filtered = products.filter(product => {
-                    const finalPrice = product.descuento
-                        ? product.precio * (1 - product.descuento / 100)
-                        : product.precio;
-
-                    // Comprobar si cumple con el rango de precio y descuento
-                    return finalPrice <= maxPrice && product.descuento <= maxDiscount;
+                    // Comprobar rango de precios
+                    const isPriceMatch = selectedPriceRanges.length === 0 || selectedPriceRanges.some(range => {
+                        switch (range) {
+                            case 'price-1-100': return product.precio >= 1 && product.precio <= 100;
+                            case 'price-100-200': return product.precio > 100 && product.precio <= 200;
+                            case 'price-200-300': return product.precio > 200 && product.precio <= 300;
+                            case 'price-300-400': return product.precio > 300 && product.precio <= 400;
+                            case 'price-400-500': return product.precio > 400 && product.precio <= 500;
+                            default: return false;
+                        }
+                    });
+    
+                    // Comprobar rango de descuentos
+                    const isDiscountMatch = selectedDiscountRanges.length === 0 || selectedDiscountRanges.some(range => {
+                        const discount = product.descuento || 0;
+                        switch (range) {
+                            case 'discount-0-20': return discount >= 0 && discount <= 20;
+                            case 'discount-20-40': return discount > 20 && discount <= 40;
+                            case 'discount-40-60': return discount > 40 && discount <= 60;
+                            case 'discount-60-80': return discount > 60 && discount <= 80;
+                            case 'discount-80-90': return discount > 80 && discount <= 90;
+                            default: return false;
+                        }
+                    });
+    
+                    // Comprobar colores
+                    const isColorMatch = selectedColors.length === 0 || selectedColors.includes(product.color?.toLowerCase());
+    
+                    // Validar todas las condiciones
+                    return isPriceMatch && isDiscountMatch && isColorMatch;
                 });
-
-                // Renderizar los productos filtrados
-                renderProducts(filtered);
+    
+                renderProducts(filtered); // Renderizar los productos filtrados
             };
-
-            // Función para renderizar los productos
+    
+            // Función para renderizar productos
             const renderProducts = (products) => {
-                cardsContainer.innerHTML = ''; // Limpiar los productos actuales
-
+                cardsContainer.innerHTML = ''; // Limpiar contenedor
+    
                 if (products.length === 0) {
                     cardsContainer.innerHTML = '<p class="text-center">No hay productos disponibles.</p>';
                     return;
                 }
-
+    
                 products.forEach(product => {
                     const card = document.createElement('div');
                     card.className = 'card';
-
+    
                     card.innerHTML = `
                         <img src="${product.img1}" alt="Imagen de ${product.nombre_producto}" />
                         <div class="card-content">
@@ -436,8 +459,9 @@ const filteredProducts = products.filter(product => product.id_categoria === 3);
                                         <span class="price-tag text-xl font-bold text-red-600">
                                             S/ ${(product.precio * (1 - product.descuento / 100)).toFixed(2)}
                                         </span>
-                                    </div>`
-                                    : `<div class="flex justify-center mt-2">
+                                    </div>` 
+                                    : `
+                                    <div class="flex justify-center mt-2">
                                         <span class="price-tag text-xl font-bold">
                                             S/ ${product.precio.toFixed(2)}
                                         </span>
@@ -446,27 +470,19 @@ const filteredProducts = products.filter(product => product.id_categoria === 3);
                             <a href="/detalle/${product.id_producto}" class="card-button">Comprar</a>
                         </div>
                     `;
-
+    
                     cardsContainer.appendChild(card);
                 });
             };
-
-            // Eventos para actualizar y filtrar
-            priceRange.addEventListener('input', () => {
-                updatePriceLabels();
-                filterProducts();
+    
+            // Agregar eventos a los checkboxes
+            [...priceCheckboxes, ...discountCheckboxes, ...colorCheckboxes].forEach(checkbox => {
+                checkbox.addEventListener('change', filterProducts);
             });
-
-            discountRange.addEventListener('input', () => {
-                updateDiscountLabel();
-                filterProducts();
-            });
-
-            // Inicializar los valores
-            updatePriceLabels();
-            updateDiscountLabel();
-            renderProducts(products); // Mostrar todos los productos al inicio
+    
+            // Renderizar todos los productos inicialmente
+            renderProducts(products);
         });
-    </script>
-</body>
+    </script> 
+    </body>
 </html>
