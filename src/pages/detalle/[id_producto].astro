@@ -1,0 +1,945 @@
+---
+import Header from "../../components/header.astro";
+import Footer from "../../components/footer.astro";
+
+// Interface unificada de Product
+interface Product {
+  id_producto?: number;
+  nombre_producto?: string;
+  descripcion_producto?: string;
+  precio?: number | string;
+  img1?: string;
+  img2?: string;
+  img3?: string;
+  img4?: string;
+  talla?: string;
+  colores?: string;
+  descuento?: number;
+  error?: string;
+  id_categoria?: number;
+  id_cat_accesorio?: number;
+  categoria?: {
+    nombre_categoria: string;
+  };
+  cat_accesorio?: {
+    nombre_cat_accesorio: string;
+  };
+}
+
+
+
+// Realizar la solicitud para obtener todos los productos
+const response = await fetch('http://localhost:3000/api/productos');
+
+if (!response.ok) {
+  console.error('Error al obtener productos:', response.statusText);
+  const errorText = await response.text();
+  throw new Error(`Error al obtener productos: ${errorText}`);
+}
+
+let products: Product[] = [];
+try {
+  products = await response.json(); // Obtener todos los productos
+} catch (error) {
+  console.error('Error al parsear productos:', error);
+  throw new Error('La respuesta del servidor no es válida.');
+}
+
+// Filtrar 20 productos aleatorios
+const randomProducts = products.sort(() => Math.random() - 0.5).slice(0, 5);
+
+
+
+export async function getStaticPaths() {
+  const response = await fetch('http://localhost:3000/api/productos');
+  if (!response.ok) throw new Error('No se pudieron obtener los productos');
+
+  const products: Product[] = await response.json();
+  return products.map((product) => ({
+    params: { id_producto: product.id_producto?.toString() },
+  }));
+}
+
+const { id_producto } = Astro.params;
+let product: Product = {
+  id_producto: 0,
+  nombre_producto: '',
+  descripcion_producto: '',
+  precio: 0,
+  error: ''
+};
+
+try {
+  const response = await fetch(`http://localhost:3000/api/productos/${id_producto}`);
+  if (!response.ok) throw new Error('No se pudo obtener el producto');
+  product = await response.json();
+} catch (error) {
+  console.error(error);
+  product = {
+    id_producto: 0,
+    nombre_producto: '',
+    descripcion_producto: '',
+    precio: 0,
+    error: 'No se pudieron cargar los detalles del producto'
+  };
+}
+
+function getBreadcrumbPath(product: Product): { name: string; path: string }[] {
+  const paths = [
+    { name: 'Inicio', path: '/' },
+  ];
+
+  if (product.id_categoria && product.categoria?.nombre_categoria) {
+    paths.push({
+      name: product.categoria.nombre_categoria,
+      path: `/categoria/${product.id_categoria}`,
+    });
+  } else {
+    paths.push({
+      name: 'Sin Categoría',
+      path: '#',
+    });
+  }
+
+  if (product.id_cat_accesorio) {
+    paths.push({
+      name: product.cat_accesorio?.nombre_cat_accesorio || 'Accesorio',
+      path: `/accesorios/${product.id_cat_accesorio}`,
+    });
+  }
+
+  return paths;
+}
+
+type Color = 'rojo' | 'azul' | 'verde' | 'amarillo' | 'blanco' | 'negro' | 'gris' | 'naranja' | 'rosa' | 'blanco' | 'gris' | 'rosadobebe' | 'palorosa' | 'vino' | 'marron' | 'perla' | 'lilabebe' | 'beige' | 'azulmarino';
+
+const colorMap: Record<Color, string> = {
+    rojo: '#FF0000',
+    azul: '#0000FF',
+    verde: '#008000',
+    amarillo: '#FFFF00',
+    blanco: '#FFFFFF',
+    negro: '#000000',
+    gris: '#808080',
+    naranja: '#FFA500',
+    rosa: '#FFC0CB',
+    rosadobebe: '#ffccda',
+    palorosa: '#FFD1DC',
+    vino: '#800020',
+    marron: '#8B4513',
+    perla: '#EAE0C8',
+    lilabebe: '#e8b5ff',
+    beige: '#F5F5DC',
+    azulmarino: '#162b4f',
+};
+
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{product?.nombre_producto || 'Producto no encontrado'}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+    font-family: 'Arial', sans-serif;
+    background-color: #d1a7b6;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.cards-container {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(5, 1fr);
+
+    align-items: center;    /* Centra los elementos en el eje vertical */
+
+}
+
+.section-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: #f6bbd0;
+    color: white;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.gallery-section {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.card {
+    background: white;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 1rem;
+    text-align: center;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-transform: capitalize;
+}
+
+.card-price {
+    color: #f56565;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.card-button {
+    display: inline-block;
+    background: #f6bbd0;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.card-button:hover {
+    background: #f56565;
+}
+
+.breadcrumb {
+    padding: 0.5rem 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.breadcrumb a {
+    color: #666;
+    text-decoration: none;
+}
+
+.product-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.product-gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.main-image-container {
+    width: 100%;
+    max-width: 600px;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: zoom-in;
+}
+
+.main-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.thumbnail-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.thumbnail-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin: 0 0.5rem;
+    cursor: pointer;
+}
+
+.thumbnail:hover {
+    border-color: #ff0000;
+}
+
+.product-info {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+}
+
+.features-list {
+    margin: 1rem 0;
+    list-style: none;
+    padding: 0;
+}
+
+.features-list li {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.features-list li::before {
+    content: "•";
+    color: #ff0000;
+    margin-right: 0.5rem;
+}
+
+.price-section {
+    margin: 1.5rem 0;
+}
+
+.price-tag {
+    font-size: 1.8rem;
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #666;
+    margin-right: 1rem;
+}
+
+.discount-badge {
+    background: #ff0000;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn-cart {
+    background: #ff0000;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-buy {
+    background: #333;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.delivery-options {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.zoom-container {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 200%;
+    background-repeat: no-repeat;
+}
+
+.zoom-active {
+    display: block;
+}
+
+@media (max-width: 767px) {
+    body {
+        font-size: 14px;
+        padding: 1rem; /* Espaciado en pantallas pequeñas */
+    }
+
+    .container {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+
+    /* Centrar la imagen principal */
+    .main-image-container {
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .main-image {
+        max-width: 100%;
+        max-height: 500px;
+        object-fit: contain;
+    }
+
+    /* Miniaturas debajo de la imagen principal, en fila y centradas */
+    .thumbnail-container {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .thumbnail {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        cursor: pointer;
+        border: 1px solid transparent;
+    }
+
+    .thumbnail:hover {
+        border-color: #ff0000;
+    }
+
+    /* Centrar la sección de información del producto */
+    .product-info {
+        width: 100%;
+        max-width: 600px; /* Controla el ancho máximo */
+        text-align: center;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .price-section {
+        margin-top: 1rem;
+    }
+
+    .price-tag {
+        font-size: 1.8rem;
+        color: #ff0000;
+        font-weight: bold;
+    }
+
+    .actions {
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn-cart,
+    .btn-buy {
+        width: 100%;
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .delivery-options {
+        font-size: 0.875rem;
+        padding: 0.75rem;
+    }
+
+    .breadcrumb {
+        font-size: 12px;
+    }
+
+    .card {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card img {
+        height: 150px;
+    }
+
+    .card-title {
+        font-size: 1rem;
+    }
+
+    .card-price {
+        font-size: 1rem;
+    }
+
+    .card-button {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+}
+
+</style>
+</head>
+<body>
+    <Header />
+    <br>
+    <br>
+    <br>
+    <br>
+    
+    <div class="product-container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            {getBreadcrumbPath(product).map((item, index, array) => (
+                <>
+                    <a href={item.path}>{item.name}</a>
+                    {index < array.length - 1 && " / "}
+                </>
+            ))}
+            <span> / {product.nombre_producto}</span>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- Galería de imágenes -->
+            <div class="gallery-section">
+                <div class="thumbnail-column">
+                    <img src={product.img1} alt="Vista 1" class="thumbnail" />
+                    {product.img2 && <img src={product.img2} alt="Vista 2" class="thumbnail" />}
+                    {product.img3 && <img src={product.img3} alt="Vista 3" class="thumbnail" />}
+                    {product.img4 && <img src={product.img4} alt="Vista 4" class="thumbnail" />}
+                </div>
+                <!-- Imagen principal con lupa y zoom -->
+                <div class="main-image-container" id="zoomContainer">
+                    <img id="mainImage" src={product.img1} alt={product.nombre_producto} class="main-image" />
+                    <div class="zoom-container" id="zoomArea"></div>
+                </div>
+            </div>
+
+            
+
+            <!-- Información del producto -->
+            <div class="product-info flex-1">
+                <h1 class="text-2xl font-bold mb-4">{product.nombre_producto}</h1>
+                <p class="text-sm text-gray-600">Referencia: {product.id_producto}</p>
+
+                <div class="mt-6">
+                    <h3 class="font-bold mb-2">Descripción:</h3>
+                    <p class="text-gray-700">{product.descripcion_producto || 'No hay descripción disponible.'}</p>
+                </div>
+
+                <div class="price-section">
+                    {product.descuento && product.descuento > 0 ? (
+                        <>
+                            <span class="original-price text-sm line-through text-gray-500">S/ {Number(product.precio).toFixed(2)}</span>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="price-tag text-xl font-bold">S/ {(Number(product.precio) * (1 - product.descuento / 100)).toFixed(2)}</span>
+                                <span class="discount-badge text-sm text-red-600">-{Math.round(product.descuento)}%</span>
+                            </div>
+                        </>
+                    ) : (
+                        <span class="price-tag text-xl font-bold">S/ {Number(product.precio).toFixed(2)}</span>
+                    )}
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <!-- Botón de disminuir -->
+                    <button id="decreaseButton" 
+                        class="bg-red-500 hover:bg-red-600 text-white text-2xl font-bold w-12 h-12 rounded-md transition-all">
+                        -
+                    </button>
+                    <!-- Campo de entrada -->
+                    <input
+                        id="quantityInput"
+                        type="number"
+                        value="1"
+                        min="1"
+                        class="w-16 text-center p-2 border border-gray-300 rounded-md text-xl font-semibold no-arrows"
+                        onchange="validateQuantity()"
+                    />
+                    <!-- Botón de aumentar -->
+                    <button id="increaseButton" 
+                        class="bg-green-500 hover:bg-green-600 text-white text-2xl font-bold w-12 h-12 rounded-md transition-all">
+                        +
+                    </button>
+                </div>
+                
+                <div class="actions">
+                    <button id="addToCartButton" class="btn-cart">AGREGAR AL CARRITO</button>
+                    <button class="btn-buy">COMPRAR AHORA</button>
+                </div>
+
+                <div id="notification" class="fixed bottom-5 right-5 bg-green-500 text-white p-4 rounded shadow-lg items-center hidden">
+                    <span id="notificationMessage"></span>
+                    <button id="closeNotification" class="ml-4 text-lg">✖</button>
+                    <a href="/carrito" id="cartLink" class="ml-4 bg-white text-green-500 px-2 py-1 rounded">Ver carrito</a>
+                </div>
+                
+                
+
+                <div class="delivery-options">
+                    <div class="mb-4">
+                        <h3 class="font-bold mb-2">Talla:</h3>
+                        <div class="flex gap-2">
+                            {product.talla 
+                                ? product.talla.split(',').map((talla) => (
+                                <button
+                                    class="border border-gray-400 text-gray-800 px-3 py-2 rounded-md hover:bg-gray-200 active:bg-gray-300 transition"
+                                    
+                                >
+                                    {talla.trim()}
+                                </button>
+                                ))
+                                : 'No disponible'}
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="font-bold mb-2">Colores:</h3>
+                        <div class="flex gap-2">
+                            {product.colores 
+                                ? product.colores.split(',').map((color) => {
+                                    const colorHex = colorMap[color.trim().toLowerCase() as Color] || '#D3D3D3'; // Gris como fallback
+                                    return (
+                                    <button
+                                        class="w-8 h-8 rounded-md border-2 border-gray-400 hover:opacity-75 active:scale-95 transition"
+                                        style={`background-color: ${colorHex};`}
+                                        title={color.trim()}
+                                    ></button>
+                                    );
+                                })
+                                : 'No disponible'}
+                        </div>
+                    </div>                               
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+
+    <h2 class="section-title">PRODUCTOS RELACIONADOS</h2>
+  <div class="container">
+    <div class="cards-container">
+      {randomProducts.length > 0 ? (
+        randomProducts.map((product: Product) => (
+          <div class="card">
+            <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
+            <div class="card-content">
+              <h2 class="card-title">{product.nombre_producto}</h2>
+              
+              <div class="price-section">
+                {product.descuento && product.descuento > 0 ? (
+                  <>
+                    <div class="flex justify-center items-center gap-2 mt-2">
+                      <span class="original-price text-sm line-through text-gray-500">
+                        S/ {Number(product.precio).toFixed(2)}
+                      </span>
+                      <span class="discount-badge text-sm text-white bg-red-600 px-2 py-1 rounded-md">
+                        -{Math.round(product.descuento)}%
+                      </span>
+                    </div>
+                    <div class="flex justify-center mt-2">
+                      <span class="price-tag text-xl font-bold text-red-600">
+                        S/ {(Number(product.precio) * (1 - product.descuento / 100)).toFixed(2)}
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <div class="flex justify-center mt-2">
+                    <span class="price-tag text-xl font-bold">
+                      S/ {Number(product.precio).toFixed(2)}
+                    </span>
+                  </div>
+                )}
+              </div>
+  
+              <a href={`/detalle/${product.id_producto}`} class="card-button">Comprar</a>
+            </div>
+          </div>
+        ))
+      ) : (
+        <p class="text-center">No hay productos disponibles.</p>
+      )}
+    </div>
+  </div>
+  <br>
+
+    <Footer />
+
+    <script define:vars={{productId: product.id_producto}}>
+        window.productId = productId;
+    </script>
+
+    <script>
+        interface CartProduct {
+            id_producto: number;
+            nombre_producto: string;
+            precio: number;
+            cantidad: number;
+            img1?: string;
+        }
+    
+        let quantity = 1;
+        // Inicializar carrito desde localStorage
+        let cart: CartProduct[] = JSON.parse(localStorage.getItem("cart") || "[]");
+    
+        // Función para actualizar cantidad
+        function updateQuantity(change: number): void {
+            const input = document.getElementById('quantityInput') as HTMLInputElement;
+            let newQuantity = quantity + change;
+    
+            if (newQuantity < 1) {
+                newQuantity = 1;
+            }
+    
+            quantity = newQuantity;
+            input.value = quantity.toString();
+        }
+    
+        // Función para validar cantidad
+        function validateQuantity(): void {
+            const input = document.getElementById('quantityInput') as HTMLInputElement;
+            const newQuantity = parseInt(input.value, 10);
+    
+            if (isNaN(newQuantity) || newQuantity < 1) {
+                input.value = '1';
+                quantity = 1;
+            } else {
+                quantity = newQuantity;
+                input.value = quantity.toString();
+            }
+        }
+    
+        // Función para agregar al carrito
+        function addToCart(product: CartProduct): void {
+            const selectedQuantity = quantity;
+    
+            const cartProduct: CartProduct = {
+                id_producto: product.id_producto,
+                nombre_producto: product.nombre_producto,
+                precio: product.precio,
+                cantidad: selectedQuantity,
+                img1: product.img1
+            };
+    
+            console.log('Producto a agregar:', {
+                id_producto: cartProduct.id_producto,
+                nombre_producto: cartProduct.nombre_producto,
+                precio: cartProduct.precio,
+                cantidad: cartProduct.cantidad,
+            });
+    
+            const existingProductIndex = cart.findIndex(item =>
+                item.id_producto === cartProduct.id_producto
+            );
+    
+            console.log('Índice de producto existente:', existingProductIndex);
+    
+            if (existingProductIndex >= 0) {
+                // Actualizar cantidad si el producto ya existe
+                cart[existingProductIndex].cantidad += selectedQuantity;
+            } else {
+                // Agregar nuevo producto si no existe
+                cart.push(cartProduct);
+            }
+    
+            // Guardar en localStorage
+            localStorage.setItem("cart", JSON.stringify(cart));
+            showNotification("Producto agregado al carrito");
+        }
+    
+        // Función para mostrar notificación
+        function showNotification(message: string): void {
+            const notification = document.getElementById("notification");
+            if (notification) {
+                const messageElement = notification.querySelector("#notificationMessage");
+                if (messageElement) {
+                    messageElement.textContent = message;
+                }
+                notification.classList.remove("hidden");
+                notification.classList.add("visible");
+    
+                // Auto ocultar después de 5 segundos
+                setTimeout(() => {
+                    hideNotification();
+                }, 5000);
+            }
+        }
+    
+        // Función para ocultar notificación
+        function hideNotification(): void {
+            const notification = document.getElementById("notification");
+            if (notification) {
+                notification.classList.remove("visible");
+                notification.classList.add("hidden");
+            }
+        }
+    
+        // Agregar event listeners cuando el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', () => {
+            // Obtener el ID del producto desde el contexto de Astro
+            const productId = (window as any).productId || 0;
+    
+            // Event listeners para los botones de cantidad
+            const decreaseButton = document.getElementById('decreaseButton');
+            const increaseButton = document.getElementById('increaseButton');
+            const addToCartButton = document.getElementById('addToCartButton');
+    
+            decreaseButton?.addEventListener('click', () => updateQuantity(-1));
+            increaseButton?.addEventListener('click', () => updateQuantity(1));
+    
+            // Event listener para el botón de agregar al carrito
+            addToCartButton?.addEventListener('click', () => {
+                // Verificar si el producto existe y tiene un ID válido
+                if (!productId || productId === 0) {
+                    console.error('ID de producto no válido');
+                    showNotification('Error: No se puede agregar el producto');
+                    return;
+                }
+    
+                // Obtener los datos del producto actual de la página
+                const currentProduct: CartProduct = {
+                    id_producto: productId,
+                    nombre_producto: document.querySelector('h1')?.textContent || 'Producto sin nombre',
+                    precio: Number(document.querySelector('.price-tag')?.textContent?.replace('S/ ', '') || '0'),
+                    cantidad: quantity,
+                    img1: document.querySelector('#mainImage')?.getAttribute('src') || ''
+                };
+    
+                // Agregar al carrito
+                addToCart(currentProduct);
+            });
+    
+            // Event listeners para selección de talla y color
+            const tallaButtons = document.querySelectorAll('.talla-button');
+            const colorButtons = document.querySelectorAll('.color-button');
+    
+            tallaButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    tallaButtons.forEach(b => b.classList.remove('talla-selected'));
+                    (e.target as HTMLElement).classList.add('talla-selected');
+                });
+            });
+    
+            colorButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    colorButtons.forEach(b => b.classList.remove('color-selected'));
+                    (e.target as HTMLElement).classList.add('color-selected');
+                });
+            });
+    
+            // Event listener para cerrar notificación
+            document.getElementById("closeNotification")?.addEventListener("click", hideNotification);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainImage = document.getElementById('mainImage') as HTMLImageElement;
+            const zoomContainer = document.getElementById('zoomContainer') as HTMLDivElement;
+            const zoomArea = document.getElementById('zoomArea') as HTMLDivElement;
+    
+            // Asegurarse de que el área de zoom está oculta por defecto
+            zoomArea.style.display = 'none';
+    
+            // Actualizar el fondo del zoom
+            const updateZoomBackground = (src: string) => {
+                if (zoomArea) {
+                    zoomArea.style.backgroundImage = `url(${src})`;
+                }
+            };
+    
+            // Activar o desactivar zoom al hacer clic
+            zoomContainer?.addEventListener('click', () => {
+                if (zoomArea?.classList.contains('zoom-active')) {
+                    zoomArea.classList.remove('zoom-active');
+                    zoomArea.style.display = 'none'; // Ocultar el área de zoom
+                    zoomContainer.style.cursor = 'zoom-in'; // Cambiar cursor a lupa
+                } else {
+                    zoomArea?.classList.add('zoom-active');
+                    zoomArea.style.display = 'block'; // Mostrar el área de zoom
+                    zoomContainer.style.cursor = 'zoom-out'; // Cambiar cursor a lupa
+                    if (mainImage?.src) {
+                        updateZoomBackground(mainImage.src);
+                    }
+                }
+            });
+    
+            // Mover el zoom al mover el ratón
+            zoomContainer?.addEventListener('mousemove', (e) => {
+                if (!zoomArea?.classList.contains('zoom-active')) return;
+    
+                const rect = zoomContainer.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+    
+                zoomArea.style.backgroundPosition = `${x}% ${y}%`;
+            });
+    
+            // Cambiar imagen al seleccionar miniatura
+            const thumbnails = document.querySelectorAll<HTMLImageElement>('.thumbnail');
+            thumbnails.forEach((thumbnail) => {
+                thumbnail.addEventListener('click', (event) => {
+                    const target = event.target as HTMLImageElement;
+                    if (target?.src) {
+                        mainImage.src = target.src;
+                        updateZoomBackground(target.src); // Actualiza el fondo del zoom
+                    }
+                });
+            });
+        });
+    </script>
+    
+        <style>
+            .talla-button {
+                @apply border border-gray-400 text-gray-800 px-3 py-2 rounded-md hover:bg-gray-200 active:bg-gray-300 transition;
+            }
+            
+            .talla-selected {
+                @apply bg-gray-300 border-gray-600;
+            }
+            
+            .color-button {
+                @apply w-8 h-8 rounded-md border-2 border-gray-400 hover:opacity-75 active:scale-95 transition;
+            }
+            
+            .color-selected {
+                @apply border-gray-800 ring-2 ring-offset-2 ring-gray-500;
+            }
+        </style>
+</body>
+</html>

@@ -1,114 +1,307 @@
----
-import Logo from "./Logo.astro"
----
 <footer>
-  <p class="text-center text-white bg-black pt-1 pb-1 w-full fixed z-10">Envios a todo el país 📍🎁🇵🇪</p>
+  <p class="text-center text-white bg-black pt-2 pb-2 w-full fixed z-10">
+    Envíos a todo el país 📍🎁🇵🇪
+  </p>
 </footer>
 
+<div id="overlay"></div>
+
 <style>
+  /* Estilo de botones personalizados */
   .custom-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2px 5px;
-      border-radius: 25px;
-      font-weight: bold;
-      width: 80%;
-      margin-top: 10px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición para la transformación y sombra */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 50%;
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.6);
+    margin-top: -5px;
+    margin-left: 5px;
+    transition: transform 0.3s ease;
   }
+
   .custom-button:hover {
-      transform: translate(5px, -5px); /* Desplaza el botón 5px a la derecha y 5px hacia arriba */
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade sombra para efecto de elevación */
-  }
-  .cart-button {
-      background-color: #FFD1E0;
-      color: #4A3E4C;
-  }
-  .whatsapp-button {
-      background-color: #FFD1E0;
-      color: #4A3E4C;
-  }
-  .button-icon {
-      margin-right: 8px;
-  }
-  /* Lista no ordenada personalizada */
-  .custom-list {
-      list-style-type: disc; /* Usa puntos */
-      padding-left: 20px; /* Espacio a la izquierda para los puntos */
+    transform: translate(0px, -2px);
   }
 
-  .custom-list li {
-      margin-bottom: 8px; /* Espacio entre elementos de la lista */
+  .whatsapp-icon,
+  .cart-icon {
+    width: 28px;
+    height: 28px;
   }
 
-  /* Opcional: Estilizar el color de los puntos */
-  .custom-list {
-      color: #e8e7e1; /* Color del texto y puntos */
+  footer p {
+    font-size: 1.1rem;
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
 
-  .custom-list li::marker {
-      color: #e8e7e1; /* Color de los puntos */
+  #landing-header {
+    margin-top: 35px;
+    top: 0;
+    font-family: "Arial", sans-serif;
   }
-  #map {
-      width: 100%;
-      height: 300px;
+
+  #landing-header .nav-text a {
+    font-weight: 800;
+  }
+
+  /* Estilo del menú móvil */
+  #mobile-menu,
+  #mobile-menu-categories {
+    z-index: 100;
+    background-color: #f6bbd0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80%;
+    height: 100%;
+    display: none;
+    padding-top: 5rem;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+  }
+
+  #mobile-menu ul,
+  #mobile-menu-categories ul {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 20px;
+  }
+
+  #mobile-menu ul li,
+  #mobile-menu-categories ul li {
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
+  #mobile-menu ul li a,
+  #mobile-menu-categories ul li a {
+    width: 100%;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+    -webkit-text-stroke: 1px black;
+    text-align: left;
+    padding: 10px 0;
+    border-bottom: 2px solid black;
+  }
+
+  #mobile-menu ul li a:hover,
+  #mobile-menu-categories ul li a:hover {
+    background-color: #ffd7e5;
+  }
+
+  #mobile-menu.show,
+  #mobile-menu-categories.show {
+    display: block;
+  }
+
+  #overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+  }
+
+  #overlay.show {
+    display: block;
+  }
+
+  body.no-scroll {
+    overflow: hidden;
+  }
+
+  #close-menu,
+  #close-menu-categories {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  #back-to-menu {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    .custom-button {
+      width: 40px;
+      height: 40px;
+    }
+
+    .whatsapp-icon,
+    .cart-icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    #mobile-menu ul li a,
+    #mobile-menu-categories ul li a {
+      font-size: 1.2rem;
+    }
+
+    /* Ajustes para mover los elementos */
+    #landing-header {
+      padding-left: 10px; /* Mueve el logo del menú a la izquierda */
+    }
+
+    #landing-header .flex.items-center {
+      justify-content: space-between; /* Asegura que el logo y los botones se distribuyan correctamente */
+    }
+
+    #menu-toggle {
+      margin-left: 1px; /* Aquí puedes mover las tres rayas más a la izquierda */
+    }
+
+    /* Alineación de los íconos de WhatsApp y carrito */
+    #landing-header nav ul {
+      justify-content: flex-end; /* Alinea los íconos a la derecha */
+    }
+
+    #landing-header nav ul li {
+      margin-left: 1px; /* Ajusta este margen para mover los íconos más a la derecha */
+    }
+
+    /* Asegura que los íconos estén aún más a la derecha */
+    #landing-header nav ul li:last-child {
+      margin-right: -30px; /* Aumenta el espacio a la derecha de los íconos */
+    }
   }
 </style>
 
-<header
-  id="landing-header"
-  class="py-3 px-10 flex items-center fixed top-7 w-full justify-between z-40 text-white bg-[#f6bbd0]"
->
-  <div class="flex flex-grow basis-0">
-    <a href="/src/pages/index.astro"><Logo /></a>
+<header id="landing-header" class="py-2 px-10 flex items-center fixed top-5 w-full justify-between z-40 text-white bg-[#f6bbd0]">
+  <div class="flex items-center">
+    <button id="menu-toggle" class="text-3xl focus:outline-none mr-4 lg:hidden">
+      ☰
+    </button>
+    <a href="/">
+      <img src="/public/img/logo.png" alt="Logo" class="w-24 h-auto" />
+    </a>
   </div>
 
-  <nav class="hidden xl:block sm:hidden">
-    <ul
-      class="flex text-sm [&>li>a]:transition-colors [&>li>a]:duration-500 [&>li>a]:text-current [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2"
-    >
-      <li><a class="hover:bg-pink-400 rounded-xl"href="/">INICIO</a></li>
-      <li><a class="hover:bg-pink-400 rounded-xl" href="/detalle">PRODUCTOS</a></li>
-
-      
-      <!-- Menú desplegable de TIENDA -->
+  <nav class="hidden lg:flex justify-center w-full">
+    <ul class="flex nav-text [&>li>a]:transition-colors [&>li>a]:duration-500 [&>li>a]:text-current [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2">
+      <li><a class="hover:bg-pink-400 rounded-xl" href="/">INICIO</a></li>
       <li class="relative group">
         <a href="#" class="cursor-pointer flex items-center hover:bg-pink-400 rounded-xl">
           TIENDA
-          <!-- Flecha hacia abajo -->
           <span class="ml-1 transition-transform group-hover:rotate-180">▼</span>
         </a>
-        <!-- Submenú desplegable con categorías -->
         <ul class="absolute opacity-0 invisible group-hover:opacity-100 group-hover:visible bg-[#f6bbd0] text-white mt-2 w-48 shadow-lg rounded-lg transition-all duration-300 ease-in-out z-50">
-          <li class="hover:bg-pink-400 px-4 py-2 rounded-lg"><a href="#">ZAPATOS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2"><a href="#">BLUSAS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2"><a href="#">POLERAS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2"><a href="#">FALDAS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2"><a href="#">PANTALONES</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2"><a href="#">ACCESORIOS</a></li>
-          <li class="hover:bg-pink-400 px-4 py-2 rounded-lg"><a href="#">VESTIDOS</a></li>
-        </ul> 
+          <li class="hover:bg-pink-400 px-4 py-2 rounded-lg"><a href="/Categorias/productos_zapatos">ZAPATOS Y ZAPATILLAS</a></li>
+          <li class="hover:bg-pink-400 px-4 py-2"><a href="/Categorias/productos_polos">POLOS Y TOPS</a></li>
+          <li class="hover:bg-pink-400 px-4 py-2"><a href="/Categorias/productos_poleras">POLERAS Y CASACAS</a></li>
+          <li class="hover:bg-pink-400 px-4 py-2"><a href="/Categorias/productos_faldas">FALDAS</a></li>
+          <li class="hover:bg-pink-400 px-4 py-2 rounded-lg"><a href="/Categorias/productos_vestidos">VESTIDOS</a></li>
+          <li class="hover:bg-pink-400 px-4 py-2"><a href="/Categorias/productos_pantalones">PANTALONES Y SHORTS</a></li>
+          <li class="hover:bg-pink-400 px-4 py-2 rounded-lg"><a href="/Categorias/productos_mochilas">CARTEAS Y MOCHILAS</a></li>
+          <li class="hover:bg-pink-400 px-4 py-2"><a href="/Categorias/productos_pantys">MEDIAS Y PANTYS</a></li>
+          <li class="hover:bg-pink-400 px-4 py-2"><a href="/Categorias/productos_accesorios">ACCESORIOS</a></li>
+        </ul>
       </li>
-      
       <li><a class="hover:bg-pink-400 rounded-xl" href="/contacto">SOBRE NOSOTROS</a></li>
       <li><a class="hover:bg-pink-400 rounded-xl" href="/Novedades">NOVEDADES</a></li>
     </ul>
   </nav>
 
-  <nav class="flex flex-grow justify-end basis-0">
-    <ul
-      class="flex text-sm [&>li>a]:transition-colors [&>li>a]:duration-500 [&>li>a]:text-current [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2"
-    >
-      <li class="hidden xl:block sm:hidden"><a href="#">Cuenta</a></li>
-      <li><a id="menu-btn" href="#">Menú</a></li>
-      <!-- Añadido el ícono de carrito de compras -->
+  <nav class="flex justify-end">
+    <ul class="flex items-center nav-text">
       <li>
-        <a href="/Carro" class="custom-button cart-button flex items-center hover:bg-pink-200 rounded-xl px-2 py-2">
-            <span class="button-icon"></span>
-            <img src="img/carrito-kawai.png" class="w-8 h-8 mr-2">
+        <a href="https://wa.me/tu_numero_de_whatsapp" class="custom-button whatsapp-button">
+          <img src="img/logowhatsap.png" alt="WhatsApp Icon" class="whatsapp-icon" />
+        </a>
+      </li>
+      <li>
+        <a href="/Carro" class="custom-button cart-button">
+          <img src="img/carrito-kawai.png" class="cart-icon" alt="Carrito de Compras" />
         </a>
       </li>
     </ul>
   </nav>
 </header>
+
+<!-- Menú móvil -->
+<div id="mobile-menu">
+  <span id="close-menu">&times;</span>
+  <ul>
+    <li><a href="/">INICIO</a></li>
+    <li><a id="store-link" href="#">TIENDA ▼</a></li>
+    <li><a href="/contacto">SOBRE NOSOTROS</a></li>
+    <li><a href="/Novedades">NOVEDADES</a></li>
+  </ul>
+</div>
+
+<!-- Menú móvil secundario (Categorías) -->
+<div id="mobile-menu-categories">
+  <span id="back-to-menu">←</span>
+  <span id="close-menu-categories">&times;</span>
+  <ul>
+    <li><a href="/Categorias/productos_zapatos">ZAPATOS Y ZAPATILLAS</a></li>
+    <li><a href="/Categorias/productos_polos">POLOS Y TOPS</a></li>
+    <li><a href="/Categorias/productos_poleras">POLERAS Y CASACAS</a></li>
+    <li><a href="/Categorias/productos_faldas">FALDAS</a></li>
+    <li><a href="/Categorias/productos_vestidos">VESTIDOS</a></li>
+    <li><a href="/Categorias/productos_pantalones">PANTALONES Y SHORTS</a></li>
+    <li><a href="/Categorias/productos_mochilas">CARTEAS Y MOCHILAS</a></li>
+    <li><a href="/Categorias/productos_pantys">MEDIAS Y PANTYS</a></li>
+    <li><a href="/Categorias/productos_accesorios">ACCESORIOS</a></li>
+  </ul>
+</div>
+
+<script>
+  const menuToggle = document.getElementById("menu-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const mobileMenuCategories = document.getElementById("mobile-menu-categories");
+  const overlay = document.getElementById("overlay");
+  const closeMenu = document.getElementById("close-menu");
+  const closeMenuCategories = document.getElementById("close-menu-categories");
+  const storeLink = document.getElementById("store-link");
+  const backToMenu = document.getElementById("back-to-menu");
+
+  menuToggle.addEventListener("click", () => {
+    mobileMenu.classList.add("show");
+    overlay.classList.add("show");
+    document.body.classList.add("no-scroll");
+  });
+
+  closeMenu.addEventListener("click", closeAllMenus);
+  closeMenuCategories.addEventListener("click", closeAllMenus);
+  overlay.addEventListener("click", closeAllMenus);
+
+  backToMenu.addEventListener("click", () => {
+    mobileMenuCategories.classList.remove("show");
+    mobileMenu.classList.add("show");
+  });
+
+  storeLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    mobileMenu.classList.remove("show");
+    mobileMenuCategories.classList.add("show");
+  });
+
+  function closeAllMenus() {
+    mobileMenu.classList.remove("show");
+    mobileMenuCategories.classList.remove("show");
+    overlay.classList.remove("show");
+    document.body.classList.remove("no-scroll");
+  }
+</script>

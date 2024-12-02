@@ -1,20 +1,39 @@
 ---
-import Layout from '../layouts/Layout.astro';
 import Header from '../components/header.astro';
-import Seccion from "../components/Seccion.astro";
+import Layout from '../layouts/Layout.astro';
+import Seccion from '../components/Seccion.astro';
 import Categorias from '../components/Categorias.astro';
 import Forsale from '../components/ForSale.astro';
 import Footer from '../components/footer.astro';
 import New from '../components/New.astro';
 import Productos from '../components/Productos.astro';
 import '../styles/global.css';
+
+const response = await fetch('http://localhost:3000/api/productos');
+
+if (!response.ok) {
+  console.error('Error al obtener productos:', response.statusText);
+  const errorText = await response.text(); // Captura el texto del error
+  throw new Error(`Error al obtener productos: ${errorText}`);
+}
+
+const products = response.ok ? await response.json() : [];
+
+const bannersResponse = await fetch('http://localhost:3000/api/banners');
+
+if (!bannersResponse.ok) {
+  console.error('Error al obtener banners:', bannersResponse.statusText);
+  throw new Error(`Error al obtener banners: ${await bannersResponse.text()}`);
+}
+
+const banners = await bannersResponse.json();
 ---
 
 <Layout title="MYU WEB">
         <style>
             body {
                 margin: 0;
-                background-color: #fffcf6;
+                background-color: #a08c8c;
             }
 
             /* Agregamos padding al body en pantallas móviles */
@@ -26,14 +45,14 @@ import '../styles/global.css';
             }
         </style>
         <Header />
-        <br>
-        <br>    
-        <Seccion />
+          
+        <Seccion banners={banners} />
         <main>
         <Categorias />
-        <Forsale />
-        <New />
-        <Productos />       
+        <Forsale products={products} />
+        <br>
+        <New products={products} />
+        <Productos products={products} />     
         </main>
         <Footer />
 </Layout>

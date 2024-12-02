@@ -1,80 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Banner Carousel</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <style>
-        .swiper-wrapper {
-            width: 100%;
-            padding-top: 56px;
-            height: max-content !important;
-            transition-timing-function: linear !important;
-            position: relative;
-        }
-        body {
-            background-color: #ffffff;
-            margin: 0;
-            padding: 0;
-        }
-        .swiper-slide img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-        }
-        @media (max-width: 1559px) {
-            .swiper-slide img.large {
-                display: none;
-            }
-        }
-        @media (min-width: 1560px) {
-            .swiper-slide img.small {
-                display: none;
-            }
-        }
-        .swiper-pagination {
-            bottom: 2px !important;
-            top: auto !important;
-            width: 10px !important;
-            right: 0;
-            left: auto !important;
-            background-color: #f3f4f6;
-        }
-    </style>
-</head>
-<body>
-    <div class="swiper progress-slide-carousel">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <img class="small" src="https://coolboxpe.vtexassets.com/assets/vtex.file-manager-graphql/images/14dbb8bd-d27a-4b70-b6d6-e55dc3ceff96___a0e7ea97c5b0b5e73a0b3d27e3bf8528.png" alt="Banner 1 small">
-                <img class="large" src="https://coolboxpe.vtexassets.com/assets/vtex.file-manager-graphql/images/377a08f0-ecc8-4a34-9415-7faa9c08a998___89d94c61eabb6723553dbfe15b7658c8.png" alt="Banner 1 large">
-            </div>
-            <div class="swiper-slide">
-                <img class="small" src="https://coolboxpe.vtexassets.com/assets/vtex.file-manager-graphql/images/f9fba7fd-9ad1-4976-b212-721bb2b47533___e3c449bdb2aa3681ea1b3836d9383387.png" alt="Banner 2 small">
-                <img class="large" src="https://coolboxpe.vtexassets.com/assets/vtex.file-manager-graphql/images/80f2723d-c307-4e06-9068-c7ae3fd8d6d9___3f764dfdf00a5a02c09112a183c8d423.png" alt="Banner 2 large">
-            </div>
-            <div class="swiper-slide">
-                <img class="small" src="https://coolboxpe.vtexassets.com/assets/vtex.file-manager-graphql/images/eadf8b9a-545b-401b-9378-23c28d2617c3___9d62e23c010f0d0853d577468f9f1f34.png" alt="Banner 3 small">
-                <img class="large" src="https://coolboxpe.vtexassets.com/assets/vtex.file-manager-graphql/images/0c4a8149-6329-4267-9711-c3a1dee7935a___2f4bdb515f708b76c6ec0c0c2cf20bf1.png" alt="Banner 3 large">
-            </div>
-        </div>
-        <div class="swiper-pagination"></div>
-    </div>
+---
+interface Banner {
+  id_banner: number;
+  tipo: string;
+  img1: string;
+  img2: string;
+  img3: string;
+  img1cell: string;
+  img2cell: string;
+  img3cell: string;
+}
 
-    <script type="module">
-        import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs'
-        new Swiper(".progress-slide-carousel", {
-            loop: true,
-            autoplay: {
-                delay: 5500,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                type: "progressbar",
-            },
-        });
-    </script>
+const { banners = [] }: { banners?: Banner[] } = Astro.props;
+---
+
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    .swiper-wrapper {
+      width: 100%;
+      padding-top: 56px;
+      height: max-content !important;
+      transition-timing-function: linear !important;
+      position: relative;
+    }
+
+    body {
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .swiper-slide img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .swiper-pagination {
+      bottom: 2px !important;
+      top: auto !important;
+      width: 10px !important;
+      right: 0;
+      left: auto !important;
+      background-color: #f3f4f6;
+    }
+
+    /* Oculta la clase .large en pantallas grandes y muestra .small */
+    @media (min-width: 768px) {
+    .large {
+        display: none;
+    }
+    .small {
+        display: block;
+    }
+    }
+
+    /* Oculta la clase .small en pantallas pequeñas y muestra .large */
+    @media (max-width: 767px) {
+    .small {
+        display: none;
+    }
+    .large {
+        display: block;
+    }
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="swiper progress-slide-carousel">
+    <div class="swiper-wrapper">
+        {banners.length > 0 ? (
+            banners.map((banner) => (
+              <div class="swiper-slide">
+                <a href={banner.img1cell} target="_blank" rel="noopener noreferrer">
+                  <img class="small" src={banner.img1} alt={`Banner ${banner.id_banner} small`} />
+                  <img class="large" src={banner.img2} alt={`Banner ${banner.id_banner} large`} />
+                </a>
+              </div>
+            ))
+          ) : (
+            <p class="text-center">No hay banners disponibles.</p>
+          )}
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+  <script type="module">
+    import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs';
+    new Swiper(".progress-slide-carousel", {
+      loop: true,
+      autoplay: {
+        delay: 5500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        type: "progressbar",
+      },
+    });
+  </script>
 </body>
-</html>
