@@ -46,16 +46,15 @@ const banners = await bannersResponse.json();
         </style>
         <WelcomePopup />
         <Header />
-        <br>
-        <br>    
+          
         <Seccion banners={banners} />
         <main>
         <Categorias />
         <Forsale products={products} />
         <br>
         <New products={products} />
-        <br>
-        <Productos products={products} />      
+        <Productos products={products} />     
         </main>
         <Footer />
 </Layout>
+
