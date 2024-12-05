@@ -159,7 +159,6 @@ const colorMap: Record<Color, string> = {
     display: grid;
     gap: 1rem;
     grid-template-columns: repeat(5, 1fr);
-
     align-items: center;    /* Centra los elementos en el eje vertical */
 
 }
@@ -601,7 +600,6 @@ const colorMap: Record<Color, string> = {
                 
                 <div class="actions">
                     <button id="addToCartButton" class="btn-cart">AGREGAR AL CARRITO</button>
-                    <button class="btn-buy">COMPRAR AHORA</button>
                 </div>
 
                 <div id="notification" class="fixed bottom-5 right-5 bg-green-500 text-white p-4 rounded shadow-lg items-center hidden">
@@ -619,8 +617,9 @@ const colorMap: Record<Color, string> = {
                             {product.talla 
                                 ? product.talla.split(',').map((talla) => (
                                 <button
-                                    class="border border-gray-400 text-gray-800 px-3 py-2 rounded-md hover:bg-gray-200 active:bg-gray-300 transition"
-                                    
+                                    class="talla-button border border-gray-400 text-gray-800 px-3 py-2 rounded-md hover:bg-gray-200 active:bg-gray-300 transition"
+                                    data-talla={talla.trim()}
+                                    type="button"
                                 >
                                     {talla.trim()}
                                 </button>
@@ -628,7 +627,7 @@ const colorMap: Record<Color, string> = {
                                 : 'No disponible'}
                         </div>
                     </div>
-
+                
                     <div class="mb-4">
                         <h3 class="font-bold mb-2">Colores:</h3>
                         <div class="flex gap-2">
@@ -637,9 +636,11 @@ const colorMap: Record<Color, string> = {
                                     const colorHex = colorMap[color.trim().toLowerCase() as Color] || '#D3D3D3'; // Gris como fallback
                                     return (
                                     <button
-                                        class="w-8 h-8 rounded-md border-2 border-gray-400 hover:opacity-75 active:scale-95 transition"
+                                        class="color-button w-8 h-8 rounded-md border-2 border-gray-400 hover:opacity-75 active:scale-95 transition"
+                                        data-color={color.trim()}
                                         style={`background-color: ${colorHex};`}
                                         title={color.trim()}
+                                        type="button"
                                     ></button>
                                     );
                                 })
@@ -713,30 +714,34 @@ const colorMap: Record<Color, string> = {
             precio: number;
             cantidad: number;
             img1?: string;
+            talla?: string;
+            color?: string;
         }
-    
+
         let quantity = 1;
+        let selectedTalla: string | null = null;
+        let selectedColor: string | null = null;
         // Inicializar carrito desde localStorage
         let cart: CartProduct[] = JSON.parse(localStorage.getItem("cart") || "[]");
-    
+
         // Función para actualizar cantidad
         function updateQuantity(change: number): void {
             const input = document.getElementById('quantityInput') as HTMLInputElement;
             let newQuantity = quantity + change;
-    
+
             if (newQuantity < 1) {
                 newQuantity = 1;
             }
-    
+
             quantity = newQuantity;
             input.value = quantity.toString();
         }
-    
+
         // Función para validar cantidad
         function validateQuantity(): void {
             const input = document.getElementById('quantityInput') as HTMLInputElement;
             const newQuantity = parseInt(input.value, 10);
-    
+
             if (isNaN(newQuantity) || newQuantity < 1) {
                 input.value = '1';
                 quantity = 1;
@@ -745,45 +750,61 @@ const colorMap: Record<Color, string> = {
                 input.value = quantity.toString();
             }
         }
-    
+
         // Función para agregar al carrito
         function addToCart(product: CartProduct): void {
             const selectedQuantity = quantity;
-    
+
+            if (!selectedTalla) {
+                showNotification("Por favor, seleccione una talla");
+                return;
+            }
+
+            if (!selectedColor) {
+                showNotification("Por favor, seleccione un color");
+                return;
+            }
+
             const cartProduct: CartProduct = {
                 id_producto: product.id_producto,
                 nombre_producto: product.nombre_producto,
                 precio: product.precio,
                 cantidad: selectedQuantity,
-                img1: product.img1
+                img1: product.img1,
+                talla: selectedTalla,
+                color: selectedColor
             };
-    
+
             console.log('Producto a agregar:', {
                 id_producto: cartProduct.id_producto,
                 nombre_producto: cartProduct.nombre_producto,
                 precio: cartProduct.precio,
                 cantidad: cartProduct.cantidad,
+                talla: cartProduct.talla,
+                color: cartProduct.color
             });
-    
+
             const existingProductIndex = cart.findIndex(item =>
-                item.id_producto === cartProduct.id_producto
+                item.id_producto === cartProduct.id_producto &&
+                item.talla === cartProduct.talla &&
+                item.color === cartProduct.color
             );
-    
+
             console.log('Índice de producto existente:', existingProductIndex);
-    
+
             if (existingProductIndex >= 0) {
-                // Actualizar cantidad si el producto ya existe
+                // Actualizar cantidad si el producto ya existe con la misma talla y color
                 cart[existingProductIndex].cantidad += selectedQuantity;
             } else {
                 // Agregar nuevo producto si no existe
                 cart.push(cartProduct);
             }
-    
+
             // Guardar en localStorage
             localStorage.setItem("cart", JSON.stringify(cart));
             showNotification("Producto agregado al carrito");
         }
-    
+
         // Función para mostrar notificación
         function showNotification(message: string): void {
             const notification = document.getElementById("notification");
@@ -794,14 +815,14 @@ const colorMap: Record<Color, string> = {
                 }
                 notification.classList.remove("hidden");
                 notification.classList.add("visible");
-    
+
                 // Auto ocultar después de 5 segundos
                 setTimeout(() => {
                     hideNotification();
                 }, 5000);
             }
         }
-    
+
         // Función para ocultar notificación
         function hideNotification(): void {
             const notification = document.getElementById("notification");
@@ -810,20 +831,20 @@ const colorMap: Record<Color, string> = {
                 notification.classList.add("hidden");
             }
         }
-    
+
         // Agregar event listeners cuando el DOM esté cargado
         document.addEventListener('DOMContentLoaded', () => {
             // Obtener el ID del producto desde el contexto de Astro
             const productId = (window as any).productId || 0;
-    
+
             // Event listeners para los botones de cantidad
             const decreaseButton = document.getElementById('decreaseButton');
             const increaseButton = document.getElementById('increaseButton');
             const addToCartButton = document.getElementById('addToCartButton');
-    
+
             decreaseButton?.addEventListener('click', () => updateQuantity(-1));
             increaseButton?.addEventListener('click', () => updateQuantity(1));
-    
+
             // Event listener para el botón de agregar al carrito
             addToCartButton?.addEventListener('click', () => {
                 // Verificar si el producto existe y tiene un ID válido
@@ -832,7 +853,7 @@ const colorMap: Record<Color, string> = {
                     showNotification('Error: No se puede agregar el producto');
                     return;
                 }
-    
+
                 // Obtener los datos del producto actual de la página
                 const currentProduct: CartProduct = {
                     id_producto: productId,
@@ -841,33 +862,42 @@ const colorMap: Record<Color, string> = {
                     cantidad: quantity,
                     img1: document.querySelector('#mainImage')?.getAttribute('src') || ''
                 };
-    
+
                 // Agregar al carrito
                 addToCart(currentProduct);
             });
-    
+
             // Event listeners para selección de talla y color
             const tallaButtons = document.querySelectorAll('.talla-button');
             const colorButtons = document.querySelectorAll('.color-button');
-    
+
             tallaButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
                     tallaButtons.forEach(b => b.classList.remove('talla-selected'));
                     (e.target as HTMLElement).classList.add('talla-selected');
+                    
+                    // Capturar el valor de la talla seleccionada
+                    selectedTalla = (e.target as HTMLElement).getAttribute('data-talla');
+                    console.log('Talla seleccionada:', selectedTalla);
                 });
             });
-    
+
             colorButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
                     colorButtons.forEach(b => b.classList.remove('color-selected'));
                     (e.target as HTMLElement).classList.add('color-selected');
+                    
+                    // Capturar el valor del color seleccionado
+                    selectedColor = (e.target as HTMLElement).getAttribute('data-color');
+                    console.log('Color seleccionado:', selectedColor);
                 });
             });
-    
+
             // Event listener para cerrar notificación
             document.getElementById("closeNotification")?.addEventListener("click", hideNotification);
         });
 
+        // Agregar event listeners cuando el DOM esté cargado
         document.addEventListener('DOMContentLoaded', () => {
             const mainImage = document.getElementById('mainImage') as HTMLImageElement;
             const zoomContainer = document.getElementById('zoomContainer') as HTMLDivElement;

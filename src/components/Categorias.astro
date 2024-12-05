@@ -53,108 +53,126 @@
             </div>
         </div>
     </div>
-</section>
-
-<style>
-/* Estilo general */
-.slider-container {
+  </section>
+  
+  <style>
+  /* Estilo general */
+  .slider-container {
     width: 100%;
     overflow-x: auto;
     display: flex;
     scroll-behavior: smooth;
     cursor: grab;
-}
-
-.slider-container:active {
+  }
+  
+  .slider-container:active {
     cursor: grabbing;
-}
-
-.categories {
+  }
+  
+  .categories {
     display: flex;
     gap: 16px;
-}
-
-.category-card {
-    flex: 0 0 calc(25% - 16px); /* 4 tarjetas visibles en pantallas grandes */
+  }
+  
+  /* Tamaño de las tarjetas para pantallas grandes (PC) */
+  .category-card {
+    flex: 0 0 calc(25% - 16px);
+    height: 465px;
     text-align: center;
     border: 2px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
-}
-
-.category-card img {
+  }
+  
+  .category-card img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
-}
-
-/* Ocultar scrollbars */
-.scrollbar-hide {
-    -ms-overflow-style: none; /* Para IE y Edge */
-    scrollbar-width: none; /* Para Firefox */
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-    display: none; /* Para Chrome, Safari y Opera */
-}
-
-/* Estilo para móviles */
-@media (max-width: 768px) {
+  }
+  
+  /* Ocultar scrollbars */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Tamaño de las tarjetas para móviles (pantallas pequeñas) */
+  @media (max-width: 768px) {
     .category-card {
-        flex: 0 0 calc(50% - 16px); /* 2 tarjetas visibles en pantallas pequeñas */
+      flex: 0 0 calc(50% - 16px);
+      height: 300px;
     }
-}
-</style>
-
-<script type="module">
-document.addEventListener("DOMContentLoaded", () => {
-const slider = document.querySelector(".slider-container");
-let isDragging = false;
-let startX, startScrollLeft;
-
-// Prevent default image dragging
-slider.querySelectorAll('img').forEach(img => {
-    img.addEventListener('dragstart', (e) => e.preventDefault());
-});
-
-// Mouse events
-slider.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    startX = e.pageX - slider.offsetLeft;
-    startScrollLeft = slider.scrollLeft;
-    slider.style.cursor = 'grabbing';
-});
-
-document.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const x = e.pageX - slider.offsetLeft;
-    const walk = (x - startX) * 2;
-    slider.scrollLeft = startScrollLeft - walk;
-});
-
-document.addEventListener('mouseup', () => {
-    isDragging = false;
-    slider.style.cursor = 'grab';
-});
-
-// Touch events
-slider.addEventListener('touchstart', (e) => {
-    isDragging = true;
-    startX = e.touches[0].pageX - slider.offsetLeft;
-    startScrollLeft = slider.scrollLeft;
-});
-
-document.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
-    const x = e.touches[0].pageX - slider.offsetLeft;
-    const walk = (x - startX) * 2;
-    slider.scrollLeft = startScrollLeft - walk;
-    e.preventDefault();
-});
-
-document.addEventListener('touchend', () => {
-    isDragging = false;
-});
-});
-    </script>
+  }
+  </style>
+  
+  <script type="module">
+  document.addEventListener("DOMContentLoaded", () => {
+    const slider = document.querySelector(".slider-container");
+    let isDragging = false;
+    let startX, startScrollLeft, moved = false;
+  
+    // Evitar arrastre de imagen por defecto
+    slider.querySelectorAll("img").forEach(img => {
+      img.addEventListener("dragstart", e => e.preventDefault());
+    });
+  
+    // Eventos del mouse
+    slider.addEventListener("mousedown", e => {
+      isDragging = true;
+      moved = false;
+      startX = e.pageX - slider.offsetLeft;
+      startScrollLeft = slider.scrollLeft;
+      slider.style.cursor = "grabbing";
+    });
+  
+    document.addEventListener("mousemove", e => {
+      if (!isDragging) return;
+      moved = true;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * 0.8; // Velocidad del deslizamiento
+      slider.scrollLeft = startScrollLeft - walk;
+    });
+  
+    document.addEventListener("mouseup", e => {
+      isDragging = false;
+      slider.style.cursor = "grab";
+    });
+  
+    slider.addEventListener("click", (e) => {
+      if (moved) {
+        e.preventDefault(); // Evitar que se accione como click.
+      }
+    });
+  
+    slider.addEventListener("touchstart", e => {
+      isDragging = true;
+      moved = false;
+      startX = e.touches[0].pageX - slider.offsetLeft;
+      startScrollLeft = slider.scrollLeft;
+    });
+  
+    document.addEventListener("touchmove", e => {
+      if (!isDragging) return;
+      moved = true;
+      const x = e.touches[0].pageX - slider.offsetLeft;
+      const walk = (x - startX) * 0.8; // Velocidad del deslizamiento
+      slider.scrollLeft = startScrollLeft - walk;
+    });
+  
+    document.addEventListener("touchend", e => {
+      isDragging = false;
+    });
+  
+    slider.addEventListener("touchend", (e) => {
+      if (moved) {
+        e.preventDefault(); // Prevenir que se accione como tap.
+      }
+    });
+  });
+  </script>

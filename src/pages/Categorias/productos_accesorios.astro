@@ -158,7 +158,7 @@ try {
             background: rgba(0, 0, 0, 0.5);
             transform: translateX(-100%);
             transition: transform 0.3s ease;
-            z-index: 40;
+            z-index: 30;
         }
 
         .overlay.show {
@@ -167,7 +167,7 @@ try {
 
         .filters {
             position: sticky;
-            top: 7rem;
+            top: 8rem;
             background: white;
             padding: 1rem;
             border-radius: 0.5rem;
@@ -267,7 +267,7 @@ try {
     <br>
     <br>
     <br>
-    <h1 class="page-title">FALDAS</h1>
+    <h1 class="page-title">ACCESORIOS</h1>
     <div class="container flex flex-col md:flex-row">
 
         <!-- Panel de filtros -->
@@ -297,85 +297,85 @@ try {
             </div>
 
             <div>
-                <h3 class="font-semibold text-gray-700 mb-2">Categorías</h3>
-                    <div class="relative">
-                        <input
-                            id="search-box"
-                            type="text"
-                            placeholder="Buscar por:"
-                            class="w-full px-4 py-2 text-sm border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                            oninput="filterCategories()"
-                        />
-                        <div class="h-60 overflow-y-auto mt-2 border rounded-lg bg-white shadow-sm">
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="1" class="mr-2"> Bucket hat
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="2" class="mr-2"> Gorras
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="3" class="mr-2"> Lentes
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="4" class="mr-2"> Correa
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="5" class="mr-2"> Cinturones
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="6" class="mr-2"> Cadenas
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="7" class="mr-2"> Tirantes
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="8" class="mr-2"> Chokers
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="9" class="mr-2"> Gargantillas
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="10" class="mr-2"> Collares
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="11" class="mr-2"> Aretes anime
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="12" class="mr-2"> Aretes cute
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="13" class="mr-2"> Aretes
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="14" class="mr-2"> Arnés
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="15" class="mr-2"> Ligeros
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="16" class="mr-2"> Vinchas
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="17" class="mr-2"> Ganchos
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="18" class="mr-2"> Lazos
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="19" class="mr-2"> Pines
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="20" class="mr-2"> Malla de manos
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="21" class="mr-2"> Muñequeras
-                            </label>
-                            <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                <input type="checkbox" value="22" class="mr-2"> Anillos
-                            </label>
-                        </div>
+                <h3 class="font-semibold text-gray-700 mb-2">SubCategorías</h3>
+                <div class="relative">
+                    <input
+                        id="search-box"
+                        type="text"
+                        placeholder="Buscar por:"
+                        class="w-full px-4 py-2 text-sm border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        oninput="filterCategories()"
+                    />
+                    <div id="categories-list" class="h-60 overflow-y-auto mt-2 border rounded-lg bg-white shadow-sm">
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="1" class="mr-2"> Bucket hat
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="2" class="mr-2"> Gorras
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="3" class="mr-2"> Lentes
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="4" class="mr-2"> Correa
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="5" class="mr-2"> Cinturones
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="6" class="mr-2"> Cadenas
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="7" class="mr-2"> Tirantes
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="8" class="mr-2"> Chokers
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="9" class="mr-2"> Gargantillas
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="10" class="mr-2"> Collares
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="11" class="mr-2"> Aretes anime
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="12" class="mr-2"> Aretes cute
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="13" class="mr-2"> Aretes
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="14" class="mr-2"> Arnés
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="15" class="mr-2"> Ligeros
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="16" class="mr-2"> Vinchas
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="17" class="mr-2"> Ganchos
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="18" class="mr-2"> Lazos
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="19" class="mr-2"> Pines
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="20" class="mr-2"> Malla de manos
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="21" class="mr-2"> Muñequeras
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="22" class="mr-2"> Anillos
+                        </label>
                     </div>
                 </div>
+            </div>
         </aside>
 
         <!-- Productos de faldas -->
@@ -530,8 +530,8 @@ try {
             fetch('http://localhost:3000/api/productos')
                 .then(response => response.json())
                 .then(allProducts => {
-                    // Filter only skirt products (id_categoria = 3)
-                    const products = allProducts.filter(product => product.id_categoria === 3);
+                    // Filter only skirt products 
+                    const products = allProducts.filter(product => product.id_cat_accesorio !== null);
                     
                     const priceCheckboxes = document.querySelectorAll('input[id^="price-"]');
                     const discountCheckboxes = document.querySelectorAll('input[id^="discount-"]');
@@ -582,8 +582,6 @@ try {
                         const sortedProducts = sortProducts(filtered);
                         renderProducts(sortedProducts);
                     };
-            
-
 
                     // Función para ordenar productos
                     const sortProducts = (productsToSort) => {
