@@ -98,7 +98,9 @@ interface CartProduct {
 
     <Footer />
 
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
     <script>
+        
         export interface CartProduct {
             id_producto: string;
             nombre_producto: string;
@@ -110,21 +112,24 @@ interface CartProduct {
         }
         
         document.addEventListener('DOMContentLoaded', () => {
-            const carritoVacio = document.getElementById('carrito-vacio');
-            const carritoContenido = document.getElementById('carrito-contenido');
-            const productosTbody = document.getElementById('productos-tbody');
-            const subtotalElement = document.getElementById('subtotal');
-            const totalElement = document.getElementById('total');
-            const finalizarCompraBtn = document.getElementById('finalizar-compra');
+            const carritoVacio = document.getElementById('carrito-vacio') as HTMLElement;
+            const carritoContenido = document.getElementById('carrito-contenido') as HTMLElement;
+            const productosTbody = document.getElementById('productos-tbody') as HTMLTableSectionElement;
+            const subtotalElement = document.getElementById('subtotal') as HTMLElement;
+            const totalElement = document.getElementById('total') as HTMLElement;
+            const finalizarCompraBtn = document.getElementById('finalizar-compra') as HTMLButtonElement;
 
             let cart: CartProduct[] = JSON.parse(localStorage.getItem('cart') || '[]');
 
-            function renderCarrito() {
+            function renderCarrito(): void {
                 if (cart.length === 0) {
                     carritoVacio.classList.remove('hidden');
                     carritoContenido.classList.add('hidden');
                     return;
                 }
+
+                carritoVacio.classList.add('hidden');
+                carritoContenido.classList.remove('hidden');
 
                 productosTbody.innerHTML = '';
                 let subtotal = 0;
@@ -136,7 +141,10 @@ interface CartProduct {
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td class="p-4 flex items-center space-x-4">
-                            <img src="${producto.img1}" alt="${producto.nombre_producto}" class="w-20 h-20 object-cover rounded">
+                            <div class="flex-shrink-0">
+                                <p class="text-sm font-semibold"></p>
+                                <img src="${producto.img1}" alt="${producto.nombre_producto}" class="w-20 h-20 object-cover rounded">
+                            </div>
                             <div>
                                 <p class="font-bold">${producto.nombre_producto}</p>
                                 <p class="text-sm text-gray-500">${producto.talla ? `Talla: ${producto.talla}` : ''} ${producto.color ? `Color: ${producto.color}` : ''}</p>
@@ -163,7 +171,6 @@ interface CartProduct {
                 subtotalElement.textContent = `S/ ${subtotal.toFixed(2)}`;
                 totalElement.textContent = `S/ ${(subtotal + 10).toFixed(2)}`;
 
-                // Agregar event listeners
                 document.querySelectorAll('.decrease-qty').forEach(button => {
                     button.addEventListener('click', decreaseQuantity);
                 });
@@ -181,7 +188,7 @@ interface CartProduct {
                 });
             }
 
-            function decreaseQuantity(event: Event) {
+            function decreaseQuantity(event: Event): void {
                 const index = (event.target as HTMLButtonElement).dataset.index;
                 if (index !== undefined && cart[parseInt(index)].cantidad > 1) {
                     cart[parseInt(index)].cantidad--;
@@ -189,7 +196,7 @@ interface CartProduct {
                 }
             }
 
-            function increaseQuantity(event: Event) {
+            function increaseQuantity(event: Event): void {
                 const index = (event.target as HTMLButtonElement).dataset.index;
                 if (index !== undefined) {
                     cart[parseInt(index)].cantidad++;
@@ -197,7 +204,7 @@ interface CartProduct {
                 }
             }
 
-            function updateQuantityManual(event: Event) {
+            function updateQuantityManual(event: Event): void {
                 const input = event.target as HTMLInputElement;
                 const index = input.dataset.index;
                 if (index !== undefined) {
@@ -207,7 +214,7 @@ interface CartProduct {
                 }
             }
 
-            function removeProducto(event: Event) {
+            function removeProducto(event: Event): void {
                 const index = (event.target as HTMLButtonElement).dataset.index;
                 if (index !== undefined) {
                     cart.splice(parseInt(index), 1);
@@ -215,16 +222,31 @@ interface CartProduct {
                 }
             }
 
-            function updateCart() {
+            function updateCart(): void {
                 localStorage.setItem('cart', JSON.stringify(cart));
                 renderCarrito();
             }
 
             finalizarCompraBtn.addEventListener('click', () => {
-                if (cart.length > 0) {
-                    alert('Próximamente: Proceso de pago');
-                    // Aquí implementarías la lógica de checkout
+                if (cart.length === 0) {
+                    alert('El carrito está vacío.');
+                    return;
                 }
+
+                const mensaje = cart.map(product =>
+                    `*Producto*: ${product.nombre_producto}\n` +
+                    `*Precio*: S/ ${product.precio.toFixed(2)}\n` +
+                    `*Cantidad*: ${product.cantidad}\n` +
+                    `*Imagen*: ${product.img1 || 'No disponible'}`
+                ).join('\n\n');
+
+                const total = cart.reduce((acc, product) => acc + product.precio * product.cantidad, 0).toFixed(2);
+
+                const mensajeCompleto = `*Resumen de tu compra:*\n\n${mensaje}\n\n*Total*: S/ ${total}\n\n¡Gracias por tu compra! 🎉`;
+
+                const whatsappLink = `https://wa.me/913506913?text=${encodeURIComponent(mensajeCompleto)}`;
+
+                window.open(whatsappLink, '_blank');
             });
 
             renderCarrito();

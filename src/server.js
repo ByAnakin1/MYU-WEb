@@ -2,9 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import db from './db.js'; // Archivo de conexión a la base de datos
 
+
 const app = express();
 app.use(cors({
-  origin: 'http://myufashion.com', // Reemplaza con la URL de tu frontend
+  origin: ['http://localhost:4321', 'http://myufashion.com'], // Add your development and production URLs
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 
@@ -49,6 +52,57 @@ app.get('/api/productos/:id_producto', async (req, res) => {
     res.status(500).json({ error: 'Error al obtener el producto.' });
   }
 });
+
+// Webhook para WhatsApp: recibir mensajes de WhatsApp y enviar respuestas
+app.post('/webhook', (req, res) => {
+  const { entry } = req.body;
+  
+  if (!entry || !entry[0] || !entry[0].changes[0].value.messages) {
+    return res.sendStatus(400); // Si no hay mensajes, no procesamos nada
+  }
+
+  // Extraemos los datos del mensaje recibido
+  const messageReceived = entry[0].changes[0].value.messages[0].text.body;
+  const phoneNumber = entry[0].changes[0].value.messages[0].from;
+
+  console.log('Mensaje recibido:', messageReceived);
+
+  // Lógica básica de respuesta del bot
+  let responseMessage = '';
+
+  if (messageReceived.includes('Hola')) {
+    responseMessage = '¡Hola! Soy tu asistente virtual. ¿En qué puedo ayudarte hoy?';
+  } else if (messageReceived.includes('precio')) {
+    responseMessage = '¿Qué producto te interesa? Podemos decirte el precio de todos nuestros productos.';
+  } else {
+    responseMessage = 'Lo siento, no entendí tu mensaje. ¿Puedes reformularlo?';
+  }
+
+  // Enviar mensaje de vuelta a través de la API de WhatsApp Business
+  const sendMessageUrl = 'https://graph.facebook.com/v16.0/YOUR_PHONE_NUMBER_ID/messages';
+  const dataToSend = {
+    messaging_product: 'whatsapp',
+    to: phoneNumber,
+    text: { body: responseMessage },
+  };
+
+  axios.post(sendMessageUrl, dataToSend, {
+    headers: {
+      Authorization: `Bearer YOUR_ACCESS_TOKEN`, // Usa tu token de acceso aquí
+      'Content-Type': 'application/json',
+    },
+  })
+  .then(response => {
+    console.log('Mensaje enviado:', response.data);
+  })
+  .catch(error => {
+    console.error('Error al enviar mensaje:', error);
+  });
+
+  // Respondemos con un status 200 para confirmar que recibimos la solicitud
+  res.sendStatus(200);
+});
+
 
 
 /**
