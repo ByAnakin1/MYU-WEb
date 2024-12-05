@@ -46,7 +46,7 @@ const filteredProducts = products.filter(product => product.id_categoria === 7);
             padding: 0;
             overflow-x: hidden;
             background-color: #FFF5F7;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .container {
@@ -57,19 +57,15 @@ const filteredProducts = products.filter(product => product.id_categoria === 7);
             padding: 2rem 0;
         }
 
-        .cards-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
         .card {
             background: white;
             border-radius: 0.75rem;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            max-width: 280px;
+            margin: 0 auto;
+            margin-bottom: 2rem;
         }
 
         .card:hover {
@@ -79,52 +75,54 @@ const filteredProducts = products.filter(product => product.id_categoria === 7);
 
         .card img {
             width: 100%;
-            height: 200px;
+            height: 280px;
             object-fit: cover;
         }
 
         .card-content {
-            padding: 1rem;
+            padding: 0.75rem;
             text-align: center;
         }
 
         .card-title {
-            font-size: 1.25rem;
+            font-size: 0.9rem;
             font-weight: bold;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             text-transform: capitalize;
         }
 
-        .card-price {
-            color: #f56565;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
         .card-button {
-            display: inline-block;
+            display: block;
             background: #f6bbd0;
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1rem;
             border-radius: 0.5rem;
             text-decoration: none;
             font-weight: bold;
             transition: background 0.3s;
+            width: 100%;
+            text-align: center;
+            margin-top: 1rem;
         }
 
         .card-button:hover {
             background: #f56565;
+            color: white;
         }
 
         .page-title {
+            top: 7rem;
             text-align: center;
             font-size: 2.5rem;
             font-weight: bold;
             color: #4A5568;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem; /* Reducido margen inferior */
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px; /* Ajustar el espaciado entre letras */
+            line-height: 1.2; /* Mejora la alineación vertical */
+            margin-bottom: -3rem;
         }
+
 
         .filter-button {
             padding: 0.75rem 1.5rem;
@@ -170,12 +168,15 @@ const filteredProducts = products.filter(product => product.id_categoria === 7);
 
         .filters {
             position: sticky;
-            top: 1rem;
+            top: 7rem;
             background: white;
             padding: 1rem;
             border-radius: 0.5rem;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-height: 50vh;
         }
+
+
 
         .overlay-content {
             width: 80%;
@@ -205,6 +206,20 @@ const filteredProducts = products.filter(product => product.id_categoria === 7);
         .card {
             width: 100%;
         }
+
+        .sort-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+        }
+
+        .sort-select {
+            padding: 0.5rem;
+            border: 1px solid #f6bbd0;
+            border-radius: 0.5rem;
+            background-color: white;
+        }
+
     </style>
 </head>
 <body>
@@ -212,46 +227,50 @@ const filteredProducts = products.filter(product => product.id_categoria === 7);
     <br>
     <br>
     <br>
+    <br>
+    <br>
+    <h1 class="page-title">MOCHILAS Y CARTERAS</h1>
     <div class="container flex flex-col md:flex-row">
         <!-- Panel de filtros -->
-        <aside class="filters w-full md:w-1/5 p-4 bg-white shadow-md mt-10 filter-container mr-6">
+        <aside class="filters w-full md:w-1/5 p-4 bg-white shadow-md mt-9 filter-container mr-6">
             <h2 class="font-bold text-xl mb-4">Filtros</h2>
             <div class="mb-6">
-                <h3 class="font-semibold">Descuento</h3>
+                <h3 class="font-semibold">Rango de Precios</h3>
                 <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="descuento30" /> <label for="descuento30">Hasta 30%</label></li>
-                    <li><input type="checkbox" id="descuento40" /> <label for="descuento40">30% - 40%</label></li>
-                    <li><input type="checkbox" id="descuento50" /> <label for="descuento50">40% - 50%</label></li>
-                    <li><input type="checkbox" id="descuento60" /> <label for="descuento60">50% - 60%</label></li>
-                    <li><input type="checkbox" id="mas60" /> <label for="mas60">Más de 60%</label></li>
+                    <li><input type="checkbox" id="price-1-20" /> <label for="price-1-20">S/ 1 - S/ 20</label></li>
+                    <li><input type="checkbox" id="price-21-40" /> <label for="price-21-40">S/ 21 - S/ 40</label></li>
+                    <li><input type="checkbox" id="price-41-60" /> <label for="price-41-60">S/ 41 - S/ 60</label></li>
+                    <li><input type="checkbox" id="price-61-100" /> <label for="price-61-100">S/ 61 - S/ 100</label></li>
+                    <li><input type="checkbox" id="price-101-300" /> <label for="price-101-300">S/ 101 - S/ 300</label></li>
                 </ul>
             </div>
-
+            
             <div class="mb-6">
-                <h3 class="font-semibold">Color</h3>
+                <h3 class="font-semibold">Descuentos</h3>
                 <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="colorAmarillo" /> <label for="colorAmarillo">Amarillo</label></li>
-                    <li><input type="checkbox" id="colorAzul" /> <label for="colorAzul">Azul</label></li>
-                    <li><input type="checkbox" id="colorBlanco" /> <label for="colorBlanco">Blanco</label></li>
-                </ul>
-            </div>
-
-            <div>
-                <h3 class="font-semibold">Precio</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="precio20" /> <label for="precio20">Hasta S/ 20.00</label></li>
-                    <li><input type="checkbox" id="precio40" /> <label for="precio40">S/ 20.00 - S/ 40.00</label></li>
-                    <li><input type="checkbox" id="precio60" /> <label for="precio60">S/ 40.00 - S/ 60.00</label></li>
+                    <li><input type="checkbox" id="discount-0-10" /> <label for="discount-0-10">0% - 10%</label></li>
+                    <li><input type="checkbox" id="discount-11-20" /> <label for="discount-11-20">11% - 20%</label></li>
+                    <li><input type="checkbox" id="discount-21-30" /> <label for="discount-21-30">21% - 30%</label></li>
+                    <li><input type="checkbox" id="discount-31-40" /> <label for="discount-31-40">31% - 40%</label></li>
+                    <li><input type="checkbox" id="discount-41-50" /> <label for="discount-41-50">41% - 50%</label></li>
                 </ul>
             </div>
         </aside>
 
         <!-- Productos de faldas -->
         <main class="w-full md:w-4/5 p-4">
-            <h1 class="page-title">MOCHILAS Y CARTERAS</h1>
+            
+            <!-- Sorting dropdown -->
+            <div class="sort-container">
+                <select id="sort-select" class="sort-select">
+                    <option value="default">Ordenar por</option>
+                    <option value="price-asc">Precio: Menor a Mayor</option>
+                    <option value="price-desc">Precio: Mayor a Menor</option>
+                </select>
+            </div>
+
             <div class="cards-container">
-                {filteredProducts.length > 0 ? (
-                    filteredProducts.map((product: Product) => (
+                {filteredProducts.map((product: Product) => (
                     <div class="card">
                         <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
                         <div class="card-content">
@@ -286,80 +305,202 @@ const filteredProducts = products.filter(product => product.id_categoria === 7);
                         <a href={`/detalle/${product.id_producto}`} class="card-button">Comprar</a>
                         </div>
                     </div>
-                    ))
-                ) : (
-                    <p class="text-center">No hay productos disponibles.</p>
-                )}
+                ))}
             </div>
         </main>
-    </div>
-
-    <!-- Botón de filtro visible solo en dispositivos móviles -->
-    <button class="filter-button flex items-center md:hidden" id="filterToggleMobile">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 12h18M3 19h18"></path>
-        </svg>
-        Filtros
-    </button>
-
-    <!-- Panel de filtros visible solo en dispositivos móviles -->
-    <div class="overlay" id="filterSidebarMobile">
-        <div class="overlay-content">
-            <button class="text-gray-600 hover:text-gray-800 focus:outline-none" id="closeFilterMobile">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
-            <h2 class="font-bold text-xl mb-4">Filtros</h2>
-            <div class="mb-6">
-                <h3 class="font-semibold">Descuento</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="descuento30-mobile" /> <label for="descuento30-mobile">Hasta 30%</label></li>
-                    <li><input type="checkbox" id="descuento40-mobile" /> <label for="descuento40-mobile">30% - 40%</label></li>
-                    <li><input type="checkbox" id="descuento50-mobile" /> <label for="descuento50-mobile">40% - 50%</label></li>
-                    <li><input type="checkbox" id="descuento60-mobile" /> <label for="descuento60-mobile">50% - 60%</label></li>
-                    <li><input type="checkbox" id="mas60-mobile" /> <label for="mas60-mobile">Más de 60%</label></li>
-                </ul>
-            </div>
-
-            <div class="mb-6">
-                <h3 class="font-semibold">Color</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="colorAmarillo-mobile" /> <label for="colorAmarillo-mobile">Amarillo</label></li>
-                    <li><input type="checkbox" id="colorAzul-mobile" /> <label for="colorAzul-mobile">Azul</label></li>
-                    <li><input type="checkbox" id="colorBlanco-mobile" /> <label for="colorBlanco-mobile">Blanco</label></li>
-                </ul>
-            </div>
-
-            <div>
-                <h3 class="font-semibold">Precio</h3>
-                <ul class="space-y-2 mt-2">
-                    <li><input type="checkbox" id="precio20-mobile" /> <label for="precio20-mobile">Hasta S/ 20.00</label></li>
-                    <li><input type="checkbox" id="precio40-mobile" /> <label for="precio40-mobile">S/ 20.00 - S/ 40.00</label></li>
-                    <li><input type="checkbox" id="precio60-mobile" /> <label for="precio60-mobile">S/ 40.00 - S/ 60.00</label></li>
-                </ul>
-            </div>
-        </div>
     </div>
 
     <Footer />
 
     <script type="module">
-        // Mostrar y ocultar el panel de filtros en dispositivos móviles
-        const filterToggleMobile = document.getElementById('filterToggleMobile');
-        const filterSidebarMobile = document.getElementById('filterSidebarMobile');
-        const closeFilterMobile = document.getElementById('closeFilterMobile');
-        const body = document.body;
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fetch products from the server again to ensure we have the full product list
+            fetch('http://localhost:3000/api/productos')
+                .then(response => response.json())
+                .then(allProducts => {
+                    // Filter only skirt products (id_categoria = 3)
+                    const products = allProducts.filter(product => product.id_categoria === 7);
+                    
+                    const priceCheckboxes = document.querySelectorAll('input[id^="price-"]');
+                    const discountCheckboxes = document.querySelectorAll('input[id^="discount-"]');
+                    const cardsContainer = document.querySelector('.cards-container');
+                    const sortSelect = document.getElementById('sort-select');
+                    
+                    // Función para filtrar productos
+                    const filterProducts = () => {
+                        const selectedPriceRanges = Array.from(priceCheckboxes)
+                            .filter(checkbox => checkbox.checked)
+                            .map(checkbox => checkbox.id);
+            
+                        const selectedDiscountRanges = Array.from(discountCheckboxes)
+                            .filter(checkbox => checkbox.checked)
+                            .map(checkbox => checkbox.id);
+            
+                        const filtered = products.filter(product => {
+                            // Comprobar rango de precios
+                            const isPriceMatch = selectedPriceRanges.length === 0 || selectedPriceRanges.some(range => {
+                                switch (range) {
+                                    case 'price-1-20': return product.precio >= 1 && product.precio <= 20;
+                                    case 'price-21-40': return product.precio > 21 && product.precio <= 40;
+                                    case 'price-41-60': return product.precio > 41 && product.precio <= 60;
+                                    case 'price-61-100': return product.precio > 61 && product.precio <= 100;
+                                    case 'price-101-300': return product.precio > 101 && product.precio <= 300;
+                                    default: return false;
+                                }
+                            });
+            
+                            // Comprobar rango de descuentos
+                            const isDiscountMatch = selectedDiscountRanges.length === 0 || selectedDiscountRanges.some(range => {
+                                const discount = product.descuento || 0;
+                                switch (range) {
+                                    case 'discount-0-10': return discount >= 0 && discount <= 10;
+                                    case 'discount-11-20': return discount > 11 && discount <= 20;
+                                    case 'discount-21-30': return discount > 21 && discount <= 30;
+                                    case 'discount-31-40': return discount > 31 && discount <= 40;
+                                    case 'discount-41-50': return discount > 41 && discount <= 50;
+                                    default: return false;
+                                }
+                            });
+            
+                            // Validar todas las condiciones
+                            return isPriceMatch && isDiscountMatch;
+                        });
+            
+                        // Apply sorting
+                        const sortedProducts = sortProducts(filtered);
+                        renderProducts(sortedProducts);
+                    };
+            
 
-        filterToggleMobile.addEventListener('click', () => {
-            filterSidebarMobile.classList.add('show');
-            body.classList.add('no-scroll');
-        });
 
-        closeFilterMobile.addEventListener('click', () => {
-            filterSidebarMobile.classList.remove('show');
-            body.classList.remove('no-scroll');
+                    // Función para ordenar productos
+                    const sortProducts = (productsToSort) => {
+                        const sortValue = sortSelect.value;
+                        
+                        switch(sortValue) {
+                            case 'price-asc':
+                                return productsToSort.sort((a, b) => {
+                                    // Calcular precio final con descuento
+                                    const priceA = a.descuento 
+                                        ? a.precio * (1 - a.descuento / 100) 
+                                        : a.precio;
+                                    const priceB = b.descuento 
+                                        ? b.precio * (1 - b.descuento / 100) 
+                                        : b.precio;
+                                    
+                                    return priceA - priceB;
+                                });
+                            case 'price-desc':
+                                return productsToSort.sort((a, b) => {
+                                    // Calcular precio final con descuento
+                                    const priceA = a.descuento 
+                                        ? a.precio * (1 - a.descuento / 100) 
+                                        : a.precio;
+                                    const priceB = b.descuento 
+                                        ? b.precio * (1 - b.descuento / 100) 
+                                        : b.precio;
+                                    
+                                    return priceB - priceA;
+                                });
+                            default:
+                                return productsToSort;
+                        }
+                    };
+            
+                    // Función para renderizar productos
+                    const renderProducts = (productsToRender) => {
+                        cardsContainer.innerHTML = ''; // Limpiar el contenedor
+
+                        if (productsToRender.length === 0) {
+                            cardsContainer.innerHTML = '<p class="text-center">No hay productos disponibles.</p>';
+                            return;
+                        }
+
+                        // Crear un contenedor de rejilla
+                        const gridContainer = document.createElement('div');
+                        gridContainer.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'; // Rejilla responsiva
+
+                        productsToRender.forEach(product => {
+                            const card = document.createElement('div');
+                            card.className = 'card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col'; // Flexbox para columna
+
+                            // Asegurar que precio y descuento sean números
+                            const precio = Number(product.precio);
+                            const descuento = Number(product.descuento || 0);
+
+                            card.innerHTML = `
+                                <img 
+                                    src="${product.img1}" 
+                                    alt="Imagen de ${product.nombre_producto}" 
+                                    class="w-full h-48 object-cover"
+                                />
+                                <div class="card-content p-4 flex flex-col justify-between flex-grow">
+                                    <!-- Contenedor del título con truncamiento -->
+                                    <div class="title-container mb-2"> <!-- Reducir margen inferior -->
+                                        <h2 class="card-title text-sm text-center font-semibold text-gray-800 overflow-hidden text-ellipsis whitespace-nowrap">
+                                            ${product.nombre_producto}
+                                        </h2>
+                                    </div>
+
+                                    <!-- Contenedor de precio -->
+                                    <div class="price-section mt-0 text-center"> <!-- Reducir el margen superior -->
+                                        ${descuento > 0 
+                                            ? `
+                                            <div class="flex justify-center items-center gap-2">
+                                                <span class="original-price text-xs line-through text-gray-500">
+                                                    S/ ${precio.toFixed(2)}
+                                                </span>
+                                                <span class="discount-badge text-xs text-white bg-pink-300 px-2 py-1 rounded-full">
+                                                    -${Math.round(descuento)}%
+                                                </span>
+                                            </div>
+                                            <div class="flex justify-center mt-1"> <!-- Reducir margen entre precios -->
+                                                <span class="price-tag text-xl font-bold text-pink-600">
+                                                    S/ ${(precio * (1 - descuento / 100)).toFixed(2)}
+                                                </span>
+                                            </div>`
+                                            : `
+                                            <div class="flex justify-center mt-2">
+                                                <span class="price-tag text-xl font-bold text-gray-800">
+                                                    S/ ${precio.toFixed(2)}
+                                                </span>
+                                            </div>`
+                                        }
+                                    </div>
+
+                                    <!-- Botón de compra, alineado en la parte inferior -->
+                                    <a 
+                                        href="/detalle/${product.id_producto}" 
+                                        class="card-button block text-center bg-pink-300 text-white text-sm font-medium py-2 px-4 rounded-lg mt-4 hover:bg-pink-600 transition-colors duration-300 mt-auto"
+                                    >
+                                        Comprar
+                                    </a>
+                                </div>
+                            `;
+
+                            // Agregar la tarjeta al contenedor de rejilla
+                            gridContainer.appendChild(card);
+                        });
+
+                        // Agregar el contenedor de rejilla al contenedor principal
+                        cardsContainer.appendChild(gridContainer);
+                    };
+
+                    // Agregar eventos a los checkboxes y selector de ordenamiento
+                    [...priceCheckboxes, ...discountCheckboxes].forEach(checkbox => {
+                        checkbox.addEventListener('change', filterProducts);
+                    });
+            
+                    // Evento para ordenamiento
+                    sortSelect.addEventListener('change', filterProducts);
+            
+                    // Renderizar todos los productos inicialmente
+                    renderProducts(products);
+                })
+                .catch(error => {
+                    console.error('Error fetching products:', error);
+                });
         });
-    </script>
-</body>
+    </script> 
+    </body>
 </html>

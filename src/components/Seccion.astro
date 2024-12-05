@@ -39,7 +39,7 @@ const { banners = [] }: { banners?: Banner[] } = Astro.props;
     }
 
     .swiper-pagination {
-      bottom: 2px !important;
+      bottom: 0px !important;
       top: auto !important;
       width: 10px !important;
       right: 0;
@@ -73,21 +73,25 @@ const { banners = [] }: { banners?: Banner[] } = Astro.props;
 <body>
   <div class="swiper progress-slide-carousel">
     <div class="swiper-wrapper">
-        {banners.length > 0 ? (
-            banners.map((banner) => (
-              <div class="swiper-slide">
-                <a href={banner.img1cell} target="_blank" rel="noopener noreferrer">
-                  <img class="small" src={banner.img1} alt={`Banner ${banner.id_banner} small`} />
-                  <img class="large" src={banner.img2} alt={`Banner ${banner.id_banner} large`} />
-                </a>
-              </div>
-            ))
-          ) : (
-            <p class="text-center">No hay banners disponibles.</p>
-          )}
+      {banners.length > 0 ? (
+        banners
+          .filter((banner) => banner.id_banner === 1)
+          .map((banner) => (
+          <div class="swiper-slide">
+              <a href={banner.img1cell} target="_blank" rel="noopener noreferrer">
+                <img class="small" src={banner.img1} alt={`Banner ${banner.id_banner} small`} />
+                <img class="large" src={banner.img2} alt={`Banner ${banner.id_banner} large`} />
+              </a>
+            </div>
+          ))
+      ) : (
+        <p class="text-center">No hay banners disponibles.</p>
+      )}
     </div>
     <div class="swiper-pagination"></div>
   </div>
+</body>
+
 
   <script type="module">
     import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs';
