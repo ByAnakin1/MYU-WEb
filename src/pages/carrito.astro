@@ -11,6 +11,28 @@ interface CartProduct {
     color?: string;
     img1?: string;
 }
+
+type Color = 'rojo' | 'azul' | 'verde' | 'amarillo' | 'blanco' | 'negro' | 'gris' | 'naranja' | 'rosa' | 'blanco' | 'gris' | 'rosadobebe' | 'palorosa' | 'vino' | 'marron' | 'perla' | 'lilabebe' | 'beige' | 'azulmarino';
+
+const colorMap: Record<Color, string> = {
+    rojo: '#FF0000',
+    azul: '#0000FF',
+    verde: '#008000',
+    amarillo: '#FFFF00',
+    blanco: '#FFFFFF',
+    negro: '#000000',
+    gris: '#808080',
+    naranja: '#FFA500',
+    rosa: '#FFC0CB',
+    rosadobebe: '#ffccda',
+    palorosa: '#FFD1DC',
+    vino: '#800020',
+    marron: '#8B4513',
+    perla: '#EAE0C8',
+    lilabebe: '#e8b5ff',
+    beige: '#F5F5DC',
+    azulmarino: '#162b4f',
+};
 ---
 
 <!DOCTYPE html>
@@ -99,6 +121,28 @@ interface CartProduct {
     <Footer />
 
     <script>
+        type Color = 'rojo' | 'azul' | 'verde' | 'amarillo' | 'blanco' | 'negro' | 'gris' | 'naranja' | 'rosa' | 'blanco' | 'gris' | 'rosadobebe' | 'palorosa' | 'vino' | 'marron' | 'perla' | 'lilabebe' | 'beige' | 'azulmarino';
+
+        const colorMap: Record<Color, string> = {
+            rojo: '#FF0000',
+            azul: '#0000FF',
+            verde: '#008000',
+            amarillo: '#FFFF00',
+            blanco: '#FFFFFF',
+            negro: '#000000',
+            gris: '#808080',
+            naranja: '#FFA500',
+            rosa: '#FFC0CB',
+            rosadobebe: '#ffccda',
+            palorosa: '#FFD1DC',
+            vino: '#800020',
+            marron: '#8B4513',
+            perla: '#EAE0C8',
+            lilabebe: '#e8b5ff',
+            beige: '#F5F5DC',
+            azulmarino: '#162b4f',
+        };
+
         export interface CartProduct {
             id_producto: string;
             nombre_producto: string;
@@ -135,11 +179,25 @@ interface CartProduct {
 
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td class="p-4 flex items-center space-x-4">
+                        <td class="p-4 flex items-center space-x-4 cursor-pointer product-details" data-id="${producto.id_producto}">
                             <img src="${producto.img1}" alt="${producto.nombre_producto}" class="w-20 h-20 object-cover rounded">
                             <div>
                                 <p class="font-bold">${producto.nombre_producto}</p>
-                                <p class="text-sm text-gray-500">${producto.talla ? `Talla: ${producto.talla}` : ''} ${producto.color ? `Color: ${producto.color}` : ''}</p>
+                                <p class="text-sm text-gray-500 flex items-center gap-2">
+                                    ${producto.talla ? `
+                                        <span class="border border-gray-400 px-2 py-1 rounded-md text-xs">
+                                            Talla: ${producto.talla}
+                                        </span>` : ''}
+                                    ${producto.color ? `
+                                        <span class="border border-gray-400 px-2 py-1 rounded-md text-xs flex items-center gap-1">
+                                            Color: 
+                                            <span 
+                                                class="inline-block w-4 h-4 rounded-md" 
+                                                style="border: 1px solid #9c9c9c; background-color: ${colorMap[producto.color.toLowerCase() as Color] || '#D3D3D3'}"
+                                                title="${producto.color}"
+                                            ></span>
+                                        </span>` : ''}
+                                </p>
                             </div>
                         </td>
                         <td class="p-4 text-center">S/ ${producto.precio.toFixed(2)}</td>
@@ -162,6 +220,18 @@ interface CartProduct {
 
                 subtotalElement.textContent = `S/ ${subtotal.toFixed(2)}`;
                 totalElement.textContent = `S/ ${(subtotal + 10).toFixed(2)}`;
+
+                // Add event listeners for product details navigation
+                document.querySelectorAll('.product-details').forEach(element => {
+                    element.addEventListener('click', (event) => {
+                        const productId = (event.currentTarget as HTMLElement).getAttribute('data-id');
+                        if (productId) {
+                            // Navigate to product details page
+                            // Adjust the URL pattern to match your website's routing
+                            window.location.href = `/detalle/${productId}`;
+                        }
+                    });
+                });
 
                 // Agregar event listeners
                 document.querySelectorAll('.decrease-qty').forEach(button => {

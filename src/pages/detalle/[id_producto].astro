@@ -143,281 +143,380 @@ const colorMap: Record<Color, string> = {
     <title>{product?.nombre_producto || 'Producto no encontrado'}</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        .container {
-            max-width: 1370px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
+        body {
+    font-family: 'Arial', sans-serif;
+    background-color: #d1a7b6;
+}
 
-        .cards-container {
-            display: grid;
-            gap: 1rem;
-            grid-template-columns: repeat(5, 1fr);
-        }
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
 
-        .section-title {
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            background-color: #f6bbd0;
-            color: white;
-            padding: 0.75rem;
-            margin-bottom: 1rem;
-        }
+.cards-container {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: center;    /* Centra los elementos en el eje vertical */
 
-        @media (max-width: 767px) {
-            .cards-container {
-            grid-template-columns: repeat(2, 1fr);
-            }
-        }
+}
 
-        @media (min-width: 768px) and (max-width: 1023px) {
-            .cards-container {
-            grid-template-columns: repeat(3, 1fr);
-            }
-        }
+.section-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: #f6bbd0;
+    color: white;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+}
 
-        @media (min-width: 1024px) {
-            .cards-container {
-            grid-template-columns: repeat(5, 1fr);
-            }
-        }
+.gallery-section {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
 
-        .card {
-            background: white;
-            border-radius: 0.75rem;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
+.card {
+    background: white;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-        }
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
 
-        .card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
 
-        .card-content {
-            padding: 1rem;
-            text-align: center;
-        }
+.card-content {
+    padding: 1rem;
+    text-align: center;
+}
 
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            text-transform: capitalize;
-        }
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-transform: capitalize;
+}
 
-        .card-price {
-            color: #f56565;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
+.card-price {
+    color: #f56565;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
 
-        .card-button {
-            display: inline-block;
-            background: #f6bbd0;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
+.card-button {
+    display: inline-block;
+    background: #f6bbd0;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+}
 
-        .card-button:hover {
-            background: #f56565;
-        }
-        .breadcrumb {
-            padding: 0.5rem 0;
-            font-size: 14px;
-            color: #666;
-        }
-        .breadcrumb a {
-            color: #666;
-            text-decoration: none;
-        }
-        .product-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-        .gallery-section {
-            display: grid;
-            grid-template-columns: 100px 1fr;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        .thumbnail-column {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        .thumbnail {
-            width: 100px;
-            height: 100px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-            object-fit: cover;
-        }
-        .thumbnail:hover {
-            border-color: #ff0000;
-        }
-        .main-image {
-            width: 100%;
-            max-width: 500px;
-            border-radius: 8px;
-        }
-        .product-info {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            padding: 1.5rem;
-        }
-        .features-list {
-            margin: 1rem 0;
-            list-style: none;
-            padding: 0;
-        }
-        .features-list li {
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-        }
-        .features-list li::before {
-            content: "•";
-            color: #ff0000;
-            margin-right: 0.5rem;
-        }
-        .price-section {
-            margin: 1.5rem 0;
-        }
-        .price-tag {
-            font-size: 1.8rem;
-            color: #ff0000;
-            font-weight: bold;
-        }
-        .original-price {
-            text-decoration: line-through;
-            color: #666;
-            margin-right: 1rem;
-        }
+.card-button:hover {
+    background: #f56565;
+}
 
-        .discount-badge {
-            background: #ff0000;
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.875rem;
-        }
+.breadcrumb {
+    padding: 0.5rem 0;
+    font-size: 14px;
+    color: #666;
+}
 
-        .actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
+.breadcrumb a {
+    color: #666;
+    text-decoration: none;
+}
 
-        .btn-cart {
-            background: #ff0000;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-        }
+.product-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
 
-        .btn-buy {
-            background: #333;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-        }
+.product-gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
 
-        .delivery-options {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 4px;
-        }
+.main-image-container {
+    width: 100%;
+    max-width: 600px;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: zoom-in;
+}
 
-        .main-image-container {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: zoom-in;
-            max-width: 500px;
-        }
+.main-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
 
-        .main-image {
-            max-width: 100%;
-            width: 100%;  /* Hacer que la imagen ocupe todo el ancho disponible */
-            height: auto; /* Mantener la proporción de la imagen */
-            border-radius: 8px;
-            transition: transform 0.3s ease;
-        }
+.thumbnail-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
 
-        .zoom-container {
-            display: none;
-        }
+.thumbnail-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
 
-        .zoom-active {
-            display: block;
-        }
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin: 0 0.5rem;
+    cursor: pointer;
+}
 
-        #zoomArea {
-            display: none;
-            position: absolute; /* Asegúrate de que el área de zoom no ocupe espacio cuando no esté activa */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: 200%; /* Ajusta según tu preferencia */
-        }
+.thumbnail:hover {
+    border-color: #ff0000;
+}
 
-        #zoomContainer {
-            cursor: zoom-in; /* Establece el cursor de lupa por defecto */
-        }
+.product-info {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+}
 
-        #zoomContainer.zoom-active {
-            cursor: zoom-out; /* Cambia a lupa de salida cuando se activa el zoom */
-        }
+.features-list {
+    margin: 1rem 0;
+    list-style: none;
+    padding: 0;
+}
 
-        /* Eliminar flechas en navegadores como Chrome y Edge */
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
+.features-list li {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
 
-        /* Para Firefox */
-        input[type="number"] {
-            -moz-appearance: textfield;
-        }
+.features-list li::before {
+    content: "•";
+    color: #ff0000;
+    margin-right: 0.5rem;
+}
 
-        #notification {
-            display: none;
-            transition: opacity 0.3s ease-in-out;
-        }
-        #notification.visible {
-        display: flex !important;
-        }
-    </style>
+.price-section {
+    margin: 1.5rem 0;
+}
+
+.price-tag {
+    font-size: 1.8rem;
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #666;
+    margin-right: 1rem;
+}
+
+.discount-badge {
+    background: #ff0000;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn-cart {
+    background: #ff0000;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-buy {
+    background: #333;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.delivery-options {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.zoom-container {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 200%;
+    background-repeat: no-repeat;
+}
+
+.zoom-active {
+    display: block;
+}
+
+@media (max-width: 767px) {
+    body {
+        font-size: 14px;
+        padding: 1rem; /* Espaciado en pantallas pequeñas */
+    }
+
+    .container {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+
+    /* Centrar la imagen principal */
+    .main-image-container {
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .main-image {
+        max-width: 100%;
+        max-height: 500px;
+        object-fit: contain;
+    }
+
+    /* Miniaturas debajo de la imagen principal, en fila y centradas */
+    .thumbnail-container {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .thumbnail {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        cursor: pointer;
+        border: 1px solid transparent;
+    }
+
+    .thumbnail:hover {
+        border-color: #ff0000;
+    }
+
+    /* Centrar la sección de información del producto */
+    .product-info {
+        width: 100%;
+        max-width: 600px; /* Controla el ancho máximo */
+        text-align: center;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .price-section {
+        margin-top: 1rem;
+    }
+
+    .price-tag {
+        font-size: 1.8rem;
+        color: #ff0000;
+        font-weight: bold;
+    }
+
+    .actions {
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn-cart,
+    .btn-buy {
+        width: 100%;
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .delivery-options {
+        font-size: 0.875rem;
+        padding: 0.75rem;
+    }
+
+    .breadcrumb {
+        font-size: 12px;
+    }
+
+    .card {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card img {
+        height: 150px;
+    }
+
+    .card-title {
+        font-size: 1rem;
+    }
+
+    .card-price {
+        font-size: 1rem;
+    }
+
+    .card-button {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+}
+
+</style>
 </head>
 <body>
     <Header />
-    <br>
     <br>
     <br>
     <br>
@@ -450,6 +549,7 @@ const colorMap: Record<Color, string> = {
                     <div class="zoom-container" id="zoomArea"></div>
                 </div>
             </div>
+
             
 
             <!-- Información del producto -->
@@ -500,7 +600,6 @@ const colorMap: Record<Color, string> = {
                 
                 <div class="actions">
                     <button id="addToCartButton" class="btn-cart">AGREGAR AL CARRITO</button>
-                    <button class="btn-buy">COMPRAR AHORA</button>
                 </div>
 
                 <div id="notification" class="fixed bottom-5 right-5 bg-green-500 text-white p-4 rounded shadow-lg items-center hidden">
@@ -518,8 +617,9 @@ const colorMap: Record<Color, string> = {
                             {product.talla 
                                 ? product.talla.split(',').map((talla) => (
                                 <button
-                                    class="border border-gray-400 text-gray-800 px-3 py-2 rounded-md hover:bg-gray-200 active:bg-gray-300 transition"
-                                    
+                                    class="talla-button border border-gray-400 text-gray-800 px-3 py-2 rounded-md hover:bg-gray-200 active:bg-gray-300 transition"
+                                    data-talla={talla.trim()}
+                                    type="button"
                                 >
                                     {talla.trim()}
                                 </button>
@@ -527,7 +627,7 @@ const colorMap: Record<Color, string> = {
                                 : 'No disponible'}
                         </div>
                     </div>
-
+                
                     <div class="mb-4">
                         <h3 class="font-bold mb-2">Colores:</h3>
                         <div class="flex gap-2">
@@ -536,22 +636,23 @@ const colorMap: Record<Color, string> = {
                                     const colorHex = colorMap[color.trim().toLowerCase() as Color] || '#D3D3D3'; // Gris como fallback
                                     return (
                                     <button
-                                        class="w-8 h-8 rounded-md border-2 border-gray-400 hover:opacity-75 active:scale-95 transition"
+                                        class="color-button w-8 h-8 rounded-md border-2 border-gray-400 hover:opacity-75 active:scale-95 transition"
+                                        data-color={color.trim()}
                                         style={`background-color: ${colorHex};`}
                                         title={color.trim()}
+                                        type="button"
                                     ></button>
                                     );
                                 })
                                 : 'No disponible'}
                         </div>
-                    </div>
-                                                      
+                    </div>                               
                 </div>
-
-                
             </div>
         </div>
     </div>
+    <br>
+    <br>
 
     <h2 class="section-title">PRODUCTOS RELACIONADOS</h2>
   <div class="container">
@@ -598,9 +699,6 @@ const colorMap: Record<Color, string> = {
       )}
     </div>
   </div>
-
-  <br>
-  <br>
   <br>
 
     <Footer />
@@ -616,30 +714,34 @@ const colorMap: Record<Color, string> = {
             precio: number;
             cantidad: number;
             img1?: string;
+            talla?: string;
+            color?: string;
         }
-    
+
         let quantity = 1;
+        let selectedTalla: string | null = null;
+        let selectedColor: string | null = null;
         // Inicializar carrito desde localStorage
         let cart: CartProduct[] = JSON.parse(localStorage.getItem("cart") || "[]");
-    
+
         // Función para actualizar cantidad
         function updateQuantity(change: number): void {
             const input = document.getElementById('quantityInput') as HTMLInputElement;
             let newQuantity = quantity + change;
-    
+
             if (newQuantity < 1) {
                 newQuantity = 1;
             }
-    
+
             quantity = newQuantity;
             input.value = quantity.toString();
         }
-    
+
         // Función para validar cantidad
         function validateQuantity(): void {
             const input = document.getElementById('quantityInput') as HTMLInputElement;
             const newQuantity = parseInt(input.value, 10);
-    
+
             if (isNaN(newQuantity) || newQuantity < 1) {
                 input.value = '1';
                 quantity = 1;
@@ -648,45 +750,61 @@ const colorMap: Record<Color, string> = {
                 input.value = quantity.toString();
             }
         }
-    
+
         // Función para agregar al carrito
         function addToCart(product: CartProduct): void {
             const selectedQuantity = quantity;
-    
+
+            if (!selectedTalla) {
+                showNotification("Por favor, seleccione una talla");
+                return;
+            }
+
+            if (!selectedColor) {
+                showNotification("Por favor, seleccione un color");
+                return;
+            }
+
             const cartProduct: CartProduct = {
                 id_producto: product.id_producto,
                 nombre_producto: product.nombre_producto,
                 precio: product.precio,
                 cantidad: selectedQuantity,
-                img1: product.img1
+                img1: product.img1,
+                talla: selectedTalla,
+                color: selectedColor
             };
-    
+
             console.log('Producto a agregar:', {
                 id_producto: cartProduct.id_producto,
                 nombre_producto: cartProduct.nombre_producto,
                 precio: cartProduct.precio,
                 cantidad: cartProduct.cantidad,
+                talla: cartProduct.talla,
+                color: cartProduct.color
             });
-    
+
             const existingProductIndex = cart.findIndex(item =>
-                item.id_producto === cartProduct.id_producto
+                item.id_producto === cartProduct.id_producto &&
+                item.talla === cartProduct.talla &&
+                item.color === cartProduct.color
             );
-    
+
             console.log('Índice de producto existente:', existingProductIndex);
-    
+
             if (existingProductIndex >= 0) {
-                // Actualizar cantidad si el producto ya existe
+                // Actualizar cantidad si el producto ya existe con la misma talla y color
                 cart[existingProductIndex].cantidad += selectedQuantity;
             } else {
                 // Agregar nuevo producto si no existe
                 cart.push(cartProduct);
             }
-    
+
             // Guardar en localStorage
             localStorage.setItem("cart", JSON.stringify(cart));
             showNotification("Producto agregado al carrito");
         }
-    
+
         // Función para mostrar notificación
         function showNotification(message: string): void {
             const notification = document.getElementById("notification");
@@ -697,14 +815,14 @@ const colorMap: Record<Color, string> = {
                 }
                 notification.classList.remove("hidden");
                 notification.classList.add("visible");
-    
+
                 // Auto ocultar después de 5 segundos
                 setTimeout(() => {
                     hideNotification();
                 }, 5000);
             }
         }
-    
+
         // Función para ocultar notificación
         function hideNotification(): void {
             const notification = document.getElementById("notification");
@@ -713,20 +831,20 @@ const colorMap: Record<Color, string> = {
                 notification.classList.add("hidden");
             }
         }
-    
+
         // Agregar event listeners cuando el DOM esté cargado
         document.addEventListener('DOMContentLoaded', () => {
             // Obtener el ID del producto desde el contexto de Astro
             const productId = (window as any).productId || 0;
-    
+
             // Event listeners para los botones de cantidad
             const decreaseButton = document.getElementById('decreaseButton');
             const increaseButton = document.getElementById('increaseButton');
             const addToCartButton = document.getElementById('addToCartButton');
-    
+
             decreaseButton?.addEventListener('click', () => updateQuantity(-1));
             increaseButton?.addEventListener('click', () => updateQuantity(1));
-    
+
             // Event listener para el botón de agregar al carrito
             addToCartButton?.addEventListener('click', () => {
                 // Verificar si el producto existe y tiene un ID válido
@@ -735,7 +853,7 @@ const colorMap: Record<Color, string> = {
                     showNotification('Error: No se puede agregar el producto');
                     return;
                 }
-    
+
                 // Obtener los datos del producto actual de la página
                 const currentProduct: CartProduct = {
                     id_producto: productId,
@@ -744,33 +862,42 @@ const colorMap: Record<Color, string> = {
                     cantidad: quantity,
                     img1: document.querySelector('#mainImage')?.getAttribute('src') || ''
                 };
-    
+
                 // Agregar al carrito
                 addToCart(currentProduct);
             });
-    
+
             // Event listeners para selección de talla y color
             const tallaButtons = document.querySelectorAll('.talla-button');
             const colorButtons = document.querySelectorAll('.color-button');
-    
+
             tallaButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
                     tallaButtons.forEach(b => b.classList.remove('talla-selected'));
                     (e.target as HTMLElement).classList.add('talla-selected');
+                    
+                    // Capturar el valor de la talla seleccionada
+                    selectedTalla = (e.target as HTMLElement).getAttribute('data-talla');
+                    console.log('Talla seleccionada:', selectedTalla);
                 });
             });
-    
+
             colorButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
                     colorButtons.forEach(b => b.classList.remove('color-selected'));
                     (e.target as HTMLElement).classList.add('color-selected');
+                    
+                    // Capturar el valor del color seleccionado
+                    selectedColor = (e.target as HTMLElement).getAttribute('data-color');
+                    console.log('Color seleccionado:', selectedColor);
                 });
             });
-    
+
             // Event listener para cerrar notificación
             document.getElementById("closeNotification")?.addEventListener("click", hideNotification);
         });
 
+        // Agregar event listeners cuando el DOM esté cargado
         document.addEventListener('DOMContentLoaded', () => {
             const mainImage = document.getElementById('mainImage') as HTMLImageElement;
             const zoomContainer = document.getElementById('zoomContainer') as HTMLDivElement;
