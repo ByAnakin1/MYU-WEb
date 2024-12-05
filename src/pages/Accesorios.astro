@@ -1,6 +1,6 @@
 ---
-import Header from "../../components/header.astro";
-import Footer from "../../components/footer.astro";
+import Header from "../components/header.astro";
+import Footer from "../components/footer.astro";
 
 interface Banner {
   id_banner: number;
@@ -31,6 +31,7 @@ interface Product {
   img1: string;
   id_categoria: number; // Agrega esta propiedad para filtrar
   descuento?: number;
+  id_cat_accesorio?: number | null;
 }
 
 // Llamada al backend para obtener los productos
@@ -57,7 +58,7 @@ try {
   const response = await fetch('http://localhost:3000/api/productos');
   if (response.ok) {
     products = await response.json();
-    filteredProducts = products.filter(product => product.descuento !== null);
+    filteredProducts = products.filter(product => product.id_cat_accesorio !== null);
   } else {
     console.error('Error en la respuesta del servidor:', response.statusText);
   }
@@ -239,15 +240,15 @@ try {
   <body>
     <Header />
     <br>
-
+    <br><br><br>
     <div class="container">
-      {banners.length > 0 && banners.some((banner) => banner.id_banner === 3) ? (
+      {banners.length > 0 && banners.some((banner) => banner.id_banner === 4) ? (
         <div class="banner">
           <img 
-            src={banners.find((banner) => banner.id_banner === 3).img1} 
-            srcset={`${banners.find((banner) => banner.id_banner === 3).img1cell} 768w, ${banners.find((banner) => banner.id_banner === 3).img1} 1024w`} 
+            src={banners.find((banner) => banner.id_banner === 4).img1} 
+            srcset={`${banners.find((banner) => banner.id_banner === 4).img1cell} 768w, ${banners.find((banner) => banner.id_banner === 4).img1} 1024w`} 
             sizes="(max-width: 768px) 100vw, 1024px" 
-            alt={`Banner ${banners.find((banner) => banner.id_banner === 3).id_banner}`} 
+            alt={`Banner ${banners.find((banner) => banner.id_banner === 4).id_banner}`} 
           />
         </div>
       ) : (
@@ -255,26 +256,27 @@ try {
       )}
     </div>
     
-    
-    
     <div class="container my-6">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-        <a href="/Novedades/Descuentos" class="section-item bg-gray-200 h-40 flex items-center justify-center relative">
+        <a href="/Descuentos" class="section-item bg-gray-200 h-40 flex items-center justify-center relative mb-4">
           <img src="/public/img/banners/ba-descuentos.png" alt="Imagen Mujer" class="section-item" />
           <span class="relative z-10"></span>
         </a>
-        <a href="/Novedades/Novedades" class="section-item bg-gray-200 h-40 flex items-center justify-center relative">
+        
+        <a href="/Novedades" class="section-item bg-gray-200 h-40 flex items-center justify-center relative mb-4">
           <img src="/public/img/banners/ba-novedades.png" alt="Imagen Hombre" class="section-item" />
           <span class="relative z-10"></span>
         </a>
-        <a href="/Novedades/Accesorios" class="section-item bg-gray-200 h-40 flex items-center justify-center relative">
+        
+        <a href="/Accesorios" class="section-item bg-gray-200 h-40 flex items-center justify-center relative mb-4">
           <img src="/public/img/banners/ba-accesorios.png" alt="Imagen Niños" class="section-item" />
           <span class="relative z-10"></span>
         </a>
       </div>
     </div>
+    
 
-<h1 class="page-title">DESCUENTOS</h1>
+<h1 class="page-title">ACCESORIOS</h1>
 <br>
 
 <div class="container flex flex-col md:flex-row">
@@ -397,7 +399,7 @@ try {
           .then(response => response.json())
           .then(allProducts => {
               // Filter only skirt products (id_categoria = 3)
-              const products = allProducts.filter(product => product.descuento !== null);
+              const products = allProducts.filter(product => product.id_cat_accesorio !== null);
               
               const priceCheckboxes = document.querySelectorAll('input[id^="price-"]');
               const discountCheckboxes = document.querySelectorAll('input[id^="discount-"]');

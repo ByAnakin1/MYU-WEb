@@ -1,6 +1,6 @@
 ---
-import Header from "../../components/header.astro";
-import Footer from "../../components/footer.astro";
+import Header from "../components/header.astro";
+import Footer from "../components/footer.astro";
 
 interface Banner {
   id_banner: number;
@@ -240,6 +240,7 @@ try {
   <body>
     <Header />
     <br>
+    <br><br><br>
 
     <div class="container">
       {banners.length > 0 && banners.some((banner) => banner.id_banner === 2) ? (
@@ -256,22 +257,23 @@ try {
       )}
     </div>
     
-    
-    
     <div class="container my-6">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-        <a href="/Novedades/Descuentos" class="section-item bg-gray-200 h-40 flex items-center justify-center relative">
+        <a href="/Descuentos" class="section-item bg-gray-200 h-40 flex items-center justify-center relative">
           <img src="/public/img/banners/ba-descuentos.png" alt="Imagen Mujer" class="section-item" />
           <span class="relative z-10"></span>
         </a>
-        <a href="/Novedades/Novedades" class="section-item bg-gray-200 h-40 flex items-center justify-center relative">
+        
+        <a href="/Novedades" class="section-item bg-gray-200 h-40 flex items-center justify-center relative">
           <img src="/public/img/banners/ba-novedades.png" alt="Imagen Hombre" class="section-item" />
           <span class="relative z-10"></span>
         </a>
-        <a href="/Novedades/Accesorios" class="section-item bg-gray-200 h-40 flex items-center justify-center relative">
+        
+        <a href="/Accesorios" class="section-item bg-gray-200 h-40 flex items-center justify-center relative">
           <img src="/public/img/banners/ba-accesorios.png" alt="Imagen Niños" class="section-item" />
           <span class="relative z-10"></span>
         </a>
+        
       </div>
     </div>
 
