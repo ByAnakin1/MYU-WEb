@@ -99,8 +99,8 @@
   /* Separación negra sólo para la última opción */
   #mobile-menu ul li:last-child a,
   #mobile-menu-categories ul li:last-child a {
-    border-bottom: 2px solid transparent; /* Ajustado para evitar deformación */
-    margin-bottom: 30px; /* Separación más abajo */
+    border-bottom: 2px solid transparent;
+    margin-bottom: 30px;
   }
 
   /* Estilo de la sección de categorías */
@@ -147,22 +147,29 @@
   }
 
   #back-to-menu {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    font-size: 1.8rem;
-    font-weight: bold;
-    cursor: pointer;
-    color: #000;
-    padding: 5px;
-    background-color: transparent;
-    border-radius: 5px;
-    display: inline-block;
-    transition: background-color 0.3s ease;
-  }
+  position: absolute;
+  top: 10px; /* Ajustado para estar en la parte superior */
+  left: 10px; /* Alineado a la izquierda */
+  font-size: 1rem; /* Reducido el tamaño */
+  font-weight: bold;
+  cursor: pointer;
+  color: #000;
+  padding: 5px;
+  background-color: transparent;
+  border-radius: 5px;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+  width: 36px; /* Ajuste para el tamaño pequeño */
+  height: 36px; /* Ajuste para el tamaño pequeño */
+}
+
+#back-to-menu img {
+  width: 100%; /* Asegura que el ícono ocupe todo el espacio del contenedor */
+  height: 100%; /* Ajuste para mantener las proporciones */
+}
 
   #back-to-menu:hover {
-    background-color: #ffd7e5;
+    background-color: transparent;
   }
 
   @media (max-width: 768px) {
@@ -181,6 +188,17 @@
     #mobile-menu-categories ul li a {
       font-weight: 700;
     }
+
+    /* Reducir tamaño del icono "Regresar" para móviles */
+    #back-to-menu {
+      font-size: 1.5rem; /* Reducir el tamaño a 1.5rem para estar igual a la X */
+      top: 10px; /* Alineación ajustada */
+      left: 10px; /* Alineación ajustada */
+    }
+
+    #mobile-menu-categories {
+      padding-top: 4rem; /* Espacio suficiente para el ícono */
+    }
   }
 
   .menu-icon {
@@ -190,6 +208,66 @@
     vertical-align: middle;
   }
 
+  /* Contenedor del logo y el ícono de menú (tres rayitas) */
+  header#landing-header {
+    padding-top: 10px; /* Espaciado superior */
+    padding-bottom: 10px; /* Espaciado inferior */
+    padding-left: 8px; /* Espaciado izquierdo */
+    padding-right: 10px; /* Espaciado derecho */
+    display: flex; /* Coloca los elementos en línea */
+    justify-content: space-between; /* Alinea los elementos a los extremos */
+    align-items: center; /* Centra verticalmente los elementos */
+    position: fixed; /* Fija el header al principio */
+    width: 100%; /* Ocupa todo el ancho */
+    z-index: 40; /* Asegura que quede por encima de otros elementos */
+  }
+
+  #landing-header a img {
+    width: 96px; /* Ancho del logo */
+    height: auto; /* Mantiene las proporciones del logo */
+  }
+
+  #menu-toggle {
+    font-size: 2rem; /* Tamaño del ícono */
+    position: relative; /* Posición relativa para personalización */
+    margin-right: 10px; /* Espacio a la derecha entre el menú y el logo */
+    cursor: pointer; /* Cambia el cursor a mano al pasar el mouse */
+  }
+
+  /* ===========================================
+     ESTILO DE LOS BOTONES DE WHATSAPP Y CARRITO
+  =========================================== */
+  .custom-button {
+    display: flex; /* Flexbox para centrar contenido */
+    align-items: center; /* Centra verticalmente el contenido */
+    justify-content: center; /* Centra horizontalmente el contenido */
+    padding: 5px; /* Espaciado interno */
+    border-radius: 50%; /* Botón circular */
+    font-weight: bold; /* Texto en negrita */
+    width: 50px; /* Ancho del botón */
+    height: 50px; /* Altura del botón */
+    background-color: rgba(255, 255, 255, 0.6); /* Fondo semitransparente */
+    margin-top: -5px; /* Ajuste vertical */
+    margin-left: 5px; /* Ajuste horizontal */
+    transition: transform 0.3s ease; /* Animación al pasar el mouse */
+  }
+
+  /* Efecto hover para botones de WhatsApp y carrito */
+  .custom-button:hover {
+    transform: translate(0px, -2px); /* Mueve el botón ligeramente hacia arriba */
+  }
+
+  /* Icono de WhatsApp dentro del botón */
+  .whatsapp-button img {
+    width: 100%; /* El ícono ocupa todo el espacio del botón */
+    height: 100%; /* Mantiene las proporciones */
+  }
+
+  /* Icono del carrito dentro del botón */
+  .cart-icon {
+    width: 100%; /* El ícono ocupa todo el espacio del botón */
+    height: 100%; /* Mantiene las proporciones */
+  }
 </style>
 
 <header id="landing-header" class="py-2 px-10 flex items-center fixed top-5 w-full justify-between z-40 text-white bg-[#f6bbd0]">
@@ -243,6 +321,7 @@
   </nav>
 </header>
 
+
 <div id="mobile-menu">
   <span id="close-menu">&times;</span>
   <ul>
@@ -251,7 +330,7 @@
       <a href="#" id="menu-toggle-categories"><img src="/img/iconos/tienda.png" class="menu-icon" >TIENDA</a>
       <div id="mobile-menu-categories">
         <span id="close-menu-categories">&times;</span>
-        <span id="back-to-menu" class="back-to-menu">REGRESAR</span>
+        <img id=back-to-menu class="back-to-menu" src="/img/iconos/regresar.png" alt="icon" />
         <ul>
           <li><a href="/Categorias/productos_zapatos"><img src="/img/iconos/zapatillas.png" class="menu-icon" >ZAPATOS Y ZAPATILLAS</a></li>
           <li><a href="/Categorias/productos_polos"><img src="/img/iconos/polo.png" class="menu-icon" >POLOS Y TOPS</a></li>
@@ -302,9 +381,12 @@
   });
 
   // Close the categories menu
-  closeMenuCategories.addEventListener('click', function() {
-    mobileMenuCategories.classList.remove('show');
-  });
+closeMenuCategories.addEventListener('click', function() {
+  mobileMenuCategories.classList.remove('show');
+  mobileMenu.classList.remove('show'); // Cierra el menú principal si estuviera abierto
+  overlay.classList.remove('show');    // Oculta el overlay
+  document.body.classList.remove('no-scroll'); // Permite el scroll de la página
+});
 
   // Go back to the main menu from the categories menu
   backToMenu.addEventListener('click', function() {
