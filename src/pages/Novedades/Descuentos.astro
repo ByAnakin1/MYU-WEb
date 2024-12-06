@@ -361,14 +361,14 @@ try {
     <div class="container my-6">
       <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 gap-2 mb-6">
         <a href="/Novedades/Accesorios" class="section-item bg-gray-200 h-32 flex items-center justify-center text-sm relative">
-          <img src="/public/img/banners/ba-accesorios.png" class="absolute inset-0 w-full h-full object-cover z-0" />
+          <img src="/img/banners/ba-accesorios.png" class="absolute inset-0 w-full h-full object-cover z-0" />
         </a>
         <a href="/Novedades/Novedades" class="section-item bg-gray-200 h-32 flex items-center justify-center text-sm relative">
-          <img src="/public/img/banners/ba-novedades.png" class="absolute inset-0 w-full h-full object-cover z-0" />
+          <img src="/img/banners/ba-novedades.png" class="absolute inset-0 w-full h-full object-cover z-0" />
         </a>
         <div class="col-span-2 flex justify-center">
           <a href="/Novedades/Descuentos" class="section-item bg-gray-200 h-32 w-1/2 flex items-center justify-center text-sm relative">
-            <img src="/public/img/banners/ba-descuentos.png" class="absolute inset-0 w-full h-full object-cover z-0" />
+            <img src="/img/banners/ba-descuentos.png" class="absolute inset-0 w-full h-full object-cover z-0" />
           </a>
         </div>
       </div>
@@ -450,8 +450,51 @@ try {
       </div>
 
       <div class="cards-container">
+        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center">
+            {filteredProducts.map((product: Product) => (
+              <div class="card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col mx-auto max-w-[200px] w-full">
+                <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
+                <div class="card-content p-4">
+                  <h2 class="card-title text-lg font-semibold">{product.nombre_producto}</h2>
           
-  </main>
+                  <div class="price-section">
+                    {product.descuento && product.descuento > 0 ? (
+                      <>
+                        <div class="flex justify-center items-center gap-2 mt-2">
+                          <span class="original-price text-sm line-through text-gray-500">
+                            S/ {Number(product.precio).toFixed(2)}
+                          </span>
+                          <span class="discount-badge text-sm text-white bg-red-600 px-2 py-1 rounded-md">
+                            -{Math.round(product.descuento)}%
+                          </span>
+                        </div>
+                        <div class="flex justify-center mt-2">
+                          <span class="price-tag text-xl font-bold text-red-600">
+                            S/ {(Number(product.precio) * (1 - product.descuento / 100)).toFixed(2)}
+                          </span>
+                        </div>
+                      </>
+                    ) : (
+                      <div class="flex justify-center mt-2">
+                        <span class="price-tag text-xl font-bold">
+                          S/ {Number(product.precio).toFixed(2)}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+          
+                  <a
+                    href={`/detalle/${product.id_producto}`}
+                    class="card-button text-center text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-300 px-4 py-2 rounded-lg mt-4"
+                  >
+                    Comprar
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>              
+    </main>
 </div>
 
 <Footer />

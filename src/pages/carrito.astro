@@ -50,18 +50,20 @@ const colorMap: Record<Color, string> = {
     <br>
     <br>
     <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-6">Tu Carrito de Compras</h1>
+        <h1 class="text-3xl font-bold mb-6 text-center">Tu Carrito de Compras</h1>
         
         <div id="carrito-vacio" class="text-center text-xl text-gray-600 hidden">
             Tu carrito está vacío. <a href="/" class="text-red-500 underline">Continúa comprando</a>
         </div>
         
         <div id="carrito-contenido">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Contenedor principal -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Columna de productos -->
-                <div class="md:col-span-2 space-y-4">
+                <div class="lg:col-span-2 space-y-4">
                     <div id="lista-productos" class="bg-white shadow-md rounded-lg overflow-hidden">
-                        <table class="w-full">
+                        <!-- Tabla para escritorio -->
+                        <table class="w-full hidden lg:table">
                             <thead class="bg-gray-200">
                                 <tr>
                                     <th class="p-4 text-left">Producto</th>
@@ -75,13 +77,17 @@ const colorMap: Record<Color, string> = {
                                 <!-- Los productos se insertarán aquí dinámicamente -->
                             </tbody>
                         </table>
+                        <!-- Vista móvil -->
+                        <div id="productos-tbody-mobile" class="space-y-4 lg:hidden">
+                            <!-- Los productos se insertarán aquí dinámicamente -->
+                        </div>
                     </div>
                 </div>
                 
                 <!-- Resumen de compra -->
-                <div class="md:col-span-1">
+                <div class="lg:col-span-1">
                     <div class="bg-white shadow-md rounded-lg p-6">
-                        <h2 class="text-2xl font-bold mb-4">Resumen de Compra</h2>
+                        <h2 class="text-2xl font-bold mb-4 text-center lg:text-left">Resumen de Compra</h2>
                         <div class="space-y-4">
                             <div class="flex justify-between">
                                 <span>Subtotal</span>
@@ -101,6 +107,7 @@ const colorMap: Record<Color, string> = {
             </div>
         </div>
     </div>
+    
 
     <br>
     <br>
@@ -160,72 +167,115 @@ const colorMap: Record<Color, string> = {
             const carritoVacio = document.getElementById('carrito-vacio') as HTMLElement;
             const carritoContenido = document.getElementById('carrito-contenido') as HTMLElement;
             const productosTbody = document.getElementById('productos-tbody') as HTMLTableSectionElement;
+            const productosTbodyMobile = document.getElementById('productos-tbody-mobile');
             const subtotalElement = document.getElementById('subtotal') as HTMLElement;
             const totalElement = document.getElementById('total') as HTMLElement;
             const finalizarCompraBtn = document.getElementById('finalizar-compra') as HTMLButtonElement;
 
             let cart: CartProduct[] = JSON.parse(localStorage.getItem('cart') || '[]');
 
-            function renderCarrito(): void {
-                if (cart.length === 0) {
-                    carritoVacio.classList.remove('hidden');
-                    carritoContenido.classList.add('hidden');
-                    return;
-                }
+            function renderCarrito() {
+    if (cart.length === 0) {
+        carritoVacio.classList.remove('hidden');
+        carritoContenido.classList.add('hidden');
+        return;
+    }
 
-                carritoVacio.classList.add('hidden');
-                carritoContenido.classList.remove('hidden');
+    carritoVacio.classList.add('hidden');
+    carritoContenido.classList.remove('hidden');
 
-                productosTbody.innerHTML = '';
-                let subtotal = 0;
+    productosTbody.innerHTML = '';
+    productosTbodyMobile.innerHTML = ''; // Limpiar la vista móvil
+    let subtotal = 0;
 
-                cart.forEach((producto, index) => {
-                    const subtotalProducto = producto.precio * producto.cantidad;
-                    subtotal += subtotalProducto;
+    cart.forEach((producto, index) => {
+    const subtotalProducto = producto.precio * producto.cantidad;
+    subtotal += subtotalProducto;
 
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td class="p-4 flex items-center space-x-4 cursor-pointer product-details" data-id="${producto.id_producto}">
-                            <img src="${producto.img1}" alt="${producto.nombre_producto}" class="w-20 h-20 object-cover rounded">
-                            <div>
-                                <p class="font-bold">${producto.nombre_producto}</p>
-                                <p class="text-sm text-gray-500 flex items-center gap-2">
-                                    ${producto.talla ? `
-                                        <span class="border border-gray-400 px-2 py-1 rounded-md text-xs">
-                                            Talla: ${producto.talla}
-                                        </span>` : ''}
-                                    ${producto.color ? `
-                                        <span class="border border-gray-400 px-2 py-1 rounded-md text-xs flex items-center gap-1">
-                                            Color: 
-                                            <span 
-                                                class="inline-block w-4 h-4 rounded-md" 
-                                                style="border: 1px solid #9c9c9c; background-color: ${colorMap[producto.color.toLowerCase() as Color] || '#D3D3D3'}"
-                                                title="${producto.color}"
-                                            ></span>
-                                        </span>` : ''}
-                                </p>
-                            </div>
-                        </td>
-                        <td class="p-4 text-center">S/ ${producto.precio.toFixed(2)}</td>
-                        <td class="p-4 text-center">
-                            <div class="flex justify-center items-center">
-                                <button data-index="${index}" class="decrease-qty bg-gray-200 px-2 py-1 rounded-l">-</button>
-                                <input type="number" value="${producto.cantidad}" min="1" class="w-16 text-center qty-input" data-index="${index}">
-                                <button data-index="${index}" class="increase-qty bg-gray-200 px-2 py-1 rounded-r">+</button>
-                            </div>
-                        </td>
-                        <td class="p-4 text-center">S/ ${subtotalProducto.toFixed(2)}</td>
-                        <td class="p-4 text-center">
-                            <button data-index="${index}" class="remove-producto text-red-500 hover:text-red-700">
-                                🗑️
-                            </button>
-                        </td>
-                    `;
-                    productosTbody.appendChild(row);
-                });
+    // Vista para escritorio
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td class="p-4 flex items-center space-x-4 cursor-pointer product-details" data-id="${producto.id_producto}">
+            <img src="${producto.img1}" alt="${producto.nombre_producto}" class="w-20 h-20 object-cover rounded">
+            <div>
+                <p class="font-bold">${producto.nombre_producto}</p>
+                <p class="text-sm text-gray-500 flex items-center gap-2">
+                    ${producto.talla ? 
+                        `<span class="border border-gray-400 px-2 py-1 rounded-md text-xs">
+                            Talla: ${producto.talla}
+                        </span>` : ''}
+                    ${producto.color ? 
+                        `<span class="border border-gray-400 px-2 py-1 rounded-md text-xs flex items-center gap-1">
+                            Color: 
+                            <span 
+                                class="inline-block w-4 h-4 rounded-md" 
+                                style="border: 1px solid #9c9c9c; background-color: ${colorMap[producto.color.toLowerCase() as Color] || '#D3D3D3'}"
+                                title="${producto.color}"
+                            ></span>
+                        </span>` : ''}
+                </p>
+            </div>
+        </td>
+        <td class="p-4 text-center">S/ ${producto.precio.toFixed(2)}</td>
+        <td class="p-4 text-center">
+            <div class="flex justify-center items-center">
+                <button data-index="${index}" class="decrease-qty bg-gray-200 px-2 py-1 rounded-l">-</button>
+                <input type="number" value="${producto.cantidad}" min="1" class="w-16 text-center qty-input" data-index="${index}">
+                <button data-index="${index}" class="increase-qty bg-gray-200 px-2 py-1 rounded-r">+</button>
+            </div>
+        </td>
+        <td class="p-4 text-center">S/ ${subtotalProducto.toFixed(2)}</td>
+        <td class="p-4 text-center">
+            <button data-index="${index}" class="remove-producto text-red-500 hover:text-red-700">
+                🗑️
+            </button>
+        </td>
+    `;
+        productosTbody.appendChild(row);
 
-                subtotalElement.textContent = `S/ ${subtotal.toFixed(2)}`;
-                totalElement.textContent = `S/ ${(subtotal).toFixed(2)}`;
+        // Vista para móviles
+        const mobileCard = document.createElement('div');
+        mobileCard.classList.add('p-4', 'border', 'border-gray-300', 'rounded-lg', 'flex', 'flex-col', 'gap-2');
+        mobileCard.innerHTML = `
+    <div class="flex gap-4 items-center">
+        <img src="${producto.img1}" alt="${producto.nombre_producto}" class="w-24 h-24 object-cover rounded">
+        <div class="flex justify-between items-center w-full">
+            <div>
+                <p class="font-bold">${producto.nombre_producto}</p>
+                <p class="text-sm text-gray-500 flex items-center gap-2">
+                    ${producto.talla ? 
+                        `<span class="border border-gray-400 px-2 py-1 rounded-md text-xs">
+                            Talla: ${producto.talla}
+                        </span>` : ''}
+                    ${producto.color ? 
+                        `<span class="border border-gray-400 px-2 py-1 rounded-md text-xs flex items-center gap-1">
+                            Color: 
+                            <span 
+                                class="inline-block w-4 h-4 rounded-md" 
+                                style="border: 1px solid #9c9c9c; background-color: ${colorMap[producto.color.toLowerCase() as Color] || '#D3D3D3'}"
+                                title="${producto.color}"
+                            ></span>
+                        </span>` : ''}
+                </p>
+            </div>
+            <button data-index="${index}" class="remove-producto text-red-500 hover:text-red-700">
+                🗑️
+            </button>
+        </div>
+    </div>
+    <div class="flex justify-between items-center">
+        <span class="font-bold">S/ ${producto.precio.toFixed(2)}</span>
+        <button data-index="${index}" class="decrease-qty bg-gray-200 px-4 py-1 rounded-l">-</button>
+        <span>Cantidad: ${producto.cantidad}</span>
+        <button data-index="${index}" class="increase-qty bg-gray-200 px-2 py-1 rounded-r">+</button>
+    </div>
+`;
+productosTbodyMobile.appendChild(mobileCard);
+
+    });
+
+    subtotalElement.textContent = `S/ ${subtotal.toFixed(2)}`;
+    totalElement.textContent = `S/ ${(subtotal ).toFixed(2)}`;
 
 
                 // Add event listeners for product details navigation
@@ -316,10 +366,10 @@ const colorMap: Record<Color, string> = {
 
     const mensajeCompleto = `*Resumen de tu compra:*\n\n${mensaje}\n\n*Total*: S/ ${total}\n\n¡Gracias por tu compra! 🎉`;
 
-    const whatsappLink = `https://wa.me/902259522?text=${encodeURIComponent(mensajeCompleto)}`;
+    const whatsappLink = `https://wa.me/913506913?text=${encodeURIComponent(mensajeCompleto)}`;
 
     window.open(whatsappLink, '_blank');
-            }); 
+            });
 
             renderCarrito();
         });
