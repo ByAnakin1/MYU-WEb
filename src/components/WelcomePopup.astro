@@ -14,18 +14,18 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        cursor: default;
     }
 
     #welcome-popup {
         background-color: #ffffff;
-        padding: 30px;
+        padding: 0;
         border-radius: 15px;
         box-shadow: 0 8px 16px rgba(0,0,0,0.2);
         max-width: 400px;
         text-align: center;
         position: relative;
         animation: popup-enter 0.5s ease-out;
+        overflow: hidden;
     }
 
     #close-popup {
@@ -54,20 +54,10 @@
     }
 </style>
 
-<div id="overlay">
+<div id="overlay" style="display: none;">
     <div id="welcome-popup">
         <span id="close-popup">×</span>
-        <h2>¡Bienvenido a MYU WEB!</h2>
-        <p>Gracias por visitarnos. Descubre nuestros productos especiales y únicas ofertas.</p>
-        <button id="close-btn" style="
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #a08c8c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        ">Entendido</button>
+        <img src="/img/bienvenida.jpg" alt="Bienvenido a MYU WEB" style="width: 100%; height: auto; border-radius: 15px 15px 0 0;">
     </div>
 </div>
 
@@ -75,33 +65,29 @@
     document.addEventListener('DOMContentLoaded', function() {
         const overlay = document.getElementById('overlay');
         const closePopup = document.getElementById('close-popup');
-        const closeBtn = document.getElementById('close-btn');
 
-        // Función para cerrar el popup
+        // Verificar si ya se mostró el popup
+        if (!localStorage.getItem('popupShown')) {
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Bloquear scroll
+
+            // Cerrar popup con la X
+            closePopup.addEventListener('click', hidePopup);
+
+            // Cerrar si se hace clic fuera del popup
+            overlay.addEventListener('click', function(event) {
+                if (event.target === overlay) {
+                    hidePopup();
+                }
+            });
+
+            // Marcar como mostrado
+            localStorage.setItem('popupShown', 'true');
+        }
+
         function hidePopup() {
             overlay.style.display = 'none';
             document.body.style.removeProperty('overflow');
         }
-
-        // Bloquear scroll al cargar
-        document.body.style.overflow = 'hidden';
-
-        // Cerrar popup con la X
-        closePopup.addEventListener('click', hidePopup);
-
-        // Cerrar popup con el botón
-        closeBtn.addEventListener('click', hidePopup);
-
-        // Desaparecer después de 10 segundos
-        setTimeout(function() {
-            hidePopup();
-        }, 10000);
-
-        // Cerrar si se hace clic fuera del popup
-        overlay.addEventListener('click', function(event) {
-            if (event.target === overlay) {
-                hidePopup();
-            }
-        });
     });
 </script>

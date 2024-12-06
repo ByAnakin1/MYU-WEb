@@ -225,7 +225,7 @@ const colorMap: Record<Color, string> = {
                 });
 
                 subtotalElement.textContent = `S/ ${subtotal.toFixed(2)}`;
-                totalElement.textContent = `S/ ${(subtotal + 10).toFixed(2)}`;
+                totalElement.textContent = `S/ ${(subtotal).toFixed(2)}`;
 
 
                 // Add event listeners for product details navigation
@@ -316,10 +316,10 @@ const colorMap: Record<Color, string> = {
 
     const mensajeCompleto = `*Resumen de tu compra:*\n\n${mensaje}\n\n*Total*: S/ ${total}\n\n¡Gracias por tu compra! 🎉`;
 
-    const whatsappLink = `https://wa.me/923843778?text=${encodeURIComponent(mensajeCompleto)}`;
+    const whatsappLink = `https://wa.me/902259522?text=${encodeURIComponent(mensajeCompleto)}`;
 
     window.open(whatsappLink, '_blank');
-            });
+            }); 
 
             renderCarrito();
         });

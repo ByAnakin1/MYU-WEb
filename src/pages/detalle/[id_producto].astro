@@ -28,6 +28,7 @@ interface Product {
 
 
 
+
 // Realizar la solicitud para obtener todos los productos
 const response = await fetch('http://localhost:3000/api/productos');
 
@@ -46,7 +47,7 @@ try {
 }
 
 // Filtrar 20 productos aleatorios
-const randomProducts = products.sort(() => Math.random() - 0.5).slice(0, 5);
+const randomProducts = products.sort(() => Math.random() - 0.10).slice(0, 10);
 
 
 
@@ -140,13 +141,12 @@ const colorMap: Record<Color, string> = {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/src/styles/global.css" />
     <title>{product?.nombre_producto || 'Producto no encontrado'}</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
     font-family: 'Arial', sans-serif;
-    background-color: #d1a7b6;
+    background-color: #e7e4e4;
 }
 
 .container {
@@ -156,21 +156,15 @@ const colorMap: Record<Color, string> = {
     justify-content: center;
 }
 
-.cards-container {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(5, 1fr);
-    align-items: center;    /* Centra los elementos en el eje vertical */
 
-}
 
 .section-title {
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: bold;
     background-color: #f6bbd0;
     color: white;
-    padding: 0.75rem;
+    padding: 0.5rem;
     margin-bottom: 1rem;
 }
 
@@ -181,57 +175,7 @@ const colorMap: Record<Color, string> = {
     margin-bottom: 2rem;
 }
 
-.card {
-    background: white;
-    border-radius: 0.75rem;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-}
-
-.card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.card-content {
-    padding: 1rem;
-    text-align: center;
-}
-
-.card-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    text-transform: capitalize;
-}
-
-.card-price {
-    color: #f56565;
-    font-weight: bold;
-    margin-bottom: 1rem;
-}
-
-.card-button {
-    display: inline-block;
-    background: #f6bbd0;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background 0.3s;
-}
-
-.card-button:hover {
-    background: #f56565;
-}
 
 .breadcrumb {
     padding: 0.5rem 0;
@@ -363,6 +307,7 @@ const colorMap: Record<Color, string> = {
     border: none;
     cursor: pointer;
     font-weight: bold;
+    margin-bottom: 1rem; /* Añadir espacio debajo del botón */
 }
 
 .btn-buy {
@@ -373,13 +318,16 @@ const colorMap: Record<Color, string> = {
     border: none;
     cursor: pointer;
     font-weight: bold;
+    margin-top: 1rem; /* Añadir espacio encima del botón */
 }
 
+/* Para el contenedor de tallas y colores */
 .delivery-options {
-    margin-top: 1.5rem;
+    margin-top: 0; /* Eliminar el margen superior adicional */
     padding: 1rem;
     background: #f8f9fa;
     border-radius: 4px;
+    text-align: center;
 }
 
 .zoom-container {
@@ -396,12 +344,6 @@ const colorMap: Record<Color, string> = {
 .zoom-active {
     display: block;
 }
-
-@media (max-width: 767px) {
-    body {
-        font-size: 14px;
-        padding: 1rem; /* Espaciado en pantallas pequeñas */
-    }
 
     .container {
         flex-direction: column;
@@ -446,72 +388,258 @@ const colorMap: Record<Color, string> = {
         border-color: #ff0000;
     }
 
-    /* Centrar la sección de información del producto */
-    .product-info {
-        width: 100%;
-        max-width: 600px; /* Controla el ancho máximo */
-        text-align: center;
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        padding: 1rem;
-        margin-top: 1rem;
-    }
+    /* Centrar los botones del contador, talla y colores */
+.product-info .flex {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 
-    .price-section {
-        margin-top: 1rem;
-    }
+/* Contador: centrar el campo de cantidad y los botones */
+.product-info .flex.items-center {
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+}
 
-    .price-tag {
-        font-size: 1.8rem;
-        color: #ff0000;
-        font-weight: bold;
-    }
+.product-info .w-16 {
+    width: 4rem; /* Ajustar según el tamaño deseado */
+}
 
-    .actions {
-        flex-direction: column;
-        gap: 0.5rem;
-        margin-top: 1rem;
-        justify-content: center;
-        align-items: center;
-    }
+/* Botones de aumentar y disminuir */
+#decreaseButton, #increaseButton {
+    width: 2.5rem;
+    height: 2.5rem;
+    text-align: center;
+}
 
-    .btn-cart,
-    .btn-buy {
-        width: 100%;
-        padding: 0.5rem;
-        font-size: 0.875rem;
-    }
+/* Sección de tallas */
+.delivery-options .mb-4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrar las tallas */
+    gap: 1rem;
+}
 
-    .delivery-options {
-        font-size: 0.875rem;
-        padding: 0.75rem;
-    }
+.delivery-options .flex {
+    justify-content: center;
+    gap: 0.5rem; /* Ajusta la distancia entre los botones de talla */
+}
+
+.delivery-options .talla-button {
+    padding: 0.5rem 1rem;
+    text-align: center;
+    font-size: 1rem;
+}
+
+/* Sección de colores */
+.delivery-options .mb-4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrar los colores */
+    gap: 1rem;
+}
+
+.delivery-options .flex {
+    justify-content: center;
+    gap: 0.5rem; /* Ajusta la distancia entre los botones de color */
+}
+
+.delivery-options .color-button {
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.delivery-options .color-button:hover {
+    transform: scale(1.1); /* Efecto de hover para los colores */
+}
+
+
+    /* Centrar el precio de color rojo */
+.price-section {
+    margin-top: 2rem; /* Aumenta el espacio superior */
+    text-align: center; /* Centra el precio */
+}
+
+    /* Ajustar el precio de color rojo */
+.price-tag {
+    font-size: 2rem; /* Ajuste del tamaño */
+    color: #f56565; /* Rojo */
+    font-weight: bold;
+    text-align: center; /* Centrado */
+    margin-top: 1rem; /* Agregar espacio arriba */
+}
+
+    /* Mover el bloque de acciones hacia abajo */
+/* Ajustar el contenedor debajo del botón "Agregar al carrito" */
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Aumentar el espacio entre cada elemento */
+    margin-top: 1.5rem; /* Moverlo hacia arriba */
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-cart,
+.btn-buy {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem; /* Ajuste de tamaño */
+    margin-top: 0.5rem; /* Añade espacio entre botones */
+}
+
+    
 
     .breadcrumb {
         font-size: 12px;
     }
 
-    .card {
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
+    
+   /*cambios */
+   .cards-container {
+    display: flex;
+    gap: 1rem;
+    align-items: center; /* Centra los elementos verticalmente */
+    overflow-x: scroll; /* Habilita el desplazamiento horizontal */
+    scroll-snap-type: x mandatory; /* Asegura que las cards se alineen al final de cada desplazamiento */
+    -webkit-overflow-scrolling: touch; /* Mejora la experiencia en dispositivos móviles */
+}
 
-    .card img {
-        height: 150px;
-    }
+/* Estilo para las cards de productos relacionados */
+/* Ajuste para el contenedor de precios */
+.price-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* Card con tamaño ajustado y altura más alta */
+.card {
+  background: white;
+  border-radius: 0.5rem; /* Mantiene el radio moderado */
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  width: 300px; /* Asegura que todas las cards tengan la misma anchura */
+  min-height: 400px; /* Altura mínima para las cards */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Asegura que el contenido se distribuya bien */
+}
+.card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+      }
 
-    .card-title {
-        font-size: 1rem;
-    }
+.card-content {
+  padding: 0.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Mantiene el precio y botón alineados abajo */
+  flex-grow: 1; /* El contenido ocupa el espacio restante */
+}
 
-    .card-price {
-        font-size: 1rem;
-    }
+.card img {
+  width: 100%;
+  height: 200px; /* Mantiene una altura adecuada para las imágenes */
+  object-fit: cover;
+}
+.card-title {
+  font-size: 0.9rem; /* Reduce el tamaño de la fuente */
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+  text-transform: capitalize;
+  color: #2d3748;
+}
 
-    .card-button {
-        padding: 0.5rem;
-        font-size: 0.875rem;
-    }
+.card-price {
+  color: #f56565;
+  font-size: 1.25rem; /* Reduce el tamaño del precio */
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+.card-button {
+  display: block;
+  background: #f6bbd0;
+  color: white;
+  padding: 0.5rem 1rem; /* Ajuste del padding del botón */
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
+  width: 100%;
+  text-align: center;
+  margin-top: 0.5rem; /* Subí un poco el botón */
+}
+
+.card-button:hover {
+  background: #f56565;
+}
+
+/* Estilo para eliminar las separaciones adicionales entre las cards */
+.swiper-slide:last-child {
+  margin-right: 0;
+}
+
+.swiper-container {
+  width: 100%;
+  max-width: 1200px; /* Limit maximum width */
+  margin: 0 auto; /* Center the entire container */
+  padding: 0 20px; /* Add some side padding */
+  overflow: hidden; /* Ensure consistent layout */
+}
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto; /* Allow natural sizing */
+  max-width: 300px; /* Consistent card width */
+}
+/* Control de la separación y tamaño de la card dentro del swiper */
+.swiper-wrapper {
+  display: flex;
+  justify-content: flex-start; /* Las cards se alinean a la izquierda */
+  gap: 1rem; /* Espacio entre cada card */
+}
+
+/* Ajustes responsivos */
+
+@media (max-width: 767px) {
+  .card {
+    max-width: 270px;
+    height: 400px; /* Altura reducida para móviles */
+  }
+
+  .card-price {
+  color: #f56565;
+  font-size: 1.5rem; /* Tamaño reducido del precio */
+  font-weight: bold;
+  margin-bottom: 0.5rem; /* Espacio entre el precio y el botón */
+  margin-top: auto; /* Empuja el precio hacia abajo dentro de la card */
+}
+
+  .card-button {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    margin-top: 0.4rem; /* Ajuste del margen superior en móviles */
+  }
+}
+
+@media (min-width: 768px) {
+  .card {
+    height: 380px; /* Altura reducida para pantallas grandes */
+  }
+
+  .card-button {
+    margin-top: 0.5rem; /* Ajuste del botón en pantallas grandes */
+  }
 }
 
 </style>
@@ -655,55 +783,132 @@ const colorMap: Record<Color, string> = {
     <br>
     <br>
 
-    <h2 class="section-title">PRODUCTOS RELACIONADOS</h2>
-  <div class="container">
-    <div class="cards-container">
-      {randomProducts.length > 0 ? (
-        randomProducts.map((product: Product) => (
-          <div class="card">
-            <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} />
-            <div class="card-content">
-              <h2 class="card-title">{product.nombre_producto}</h2>
-              
-              <div class="price-section">
-                {product.descuento && product.descuento > 0 ? (
-                  <>
-                    <div class="flex justify-center items-center gap-2 mt-2">
-                      <span class="original-price text-sm line-through text-gray-500">
-                        S/ {Number(product.precio).toFixed(2)}
-                      </span>
-                      <span class="discount-badge text-sm text-white bg-red-600 px-2 py-1 rounded-md">
-                        -{Math.round(product.descuento)}%
-                      </span>
+    
+    <h2 class="section-title text-center text-pink-500 font-bold text-2xl my-6">
+        PRODUCTOS RELACIONADOS
+      </h2>
+      <div class="container mx-auto px-4">
+        <!-- Swiper-container -->
+        <div class="swiper-container">
+          <div class="swiper-wrapper flex justify-center gap-4">
+            {randomProducts.length > 0 ? (
+              randomProducts
+                .sort(() => Math.random() - 0.5) // Esto mezclará el array aleatoriamente
+                .slice(0, 10) // Limita la cantidad de productos a 10
+                .map((product: Product) => (
+                  <div class="swiper-slide">
+                    <div class="card mx-auto max-w-xs bg-white shadow-md rounded-md overflow-hidden">
+                      <img src={product.img1} alt={`Imagen de ${product.nombre_producto}`} class="w-full h-48 object-cover" />
+                      <div class="card-content p-4 text-center">
+                        <h2 class="card-title font-semibold text-lg">{product.nombre_producto}</h2>
+                        <div class="price-section mt-2">
+                          {product.descuento && product.descuento > 0 ? (
+                            <>
+                              <div class="flex justify-center items-center gap-2 mt-2">
+                                <span class="original-price text-sm line-through text-gray-500">
+                                  S/ {Number(product.precio).toFixed(2)}
+                                </span>
+                                <span class="discount-badge text-sm text-white bg-red-600 px-2 py-1 rounded-md">
+                                  -{Math.round(product.descuento)}%
+                                </span>
+                              </div>
+                              <div class="flex justify-center mt-2">
+                                <span class="price-tag text-xl font-bold text-red-600">
+                                  S/ {(Number(product.precio) * (1 - product.descuento / 100)).toFixed(2)}
+                                </span>
+                              </div>
+                            </>
+                          ) : (
+                            <div class="flex justify-center mt-2">
+                              <span class="price-tag text-xl font-bold">
+                                S/ {Number(product.precio).toFixed(2)}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                        <a href={`/detalle/${product.id_producto}`} class="card-button block mt-4 bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600 transition">
+                          Comprar
+                        </a>
+                      </div>
                     </div>
-                    <div class="flex justify-center mt-2">
-                      <span class="price-tag text-xl font-bold text-red-600">
-                        S/ {(Number(product.precio) * (1 - product.descuento / 100)).toFixed(2)}
-                      </span>
-                    </div>
-                  </>
-                ) : (
-                  <div class="flex justify-center mt-2">
-                    <span class="price-tag text-xl font-bold">
-                      S/ {Number(product.precio).toFixed(2)}
-                    </span>
                   </div>
-                )}
-              </div>
-  
-              <a href={`/detalle/${product.id_producto}`} class="card-button">Comprar</a>
-            </div>
+                ))
+            ) : (
+              <p class="text-center">No hay productos disponibles.</p>
+            )}
           </div>
-        ))
-      ) : (
-        <p class="text-center">No hay productos disponibles.</p>
-      )}
-    </div>
-  </div>
+        </div>
+      </div>
+      
   <br>
 
     <Footer />
 
+    <script>
+        import Swiper from 'swiper';
+        import 'swiper/swiper-bundle.css';
+  // Asegúrate de inicializar Swiper correctamente después de que el DOM se haya cargado
+  if (typeof window !== 'undefined') {
+    window.onload = () => {
+      const swiperInstance = new Swiper('.swiper-container', {
+        loop: true,
+        slidesPerView: 'auto',
+        spaceBetween: 10,
+        centeredSlides: true,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      });
+    };
+  }
+</script>
+      
+
+    <script>
+     const cardsContainer = document.querySelector('.cards-container') as HTMLElement;
+
+let isMouseDown = false;
+let startX: number;
+let scrollLeft: number;
+
+cardsContainer.addEventListener('mousedown', (e: MouseEvent) => {
+    isMouseDown = true;
+    startX = e.pageX - (cardsContainer.offsetLeft || 0);
+    scrollLeft = cardsContainer.scrollLeft;
+});
+
+cardsContainer.addEventListener('mouseleave', () => {
+    isMouseDown = false;
+});
+
+cardsContainer.addEventListener('mouseup', () => {
+    isMouseDown = false;
+});
+
+cardsContainer.addEventListener('mousemove', (e: MouseEvent) => {
+    if (!isMouseDown) return;
+    e.preventDefault();
+    const x = e.pageX - (cardsContainer.offsetLeft || 0);
+    const walk = (x - startX) * 2; // Ajusta la velocidad del desplazamiento
+    cardsContainer.scrollLeft = scrollLeft - walk;
+});
+
+cardsContainer.addEventListener('touchstart', (e) => {
+  startX = e.touches[0].pageX;
+  scrollLeft = cardsContainer.scrollLeft;
+});
+
+cardsContainer.addEventListener('touchmove', (e) => {
+  const x = e.touches[0].pageX;
+  const walk = (x - startX) * 2; // Ajusta la velocidad
+  cardsContainer.scrollLeft = scrollLeft - walk;
+});
+
+
+    </script>
+    
+     
     <script define:vars={{productId: product.id_producto}}>
         window.productId = productId;
     </script>
@@ -756,24 +961,43 @@ const colorMap: Record<Color, string> = {
         function addToCart(product: CartProduct): void {
             const selectedQuantity = quantity;
 
-            if (!selectedTalla) {
-                showNotification("Por favor, seleccione una talla");
+            // Verificar si talla y color están disponibles en el producto
+            const hasTalla = product.talla?.length > 0; // Verifica si el producto tiene tallas disponibles
+            const hasColor = product.color?.length > 0; // Verifica si el producto tiene colores disponibles
+
+            // Si tanto talla como color están disponibles, validar ambas selecciones
+            if (hasTalla && hasColor) {
+                if (!selectedTalla) {
+                    showNotification("Por favor, seleccione una talla antes de agregar al carrito");
+                    return; // Detener si falta la talla
+                }
+
+                if (!selectedColor) {
+                    showNotification("Por favor, seleccione un color antes de agregar al carrito");
+                    return; // Detener si falta el color
+                }
+            }
+
+            // Validar individualmente si solo una de las opciones es obligatoria
+            if (hasTalla && !selectedTalla) {
+                showNotification("Por favor, seleccione una talla antes de agregar al carrito");
                 return;
             }
 
-            if (!selectedColor) {
-                showNotification("Por favor, seleccione un color");
+            if (hasColor && !selectedColor) {
+                showNotification("Por favor, seleccione un color antes de agregar al carrito");
                 return;
             }
 
+            // Crear el objeto del producto para agregar al carrito
             const cartProduct: CartProduct = {
                 id_producto: product.id_producto,
                 nombre_producto: product.nombre_producto,
                 precio: product.precio,
                 cantidad: selectedQuantity,
                 img1: product.img1,
-                talla: selectedTalla,
-                color: selectedColor
+                talla: selectedTalla || null, // Si no es obligatorio, se permite null
+                color: selectedColor || null // Si no es obligatorio, se permite null
             };
 
             console.log('Producto a agregar:', {
@@ -785,13 +1009,12 @@ const colorMap: Record<Color, string> = {
                 color: cartProduct.color
             });
 
+            // Buscar si el producto ya existe en el carrito con la misma talla y color
             const existingProductIndex = cart.findIndex(item =>
                 item.id_producto === cartProduct.id_producto &&
                 item.talla === cartProduct.talla &&
                 item.color === cartProduct.color
             );
-
-            console.log('Índice de producto existente:', existingProductIndex);
 
             if (existingProductIndex >= 0) {
                 // Actualizar cantidad si el producto ya existe con la misma talla y color
@@ -805,6 +1028,7 @@ const colorMap: Record<Color, string> = {
             localStorage.setItem("cart", JSON.stringify(cart));
             showNotification("Producto agregado al carrito");
         }
+
 
         // Función para mostrar notificación
         function showNotification(message: string): void {
