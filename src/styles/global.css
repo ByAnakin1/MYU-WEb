@@ -6,7 +6,7 @@
   
   /* Para navegadores WebKit (Chrome, Safari, etc.) */
   ::-webkit-scrollbar {
-    width: 2px; /* Ancho de la barra de desplazamiento más delgada */
+    width: 1px; /* Ancho de la barra de desplazamiento más delgada */
   }
   
   ::-webkit-scrollbar-track {
@@ -14,7 +14,7 @@
   }
   
   ::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.1); /* Color de la barra de desplazamiento */
+    background-color: rgba(0, 0, 0, 0); /* Color de la barra de desplazamiento */
     border-radius: 10px; /* Bordes redondeados */
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.5); /* Sombra para hacer que el slider se note más sobre el contenido */
   }

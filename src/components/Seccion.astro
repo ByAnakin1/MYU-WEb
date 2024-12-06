@@ -69,21 +69,29 @@ const { banners = [] }: { banners?: Banner[] } = Astro.props;
 
   </style>
 </head>
-
 <body>
   <div class="swiper progress-slide-carousel">
     <div class="swiper-wrapper">
       {banners.length > 0 ? (
         banners
           .filter((banner) => banner.id_banner === 1)
-          .map((banner) => (
-          <div class="swiper-slide">
+          .map((banner) => [
+            <div class="swiper-slide">
               <a href={banner.img1cell} target="_blank" rel="noopener noreferrer">
-                <img class="small" src={banner.img1} alt={`Banner ${banner.id_banner} small`} />
-                <img class="large" src={banner.img2} alt={`Banner ${banner.id_banner} large`} />
+                <img class="small" src={banner.img1} alt={`Banner 1 small`} />
+              </a>
+            </div>,
+            <div class="swiper-slide">
+              <a href={banner.img2cell} target="_blank" rel="noopener noreferrer">
+                <img class="small" src={banner.img2} alt={`Banner 2 small`} />
+              </a>
+            </div>,
+            <div class="swiper-slide">
+              <a href={banner.img3cell} target="_blank" rel="noopener noreferrer">
+                <img class="small" src={banner.img3} alt={`Banner 3 small`} />
               </a>
             </div>
-          ))
+          ])
       ) : (
         <p class="text-center">No hay banners disponibles.</p>
       )}

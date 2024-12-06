@@ -120,7 +120,10 @@ const colorMap: Record<Color, string> = {
 
     <Footer />
 
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
     <script>
+
+        
         type Color = 'rojo' | 'azul' | 'verde' | 'amarillo' | 'blanco' | 'negro' | 'gris' | 'naranja' | 'rosa' | 'blanco' | 'gris' | 'rosadobebe' | 'palorosa' | 'vino' | 'marron' | 'perla' | 'lilabebe' | 'beige' | 'azulmarino';
 
         const colorMap: Record<Color, string> = {
@@ -154,21 +157,24 @@ const colorMap: Record<Color, string> = {
         }
         
         document.addEventListener('DOMContentLoaded', () => {
-            const carritoVacio = document.getElementById('carrito-vacio');
-            const carritoContenido = document.getElementById('carrito-contenido');
-            const productosTbody = document.getElementById('productos-tbody');
-            const subtotalElement = document.getElementById('subtotal');
-            const totalElement = document.getElementById('total');
-            const finalizarCompraBtn = document.getElementById('finalizar-compra');
+            const carritoVacio = document.getElementById('carrito-vacio') as HTMLElement;
+            const carritoContenido = document.getElementById('carrito-contenido') as HTMLElement;
+            const productosTbody = document.getElementById('productos-tbody') as HTMLTableSectionElement;
+            const subtotalElement = document.getElementById('subtotal') as HTMLElement;
+            const totalElement = document.getElementById('total') as HTMLElement;
+            const finalizarCompraBtn = document.getElementById('finalizar-compra') as HTMLButtonElement;
 
             let cart: CartProduct[] = JSON.parse(localStorage.getItem('cart') || '[]');
 
-            function renderCarrito() {
+            function renderCarrito(): void {
                 if (cart.length === 0) {
                     carritoVacio.classList.remove('hidden');
                     carritoContenido.classList.add('hidden');
                     return;
                 }
+
+                carritoVacio.classList.add('hidden');
+                carritoContenido.classList.remove('hidden');
 
                 productosTbody.innerHTML = '';
                 let subtotal = 0;
@@ -219,7 +225,8 @@ const colorMap: Record<Color, string> = {
                 });
 
                 subtotalElement.textContent = `S/ ${subtotal.toFixed(2)}`;
-                totalElement.textContent = `S/ ${(subtotal + 10).toFixed(2)}`;
+                totalElement.textContent = `S/ ${(subtotal).toFixed(2)}`;
+
 
                 // Add event listeners for product details navigation
                 document.querySelectorAll('.product-details').forEach(element => {
@@ -251,7 +258,7 @@ const colorMap: Record<Color, string> = {
                 });
             }
 
-            function decreaseQuantity(event: Event) {
+            function decreaseQuantity(event: Event): void {
                 const index = (event.target as HTMLButtonElement).dataset.index;
                 if (index !== undefined && cart[parseInt(index)].cantidad > 1) {
                     cart[parseInt(index)].cantidad--;
@@ -259,7 +266,7 @@ const colorMap: Record<Color, string> = {
                 }
             }
 
-            function increaseQuantity(event: Event) {
+            function increaseQuantity(event: Event): void {
                 const index = (event.target as HTMLButtonElement).dataset.index;
                 if (index !== undefined) {
                     cart[parseInt(index)].cantidad++;
@@ -267,7 +274,7 @@ const colorMap: Record<Color, string> = {
                 }
             }
 
-            function updateQuantityManual(event: Event) {
+            function updateQuantityManual(event: Event): void {
                 const input = event.target as HTMLInputElement;
                 const index = input.dataset.index;
                 if (index !== undefined) {
@@ -277,7 +284,7 @@ const colorMap: Record<Color, string> = {
                 }
             }
 
-            function removeProducto(event: Event) {
+            function removeProducto(event: Event): void {
                 const index = (event.target as HTMLButtonElement).dataset.index;
                 if (index !== undefined) {
                     cart.splice(parseInt(index), 1);
@@ -285,17 +292,34 @@ const colorMap: Record<Color, string> = {
                 }
             }
 
-            function updateCart() {
+            function updateCart(): void {
                 localStorage.setItem('cart', JSON.stringify(cart));
                 renderCarrito();
             }
 
             finalizarCompraBtn.addEventListener('click', () => {
-                if (cart.length > 0) {
-                    alert('Próximamente: Proceso de pago');
-                    // Aquí implementarías la lógica de checkout
-                }
-            });
+    if (cart.length === 0) {
+        alert('El carrito está vacío.');
+        return;
+    }
+
+    const mensaje = cart.map(product =>
+        `*Producto*: ${product.nombre_producto}\n` +
+        `*Precio*: S/ ${product.precio.toFixed(2)}\n` +
+        `*Cantidad*: ${product.cantidad}\n` +
+        `${product.talla ? `*Talla*: ${product.talla}\n` : ''}` +
+        `${product.color ? `*Color*: ${product.color}\n` : ''}` +
+        `*Imagen*: ${product.img1 || 'No disponible'}`
+    ).join('\n\n');
+
+    const total = cart.reduce((acc, product) => acc + product.precio * product.cantidad, 0).toFixed(2);
+
+    const mensajeCompleto = `*Resumen de tu compra:*\n\n${mensaje}\n\n*Total*: S/ ${total}\n\n¡Gracias por tu compra! 🎉`;
+
+    const whatsappLink = `https://wa.me/902259522?text=${encodeURIComponent(mensajeCompleto)}`;
+
+    window.open(whatsappLink, '_blank');
+            }); 
 
             renderCarrito();
         });
