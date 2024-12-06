@@ -1,178 +1,120 @@
-<section class="py-10">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categorías</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+</head>
+<body>
+  <section class="py-10">
+    <!-- Cuadro rosado de título -->
     <h2 class="text-2xl font-bold text-center mb-4 bg-[#f6bbd0] py-3 text-white">CATEGORÍAS</h2>
+
     <div class="relative max-w-[1200px] mx-auto">
-        <!-- Contenedor del slider -->
-        <div class="slider-container overflow-x-auto snap-x snap-mandatory scrollbar-hide">
-            <div class="categories flex gap-4">
-                <!-- Tarjetas -->
-                <div class="category-card snap-start">
-                    <a href="/Categorias/productos_polos">
-                        <img src="https://i.pinimg.com/736x/7b/3a/03/7b3a03ef4090b34c19556da4a1e40509.jpg" alt="Polos" class="w-full h-full object-cover">
-                    </a>
-                </div>
-                <div class="category-card snap-start">
-                    <a href="/Categorias/productos_faldas">
-                        <img src="https://i.pinimg.com/736x/6b/c3/33/6bc3333fc4affd79ca3e15237679bb37.jpg" alt="Faldas" class="w-full h-full object-cover">
-                    </a>
-                </div>
-                <div class="category-card snap-start">
-                    <a href="/Categorias/productos_poleras">
-                        <img src="https://i.pinimg.com/474x/2c/5b/04/2c5b04a95895dd91982d37e0311ba3c9.jpg" alt="Poleras" class="w-full h-full object-cover">
-                    </a>
-                </div>
-                <div class="category-card snap-start">
-                    <a href="/Categorias/productos_vestidos">
-                        <img src="https://i.pinimg.com/474x/1e/2c/bb/1e2cbbf0c6d3306391fe4e07f7399beb.jpg" alt="Vestidos" class="w-full h-full object-cover">
-                    </a>
-                </div>
-                <div class="category-card snap-start">
-                    <a href="/Categorias/productos_pantalones">
-                        <img src="https://i.pinimg.com/474x/39/92/f5/3992f58eca8dc93628a42df31faa70f9.jpg" alt="Pantalones" class="w-full h-full object-cover">
-                    </a>
-                </div>
-                <div class="category-card snap-start">
-                    <a href="/Categorias/productos_pantys">
-                        <img src="https://i.pinimg.com/474x/62/1e/20/621e204c943a563527d86d9476a006f8.jpg" alt="Pantys" class="w-full h-full object-cover">
-                    </a>
-                </div>
-                <div class="category-card snap-start">
-                    <a href="/Categorias/productos_zapatos">
-                        <img src="https://i.pinimg.com/736x/5d/78/6a/5d786a73a7ce9a0a161e832a02904f77.jpg" alt="Zapatos" class="w-full h-full object-cover">
-                    </a>
-                </div>
-                <div class="category-card snap-start">
-                    <a href="/Categorias/productos_mochilas">
-                        <img src="https://i.pinimg.com/474x/34/80/4e/34804e57958f355a2c8edbe80ccca354.jpg" alt="Carteras" class="w-full h-full object-cover">
-                    </a>
-                </div>
-                <div class="category-card snap-start">
-                    <a href="/Categorias/productos_accesorios">
-                        <img src="https://i.pinimg.com/474x/b7/5b/13/b75b137a464e7e06d11ac51fcc74cf2d.jpg" alt="Accesorios" class="w-full h-full object-cover">
-                    </a>
-                </div>
-            </div>
+      <!-- Carrusel de imágenes -->
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img src="https://i.pinimg.com/474x/1e/2c/bb/1e2cbbf0c6d3306391fe4e07f7399beb.jpg" alt="VESTIDOS">
+          </div>
+          <div class="swiper-slide">
+            <img src="https://i.pinimg.com/736x/6b/c3/33/6bc3333fc4affd79ca3e15237679bb37.jpg" alt="FALDAS">
+          </div>
+          <div class="swiper-slide">
+            <img src="https://i.pinimg.com/474x/39/92/f5/3992f58eca8dc93628a42df31faa70f9.jpg" alt="PANTALONES-SHORTS">
+          </div>
+          <div class="swiper-slide">
+            <img src="https://i.pinimg.com/736x/7b/3a/03/7b3a03ef4090b34c19556da4a1e40509.jpg" alt="POLOS-TOPS">
+          </div>
+          <div class="swiper-slide">
+            <img src="https://i.pinimg.com/474x/2c/5b/04/2c5b04a95895dd91982d37e0311ba3c9.jpg" alt="POLERAS-CASACAS">
+          </div>
+          <div class="swiper-slide">
+            <img src="https://i.pinimg.com/736x/5d/78/6a/5d786a73a7ce9a0a161e832a02904f77.jpg" alt="ZAPATOS-ZAPATILLAS">
+          </div>
+          <div class="swiper-slide">
+            <img src="https://i.pinimg.com/474x/34/80/4e/34804e57958f355a2c8edbe80ccca354.jpg" alt="CARTERAS-MOCHILAS">
+          </div>
+          <div class="swiper-slide">
+            <img src="https://i.pinimg.com/474x/62/1e/20/621e204c943a563527d86d9476a006f8.jpg" alt="MEDIAS-PANTYS">
+          </div>
+          <div class="swiper-slide">
+            <img src="https://i.pinimg.com/474x/b7/5b/13/b75b137a464e7e06d11ac51fcc74cf2d.jpg" alt="ACCESORIOS">
+          </div>
         </div>
+      </div>
     </div>
   </section>
-  
-  <style>
-  /* Estilo general */
-  .slider-container {
-    width: 100%;
-    overflow-x: auto;
-    display: flex;
-    scroll-behavior: smooth;
-    cursor: grab;
-  }
-  
-  .slider-container:active {
-    cursor: grabbing;
-  }
-  
-  .categories {
-    display: flex;
-    gap: 16px;
-  }
-  
-  /* Tamaño de las tarjetas para pantallas grandes (PC) */
-  .category-card {
-    flex: 0 0 calc(25% - 16px);
-    height: 465px;
-    text-align: center;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .category-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  
-  /* Ocultar scrollbars */
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  
-  /* Tamaño de las tarjetas para móviles (pantallas pequeñas) */
-  @media (max-width: 768px) {
-    .category-card {
-      flex: 0 0 calc(50% - 16px);
-      height: 300px;
-    }
-  }
-  </style>
-  
-  <script type="module">
-  document.addEventListener("DOMContentLoaded", () => {
-    const slider = document.querySelector(".slider-container");
-    let isDragging = false;
-    let startX, startScrollLeft, moved = false;
-  
-    // Evitar arrastre de imagen por defecto
-    slider.querySelectorAll("img").forEach(img => {
-      img.addEventListener("dragstart", e => e.preventDefault());
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      new Swiper(".mySwiper", {
+        slidesPerView: 4, // Número de tarjetas visibles en PC
+        spaceBetween: 5, // Espacio reducido globalmente
+        loop: true,
+        autoplay: {
+          delay: 3000, // Tiempo entre deslizamientos automáticos
+          disableOnInteraction: false,
+        },
+        breakpoints: {
+          1024: { slidesPerView: 4, spaceBetween: 12 }, // Reducir espacio en pantallas grandes
+          768: { slidesPerView: 2, spaceBetween: 15 },  // Tarjetas en tablets
+          640: { slidesPerView: 1, spaceBetween: 10 },  // Tarjetas en móviles
+        },
+      });
     });
-  
-    // Eventos del mouse
-    slider.addEventListener("mousedown", e => {
-      isDragging = true;
-      moved = false;
-      startX = e.pageX - slider.offsetLeft;
-      startScrollLeft = slider.scrollLeft;
-      slider.style.cursor = "grabbing";
-    });
-  
-    document.addEventListener("mousemove", e => {
-      if (!isDragging) return;
-      moved = true;
-      e.preventDefault();
-      const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX) * 0.8; // Velocidad del deslizamiento
-      slider.scrollLeft = startScrollLeft - walk;
-    });
-  
-    document.addEventListener("mouseup", e => {
-      isDragging = false;
-      slider.style.cursor = "grab";
-    });
-  
-    slider.addEventListener("click", (e) => {
-      if (moved) {
-        e.preventDefault(); // Evitar que se accione como click.
-      }
-    });
-  
-    slider.addEventListener("touchstart", e => {
-      isDragging = true;
-      moved = false;
-      startX = e.touches[0].pageX - slider.offsetLeft;
-      startScrollLeft = slider.scrollLeft;
-    });
-  
-    document.addEventListener("touchmove", e => {
-      if (!isDragging) return;
-      moved = true;
-      const x = e.touches[0].pageX - slider.offsetLeft;
-      const walk = (x - startX) * 0.8; // Velocidad del deslizamiento
-      slider.scrollLeft = startScrollLeft - walk;
-    });
-  
-    document.addEventListener("touchend", e => {
-      isDragging = false;
-    });
-  
-    slider.addEventListener("touchend", (e) => {
-      if (moved) {
-        e.preventDefault(); // Prevenir que se accione como tap.
-      }
-    });
-  });
   </script>
+
+  <style>
+    /* Contenedor general del carrusel */
+    .swiper {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    /* Estilo de las tarjetas */
+    .swiper-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid #ddd; /* Borde de las tarjetas */
+      border-radius: 16px;
+      overflow: hidden;
+      height: 340px; /* Altura de las tarjetas */
+    }
+
+    /* Imagen dentro de las tarjetas */
+    .swiper-slide img {
+      width: 100%; /* Ancho de la imagen */
+      height: 100%; /* Altura de la imagen */
+      object-fit: cover; /* Ajuste de la imagen dentro de la tarjeta */
+    }
+
+    /* Estilo del título */
+    h2 {
+      background-color: #f6bbd0; /* Color rosado */
+      color: white; /* Texto en blanco */
+      padding: 15px 0; /* Espaciado dentro del cuadro */
+      font-size: 24px; /* Tamaño del texto */
+      text-align: center; /* Centrado del texto */
+      border-radius: 8px; /* Bordes redondeados del cuadro */
+    }
+
+    /* Estilo para tablets */
+    @media (max-width: 768px) {
+      .swiper-slide {
+        height: 250px; /* Ajustar altura en tablets */
+      }
+    }
+
+    /* Estilo para móviles */
+    @media (max-width: 640px) {
+      .swiper-slide {
+        height: 310px; /* Ajustar altura en móviles */
+      }
+    }
+  </style>
+</body>
+</html>
