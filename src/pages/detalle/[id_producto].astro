@@ -26,9 +26,6 @@ interface Product {
   };
 }
 
-
-
-
 // Realizar la solicitud para obtener todos los productos
 const response = await fetch('http://localhost:3000/api/productos');
 
@@ -85,27 +82,79 @@ try {
   };
 }
 
+// Define an interface for the category object
+interface CategoryInfo {
+  name: string;
+  path: string;
+}
+
+// Define the type for the category mapping
+type CategoryMapping = {
+  [key: number]: CategoryInfo;
+};
+
+// Create the category mapping with explicit typing
+const CATEGORY_MAPPING: CategoryMapping = {
+  1: { 
+    name: 'Polos y Tops', 
+    path: '/Categorias/productos_polos' 
+  },
+  2: { 
+    name: 'Poleras y casacas', 
+    path: '/Categorias/productos_poleras' 
+  },
+  3: { 
+    name: 'Faldas', 
+    path: '/Categorias/productos_faldas' 
+  },
+  4: { 
+    name: 'Vestidos', 
+    path: '/Categorias/productos_vestidos' 
+  },
+  5: { 
+    name: 'Pantalones y shorts', 
+    path: '/Categorias/productos_pantalones' 
+  },
+  6: { 
+    name: 'Zapatos y zapatillas', 
+    path: '/Categorias/productos_zapatos' 
+  },
+  7: { 
+    name: 'Carteras y mochilas', 
+    path: '/Categorias/productos_mochilas' 
+  },
+  8: { 
+    name: 'Medias y pantys', 
+    path: '/Categorias/productos_pantys' 
+  }
+};
+
+// Modified function to use the mapping
 function getBreadcrumbPath(product: Product): { name: string; path: string }[] {
   const paths = [
     { name: 'Inicio', path: '/' },
   ];
 
-  if (product.id_categoria && product.categoria?.nombre_categoria) {
-    paths.push({
-      name: product.categoria.nombre_categoria,
-      path: `/categoria/${product.id_categoria}`,
-    });
-  } else {
-    paths.push({
-      name: 'Sin Categoría',
-      path: '#',
-    });
+  if (product.id_categoria) {
+    // Use optional chaining and nullish coalescing
+    const category = CATEGORY_MAPPING[product.id_categoria];
+    if (category) {
+      paths.push({
+        name: category.name,
+        path: category.path,
+      });
+    } else {
+      paths.push({
+        name: 'Sin Categoría',
+        path: '#',
+      });
+    }
   }
 
   if (product.id_cat_accesorio) {
     paths.push({
       name: product.cat_accesorio?.nombre_cat_accesorio || 'Accesorio',
-      path: `/accesorios/${product.id_cat_accesorio}`,
+      path: `/Categorias/productos_accesorios/`,
     });
   }
 
@@ -286,7 +335,7 @@ const colorMap: Record<Color, string> = {
 }
 
 .discount-badge {
-    background: #ff0000;
+    background: #f5bacf;
     color: white;
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
@@ -300,7 +349,7 @@ const colorMap: Record<Color, string> = {
 }
 
 .btn-cart {
-    background: #ff0000;
+    background: #f5bacf;
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 4px;
@@ -559,7 +608,7 @@ const colorMap: Record<Color, string> = {
 }
 
 .card-price {
-  color: #f56565;
+  color: #f16bd4;
   font-size: 1.25rem; /* Reduce el tamaño del precio */
   font-weight: bold;
   margin-bottom: 0.2rem;

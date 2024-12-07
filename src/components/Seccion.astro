@@ -1,4 +1,5 @@
 ---
+// Interfaz para los banners
 interface Banner {
   id_banner: number;
   tipo: string;
@@ -10,6 +11,7 @@ interface Banner {
   img3cell: string;
 }
 
+// Obtiene los banners desde las props
 const { banners = [] }: { banners?: Banner[] } = Astro.props;
 ---
 
@@ -49,57 +51,60 @@ const { banners = [] }: { banners?: Banner[] } = Astro.props;
 
     /* Oculta la clase .large en pantallas grandes y muestra .small */
     @media (min-width: 768px) {
-    .large {
+      .large {
         display: none;
-    }
-    .small {
+      }
+      .small {
         display: block;
-    }
+      }
     }
 
     /* Oculta la clase .small en pantallas pequeñas y muestra .large */
     @media (max-width: 767px) {
-    .small {
+      .small {
         display: none;
-    }
-    .large {
+      }
+      .large {
         display: block;
+      }
     }
-    }
-
   </style>
 </head>
+
 <body>
   <div class="swiper progress-slide-carousel">
     <div class="swiper-wrapper">
       {banners.length > 0 ? (
         banners
           .filter((banner) => banner.id_banner === 1)
-          .map((banner) => [
-            <div class="swiper-slide">
-              <a href={banner.img1cell} target="_blank" rel="noopener noreferrer">
-                <img class="small" src={banner.img1} alt={`Banner 1 small`} />
-              </a>
-            </div>,
-            <div class="swiper-slide">
-              <a href={banner.img2cell} target="_blank" rel="noopener noreferrer">
-                <img class="small" src={banner.img2} alt={`Banner 2 small`} />
-              </a>
-            </div>,
-            <div class="swiper-slide">
-              <a href={banner.img3cell} target="_blank" rel="noopener noreferrer">
-                <img class="small" src={banner.img3} alt={`Banner 3 small`} />
-              </a>
-            </div>
-          ])
+          .map((banner) => (
+            <>
+              <div class="swiper-slide">
+                <a href={banner.img1cell} target="_blank" rel="noopener noreferrer">
+                  <img class="small" src={banner.img1} alt="Banner 1 small" />
+                  <img class="large" src={banner.img1} alt="Banner 1 large" />
+                </a>
+              </div>
+              <div class="swiper-slide">
+                <a href={banner.img2cell} target="_blank" rel="noopener noreferrer">
+                  <img class="small" src={banner.img2} alt="Banner 2 small" />
+                  <img class="large" src={banner.img2} alt="Banner 2 large" />
+                </a>
+              </div>
+              <div class="swiper-slide">
+                <a href={banner.img3cell} target="_blank" rel="noopener noreferrer">
+                  <img class="small" src={banner.img3} alt="Banner 3 small" />
+                  <img class="large" src={banner.img3} alt="Banner 3 large" />
+                </a>
+              </div>
+            </>
+          ))
       ) : (
         <p class="text-center">No hay banners disponibles.</p>
       )}
     </div>
     <div class="swiper-pagination"></div>
   </div>
-</body>
-
 
   <script type="module">
     import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs';

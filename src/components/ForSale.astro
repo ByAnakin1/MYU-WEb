@@ -18,7 +18,10 @@ const { products = [] }: { products?: Product[] } = Astro.props;
     <title>For Sale</title>
 
     <!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
@@ -44,10 +47,8 @@ const { products = [] }: { products?: Product[] } = Astro.props;
         overflow: hidden;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-
-        /* ✨ MODIFICAR: Cambia el ancho de la tarjeta aquí */
-        max-width: 350px; /* Ancho de la tarjeta */
-        margin: 0 auto; /* Centrar la tarjeta */
+        max-width: 350px;
+        margin: 0 auto;
       }
 
       .card:hover {
@@ -56,9 +57,8 @@ const { products = [] }: { products?: Product[] } = Astro.props;
       }
 
       .card img {
-        /* ✨ MODIFICAR: Cambia el alto de la imagen aquí */
         width: 100%;
-        height: 250px; /* Alto de la imagen */
+        height: 250px;
         object-fit: cover;
       }
 
@@ -67,37 +67,58 @@ const { products = [] }: { products?: Product[] } = Astro.props;
         text-align: center;
       }
 
-      /* Cambios de estilo de letras para coincidir con el diseño de New.astro */
       .card-title {
-        font-size: 0.9rem; /* Reducido el tamaño */
+        font-size: 0.9rem;
         font-weight: bold;
         margin-bottom: 0.4rem;
         text-transform: capitalize;
-        color: #2d3748; /* Color oscuro similar al de New.astro */
+        color: #2d3748;
       }
 
       .card-price {
-        color: #f56565; /* Color del precio */
-        font-size: 0.95rem; /* Ajuste al tamaño similar */
+        color: #f56565;
+        font-size: 0.95rem;
         font-weight: bold;
         margin-bottom: 0.5rem;
       }
 
       .card-button {
-        display: block; /* Cambiado a block para ocupar todo el ancho */
+        display: block;
         background: #f6bbd0;
         color: white;
-        padding: 0.75rem 1rem; /* Aumentado el padding vertical para mayor altura */
+        padding: 0.75rem 1rem;
         border-radius: 0.5rem;
         text-decoration: none;
         font-weight: bold;
         transition: background 0.3s;
-        width: 100%; /* Hace que el botón ocupe todo el ancho */
-        text-align: center; /* Alineación del texto al centro */
+        width: 100%;
+        text-align: center;
       }
 
       .card-button:hover {
         background: #f56565;
+      }
+
+      @media screen and (max-width: 393px) {
+        .swiper .swiper-slide {
+          width: 85% !important;
+        }
+
+        .swiper {
+          padding: 0 10px !important;
+        }
+
+        .swiper-wrapper {
+          justify-content: center !important;
+        }
+
+        .card {
+          max-width: 280px;
+        }
+
+        .card img {
+          height: 180px;
+        }
       }
     </style>
   </head>
@@ -125,7 +146,11 @@ const { products = [] }: { products?: Product[] } = Astro.props;
                             S/ {Number(product.precio).toFixed(2)}
                           </span>
                           <span class="text-red-600 text-sm">
-                            S/ {(Number(product.precio) * (1 - product.descuento / 100)).toFixed(2)}
+                            S/{" "}
+                            {(
+                              Number(product.precio) *
+                              (1 - product.descuento / 100)
+                            ).toFixed(2)}
                           </span>
                         </>
                       ) : (
@@ -149,26 +174,28 @@ const { products = [] }: { products?: Product[] } = Astro.props;
       </div>
     </section>
 
-    <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script type="module">
       import Swiper from "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs";
 
       var swiper = new Swiper(".mySwiper", {
-        /* ✨ MODIFICAR: Cambia el número de tarjetas visibles y el espacio entre ellas aquí */
-        slidesPerView: 5, /* Número de tarjetas visibles */
-        spaceBetween: 30, /* Espacio entre las tarjetas */
+        slidesPerView: 5,
+        spaceBetween: 30,
         pagination: {
           el: ".swiper-pagination",
           clickable: true,
         },
         breakpoints: {
-          /* ✨ MODIFICAR: Ajusta la configuración de las tarjetas según el tamaño de pantalla */
-          1556: { slidesPerView: 5, spaceBetween: 30 },
-          1024: { slidesPerView: 4, spaceBetween: 25 },
-          768: { slidesPerView: 3, spaceBetween: 20 },
+          393: { slidesPerView: 1.5, spaceBetween: 10 },
           400: { slidesPerView: 2, spaceBetween: 15 },
+          768: { slidesPerView: 3, spaceBetween: 20 },
+          1024: { slidesPerView: 4, spaceBetween: 25 },
+          1556: { slidesPerView: 5, spaceBetween: 30 },
         },
+      });
+
+      window.addEventListener("resize", () => {
+        swiper.update();
       });
     </script>
   </body>
