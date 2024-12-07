@@ -65,7 +65,7 @@ try {
             padding: 1rem;
             border-radius: 0.5rem;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            max-height: 50vh;
+            max-height: 85vh;
             width: 250px;
             margin-right: 2rem;
         }
@@ -215,75 +215,115 @@ try {
 
         /* Mobile (up to 767px) */
         @media (max-width: 767px) {
-            .container {
-                flex-direction: column;
-            }
+        .container {
+            flex-direction: column;
+        }
 
-            .filter-button {
-                padding: 0.5rem 1rem;
-                font-size: 1.25rem;
-            }
+        .filter-button {
+            padding: 0.5rem 1rem;
+            font-size: 1.25rem;
+        }
 
-            .filters {
-                display: none;
-            }
+        .filters {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 1rem;
+        }
 
-            .cards-container {
-                grid-template-columns: repeat(2, 1fr);
+        .filters.show {
+            display: block;
+        }
 
-            }
+        .cards-container {
+            grid-template-columns: repeat(2, 1fr);
+        }
         }
 
         /* Tablet (768px to 1023px) */
         @media (min-width: 768px) and (max-width: 1023px) {
-            .container {
-                flex-direction: column;
-            }
+        .container {
+            flex-direction: column;
+        }
 
-            .filter-button {
-                display: block;
-                margin: 1rem auto;
-                width: fit-content;
-            }
+        .filter-button {
+            display: block;
+            margin: 1rem auto;
+            width: fit-content;
+        }
 
-            .filters {
-                display: none;
-            }
+        .filters {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100%;
+            background-color: white;
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 1rem;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+        }
 
-            .cards-container {
-                grid-template-columns: repeat(3, 1fr);
-            }
+        .filters.show {
+            display: block;
+        }
 
-            .overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-                z-index: 1000;
-            }
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
 
-            .overlay.show {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
+        .close-button:hover {
+            color: #f56565;
+        }
 
-            .overlay-content {
-                background-color: white;
-                padding: 20px;
-                border-radius: 8px;
-                max-width: 90%;
-                max-height: 90%;
-                overflow-y: auto;
-                position: relative;
-            }
+        .cards-container {
+            grid-template-columns: repeat(3, 1fr);
+        }
 
-            .overlay.show .overlay-content {
-                transform: translateX(0);
-            }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .overlay.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .overlay-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .overlay.show .overlay-content {
+            transform: translateX(0);
+        }
         }
         /* Desktop (1024px and up) */
         @media (min-width: 1024px) {
@@ -315,6 +355,7 @@ try {
         <aside id="filtersPanel" class="filters w-full md:w-1/5 p-4 bg-white shadow-md mt-9 filter-container mr-6 hidden md:block">
             <button class="close-button md:hidden" onclick="closeFilters()">×</button>
             <h2 class="font-bold text-xl mb-4">Filtros</h2>
+            
             <div class="mb-6">
                 <h3 class="font-semibold">Rango de Precios</h3>
                 <ul class="space-y-2 mt-2">
@@ -335,6 +376,88 @@ try {
                     <li><input type="checkbox" id="discount-31-40" /> <label for="discount-31-40">31% - 40%</label></li>
                     <li><input type="checkbox" id="discount-41-50" /> <label for="discount-41-50">41% - 50%</label></li>
                 </ul>
+            </div>
+            
+            <!-- Subcategorías -->
+            <div class="mb-6">
+                <h3 class="font-semibold text-gray-700 mb-2">SubCategorías</h3>
+                <div class="relative">
+                    <input
+                        id="search-box-accesorios"
+                        type="text"
+                        placeholder="Buscar por:"
+                        class="w-full px-4 py-2 text-sm border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        oninput="filterCategoriesAccesorios()"
+                    />
+                    <div id="categories-list-accesorios" class="h-60 overflow-y-auto mt-2 border rounded-lg bg-white shadow-sm">
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="1" class="mr-2"> Bucket hat
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="2" class="mr-2"> Gorras
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="3" class="mr-2"> Lentes
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="4" class="mr-2"> Correa
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="5" class="mr-2"> Cinturones
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="6" class="mr-2"> Cadenas
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="7" class="mr-2"> Tirantes
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="8" class="mr-2"> Chokers
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="9" class="mr-2"> Gargantillas
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="10" class="mr-2"> Collares
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="11" class="mr-2"> Aretes anime
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="12" class="mr-2"> Aretes cute
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="13" class="mr-2"> Aretes
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="14" class="mr-2"> Arnés
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="15" class="mr-2"> Ligeros
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="16" class="mr-2"> Vinchas
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="17" class="mr-2"> Ganchos
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="18" class="mr-2"> Lazos
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="19" class="mr-2"> Pines
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="20" class="mr-2"> Malla de manos
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="21" class="mr-2"> Muñequeras
+                        </label>
+                        <label class="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" value="22" class="mr-2"> Anillos
+                        </label>
+                    </div>
+                </div>
             </div>
         </aside>
 
@@ -564,194 +687,237 @@ try {
         });
     </script>
 
-    <script type="module">
-        document.addEventListener('DOMContentLoaded', () => {
-            // Fetch products from the server again to ensure we have the full product list
-            fetch('http://localhost:3000/api/productos')
-                .then(response => response.json())
-                .then(allProducts => {
-                    // Filter only skirt products (id_categoria = 3)
-                    const products = allProducts.filter(product => product.id_cat_accesorio !== null);
-                    
-                    const priceCheckboxes = document.querySelectorAll('input[id^="price-"]');
-                    const discountCheckboxes = document.querySelectorAll('input[id^="discount-"]');
-                    const cardsContainer = document.querySelector('.cards-container');
-                    const sortSelect = document.getElementById('sort-select');
-                    
-                    // Función para filtrar productos
-                    const filterProducts = () => {
-                        const selectedPriceRanges = Array.from(priceCheckboxes)
-                            .filter(checkbox => checkbox.checked)
-                            .map(checkbox => checkbox.id);
-            
-                        const selectedDiscountRanges = Array.from(discountCheckboxes)
-                            .filter(checkbox => checkbox.checked)
-                            .map(checkbox => checkbox.id);
-            
-                            const filtered = products.filter(product => {
-                                // Calculate discounted price
-                                const discountedPrice = product.precio * (1 - (product.descuento || 0) / 100);
-
-                                // Comprobar rango de precios considerando el precio con descuento
-                                const isPriceMatch = selectedPriceRanges.length === 0 || selectedPriceRanges.some(range => {
-                                    switch (range) {
-                                        case 'price-1-20': return discountedPrice >= 1 && discountedPrice <= 20;
-                                        case 'price-21-40': return discountedPrice > 21 && discountedPrice <= 40;
-                                        case 'price-41-60': return discountedPrice > 41 && discountedPrice <= 60;
-                                        case 'price-61-100': return discountedPrice > 61 && discountedPrice <= 100;
-                                        case 'price-101-300': return discountedPrice > 101 && discountedPrice <= 300;
-                                        default: return false;
-                                    }
-                                });
-
-                                // Comprobar rango de descuentos (mantener igual)
-                                const isDiscountMatch = selectedDiscountRanges.length === 0 || selectedDiscountRanges.some(range => {
-                                    const discount = product.descuento || 0;
-                                    switch (range) {
-                                        case 'discount-0-10': return discount >= 0 && discount <= 10;
-                                        case 'discount-11-20': return discount > 11 && discount <= 20;
-                                        case 'discount-21-30': return discount > 21 && discount <= 30;
-                                        case 'discount-31-40': return discount > 31 && discount <= 40;
-                                        case 'discount-41-50': return discount > 41 && discount <= 50;
-                                        default: return false;
-                                    }
-                                });
-
-                                // Validar todas las condiciones
-                                return isPriceMatch && isDiscountMatch;
-                            });
-                        // Apply sorting
-                        const sortedProducts = sortProducts(filtered);
-                        renderProducts(sortedProducts);
-                    };
-            
-
-
-                    // Función para ordenar productos
-                    const sortProducts = (productsToSort) => {
-                        const sortValue = sortSelect.value;
-                        
-                        switch(sortValue) {
-                            case 'price-asc':
-                                return productsToSort.sort((a, b) => {
-                                    // Calcular precio final con descuento
-                                    const priceA = a.descuento 
-                                        ? a.precio * (1 - a.descuento / 100) 
-                                        : a.precio;
-                                    const priceB = b.descuento 
-                                        ? b.precio * (1 - b.descuento / 100) 
-                                        : b.precio;
-                                    
-                                    return priceA - priceB;
-                                });
-                            case 'price-desc':
-                                return productsToSort.sort((a, b) => {
-                                    // Calcular precio final con descuento
-                                    const priceA = a.descuento 
-                                        ? a.precio * (1 - a.descuento / 100) 
-                                        : a.precio;
-                                    const priceB = b.descuento 
-                                        ? b.precio * (1 - b.descuento / 100) 
-                                        : b.precio;
-                                    
-                                    return priceB - priceA;
-                                });
-                            default:
-                                return productsToSort;
-                        }
-                    };
-            
-                    const renderProducts = (productsToRender) => {
-                        cardsContainer.innerHTML = ''; // Limpiar el contenedor
-
-                        if (productsToRender.length === 0) {
-                            cardsContainer.innerHTML = '<p class="text-center">No hay productos disponibles.</p>';
-                            return;
-                        }
-
-                        // Crear un contenedor de rejilla
-                        const gridContainer = document.createElement('div');
-                        gridContainer.className = 'grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center'; // Configurar columnas responsivas
-
-                        productsToRender.forEach(product => {
-                            const card = document.createElement('div');
-                            card.className = 'card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col mx-auto max-w-[200px] w-full'; // Ancho fijo y centrado
-
-                            const precio = Number(product.precio);
-                            const descuento = Number(product.descuento || 0);
-
-                            card.innerHTML = `
-                                <img 
-                                    src="${product.img1}" 
-                                    alt="Imagen de ${product.nombre_producto}" 
-                                    class="w-full h-48 object-cover"
-                                />
-                                <div class="card-content p-4 flex flex-col justify-between flex-grow">
-                                    <div class="title-container mb-2">
-                                        <h2 class="card-title text-sm text-center font-semibold text-gray-800 overflow-hidden text-ellipsis whitespace-nowrap">
-                                            ${product.nombre_producto}
-                                        </h2>
-                                    </div>
-
-                                    <div class="price-section mt-0 text-center">
-                                        ${descuento > 0 
-                                            ? `
-                                            <div class="flex justify-center items-center gap-2">
-                                                <span class="original-price text-xs line-through text-gray-500">
-                                                    S/ ${precio.toFixed(2)}
-                                                </span>
-                                                <span class="discount-badge text-xs text-white bg-pink-300 px-2 py-1 rounded-full">
-                                                    -${Math.round(descuento)}%
-                                                </span>
-                                            </div>
-                                            <div class="flex justify-center mt-1">
-                                                <span class="price-tag text-xl font-bold text-pink-600">
-                                                    S/ ${(precio * (1 - descuento / 100)).toFixed(2)}
-                                                </span>
-                                            </div>`
-                                            : `
-                                            <div class="flex justify-center mt-2">
-                                                <span class="price-tag text-xl font-bold text-gray-800">
-                                                    S/ ${precio.toFixed(2)}
-                                                </span>
-                                            </div>`
-                                        }
-                                    </div>
-
-                                    <a 
-                                        href="/detalle/${product.id_producto}" 
-                                        class="card-button block text-center bg-pink-300 text-white text-sm font-medium py-2 px-4 rounded-lg mt-4 hover:bg-pink-600 transition-colors duration-300 mt-auto"
-                                    >
-                                        Comprar
-                                    </a>
-                                </div>
-                            `;
-
-                            gridContainer.appendChild(card);
+<script type="module">
+    document.addEventListener('DOMContentLoaded', () => {
+        // Accessory Categories Mapping
+        const ACCESSORY_CATEGORIES = {
+            1: "Bucket hat", 2: "Gorras", 3: "Lentes", 4: "Correa", 5: "Cinturones", 
+            6: "Cadenas", 7: "Tirantes", 8: "Chokers", 9: "Gargantillas", 
+            10: "Collares", 11: "Aretes anime", 12: "Aretes cute", 13: "Aretes", 
+            14: "Arnés", 15: "Ligeros", 16: "Vinchas", 17: "Ganchos", 
+            18: "Lazos", 19: "Pines", 20: "Malla de manos", 
+            21: "Muñequeras", 22: "Anillos"
+        };
+    
+        // Fetch products from the server
+        fetch('http://localhost:3000/api/productos')
+            .then(response => response.json())
+            .then(allProducts => {
+                // Filter only accessories (products with id_cat_accesorio)
+                const products = allProducts.filter(product => product.id_cat_accesorio !== null);
+                
+                // Get DOM elements
+                const priceCheckboxes = document.querySelectorAll('input[id^="price-"]');
+                const discountCheckboxes = document.querySelectorAll('input[id^="discount-"]');
+                const categoryCheckboxes = document.querySelectorAll('#categories-list-accesorios input[type="checkbox"]');
+                const cardsContainer = document.querySelector('.cards-container');
+                const sortSelect = document.getElementById('sort-select');
+                const searchInput = document.getElementById('search-box-accesorios');
+    
+                // Filtering Function
+                const filterProducts = () => {
+                    // Get selected price ranges
+                    const selectedPriceRanges = Array.from(priceCheckboxes)
+                        .filter(checkbox => checkbox.checked)
+                        .map(checkbox => checkbox.id);
+    
+                    // Get selected discount ranges
+                    const selectedDiscountRanges = Array.from(discountCheckboxes)
+                        .filter(checkbox => checkbox.checked)
+                        .map(checkbox => checkbox.id);
+    
+                    // Get selected categories
+                    const selectedCategories = Array.from(categoryCheckboxes)
+                        .filter(checkbox => checkbox.checked)
+                        .map(checkbox => parseInt(checkbox.value));
+    
+                    // Get search term
+                    const searchTerm = searchInput.value.toLowerCase().trim();
+    
+                    // Filter products
+                    const filtered = products.filter(product => {
+                        // Calculate discounted price
+                        const discountedPrice = product.precio * (1 - (product.descuento || 0) / 100);
+    
+                        // Price range check
+                        const isPriceMatch = selectedPriceRanges.length === 0 || selectedPriceRanges.some(range => {
+                            switch (range) {
+                                case 'price-1-20': return discountedPrice >= 1 && discountedPrice <= 20;
+                                case 'price-21-40': return discountedPrice > 21 && discountedPrice <= 40;
+                                case 'price-41-60': return discountedPrice > 41 && discountedPrice <= 60;
+                                case 'price-61-100': return discountedPrice > 61 && discountedPrice <= 100;
+                                case 'price-101-300': return discountedPrice > 101 && discountedPrice <= 300;
+                                default: return false;
+                            }
                         });
-
-                        cardsContainer.appendChild(gridContainer);
-                    };
-
-
-
-
-
-                    // Agregar eventos a los checkboxes y selector de ordenamiento
-                    [...priceCheckboxes, ...discountCheckboxes].forEach(checkbox => {
-                        checkbox.addEventListener('change', filterProducts);
+    
+                        // Discount range check
+                        const isDiscountMatch = selectedDiscountRanges.length === 0 || selectedDiscountRanges.some(range => {
+                            const discount = product.descuento || 0;
+                            switch (range) {
+                                case 'discount-0-10': return discount >= 0 && discount <= 10;
+                                case 'discount-11-20': return discount > 11 && discount <= 20;
+                                case 'discount-21-30': return discount > 21 && discount <= 30;
+                                case 'discount-31-40': return discount > 31 && discount <= 40;
+                                case 'discount-41-50': return discount > 41 && discount <= 50;
+                                default: return false;
+                            }
+                        });
+    
+                        // Category check
+                        const isCategoryMatch = selectedCategories.length === 0 || 
+                            selectedCategories.includes(product.id_cat_accesorio);
+    
+                        // Search term check
+                        const isSearchMatch = searchTerm === '' || 
+                            product.nombre_producto.toLowerCase().includes(searchTerm) ||
+                            (ACCESSORY_CATEGORIES[product.id_cat_accesorio] || '').toLowerCase().includes(searchTerm);
+    
+                        // Validate all conditions
+                        return isPriceMatch && isDiscountMatch && isCategoryMatch && isSearchMatch;
                     });
-            
-                    // Evento para ordenamiento
-                    sortSelect.addEventListener('change', filterProducts);
-            
-                    // Renderizar todos los productos inicialmente
-                    renderProducts(products);
-                })
-                .catch(error => {
-                    console.error('Error fetching products:', error);
+    
+                    // Apply sorting and render
+                    const sortedProducts = sortProducts(filtered);
+                    renderProducts(sortedProducts);
+                };
+    
+                // Sorting Function
+                const sortProducts = (productsToSort) => {
+                    const sortValue = sortSelect.value;
+                    
+                    switch(sortValue) {
+                        case 'price-asc':
+                            return productsToSort.sort((a, b) => {
+                                const priceA = a.descuento 
+                                    ? a.precio * (1 - a.descuento / 100) 
+                                    : a.precio;
+                                const priceB = b.descuento 
+                                    ? b.precio * (1 - b.descuento / 100) 
+                                    : b.precio;
+                                
+                                return priceA - priceB;
+                            });
+                        case 'price-desc':
+                            return productsToSort.sort((a, b) => {
+                                const priceA = a.descuento 
+                                    ? a.precio * (1 - a.descuento / 100) 
+                                    : a.precio;
+                                const priceB = b.descuento 
+                                    ? b.precio * (1 - b.descuento / 100) 
+                                    : b.precio;
+                                
+                                return priceB - priceA;
+                            });
+                        default:
+                            return productsToSort;
+                    }
+                };
+    
+                // Rendering Function
+                const renderProducts = (productsToRender) => {
+                    cardsContainer.innerHTML = ''; // Clear container
+    
+                    if (productsToRender.length === 0) {
+                        cardsContainer.innerHTML = `
+                            <div class="col-span-full text-center py-10">
+                                <p class="text-gray-600 text-xl">No hay productos disponibles.</p>
+                            </div>
+                        `;
+                        return;
+                    }
+    
+                    // Create grid container
+                    const gridContainer = document.createElement('div');
+                    gridContainer.className = 'grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center';
+    
+                    productsToRender.forEach(product => {
+                        const card = document.createElement('div');
+                        card.className = 'card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col mx-auto max-w-[200px] w-full';
+    
+                        const precio = Number(product.precio);
+                        const descuento = Number(product.descuento || 0);
+                        const categoria = ACCESSORY_CATEGORIES[product.id_cat_accesorio] || 'Accesorio';
+    
+                        card.innerHTML = `
+                            <img 
+                                src="${product.img1}" 
+                                alt="Imagen de ${product.nombre_producto}" 
+                                class="w-full h-48 object-cover"
+                            />
+                            <div class="card-content p-4 flex flex-col justify-between flex-grow">
+                                <div class="title-container mb-2">
+                                    <h2 class="card-title text-sm text-center font-semibold text-gray-800 overflow-hidden text-ellipsis whitespace-nowrap">
+                                        ${product.nombre_producto}
+                                    </h2>
+                                    <p class="text-xs text-center text-gray-500 mt-1">
+                                        ${categoria}
+                                    </p>
+                                </div>
+    
+                                <div class="price-section mt-0 text-center">
+                                    ${descuento > 0 
+                                        ? `
+                                        <div class="flex justify-center items-center gap-2">
+                                            <span class="original-price text-xs line-through text-gray-500">
+                                                S/ ${precio.toFixed(2)}
+                                            </span>
+                                            <span class="discount-badge text-xs text-white bg-pink-300 px-2 py-1 rounded-full">
+                                                -${Math.round(descuento)}%
+                                            </span>
+                                        </div>
+                                        <div class="flex justify-center mt-1">
+                                            <span class="price-tag text-xl font-bold text-pink-600">
+                                                S/ ${(precio * (1 - descuento / 100)).toFixed(2)}
+                                            </span>
+                                        </div>`
+                                        : `
+                                        <div class="flex justify-center mt-2">
+                                            <span class="price-tag text-xl font-bold text-gray-800">
+                                                S/ ${precio.toFixed(2)}
+                                            </span>
+                                        </div>`
+                                    }
+                                </div>
+    
+                                <a 
+                                    href="/detalle/${product.id_producto}" 
+                                    class="card-button block text-center bg-pink-300 text-white text-sm font-medium py-2 px-4 rounded-lg mt-4 hover:bg-pink-600 transition-colors duration-300 mt-auto"
+                                >
+                                    Comprar
+                                </a>
+                            </div>
+                        `;
+    
+                        gridContainer.appendChild(card);
+                    });
+    
+                    cardsContainer.appendChild(gridContainer);
+                };
+    
+                // Add event listeners
+                [...priceCheckboxes, ...discountCheckboxes, ...categoryCheckboxes].forEach(checkbox => {
+                    checkbox.addEventListener('change', filterProducts);
                 });
-        });
-    </script> 
+    
+                // Sorting event listener
+                sortSelect.addEventListener('change', filterProducts);
+    
+                // Search input event listener
+                searchInput.addEventListener('input', filterProducts);
+    
+                // Initial rendering
+                renderProducts(products);
+            })
+            .catch(error => {
+                console.error('Error fetching products:', error);
+                cardsContainer.innerHTML = `
+                    <div class="col-span-full text-center py-10">
+                        <p class="text-red-600 text-xl">Error al cargar los productos. Intente nuevamente.</p>
+                    </div>
+                `;
+            });
+    });
+    </script>
     </body>
 </html>
